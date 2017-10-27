@@ -19,7 +19,34 @@ struct cam
   float v_x;
   float v_y;
   float v_z;
-}
+};
+
+enum type x_light
+{
+  AMBIENT,
+  DIRECTIONAL,
+  POINT
+};
+
+struct light
+{
+  enum type x_light;
+
+  float r;
+  float g;
+  float b;
+
+  float pos_x;
+  float pos_y;
+  float pos_z;
+};
+
+struct scene
+{
+  int vertex;
+  struct cam *cam;
+  struct light **lights;
+};
 
 int my_strlen(char *s);
 
