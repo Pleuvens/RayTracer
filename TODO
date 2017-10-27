@@ -1,0 +1,11 @@
+Key: / -> done but need improvements
+     x -> done
+
+[ ] - STAGE 0:
+
+  [ ] - Handle program options and parameters
+  [ ] - Handle the input file
+  [ ] - Write the ppm output file
+  [ ] - Handle a basic camera (position u and v predefined)
+  [ ] - Object tracing
+  [ ] - Ambient ligh
