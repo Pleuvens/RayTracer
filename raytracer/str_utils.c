@@ -1,3 +1,5 @@
+#include <stdlib.h>
+
 int my_strlen(char *s)
 {
   int i = 0;
@@ -33,12 +35,12 @@ int my_strncmp(char *s1, char *s2, int n)
 
 char *my_strtok(char *s, int *index)
 {
-  int len = my_strlen_delim(s); 
+  int len = my_strlen_delim(s + *index); 
   char *token = calloc(len + 1, sizeof (char));
   if (!token)
     return NULL;
-  for (int i = 0; i < len; ++i)
-    token[i] = s[*(index)++];
+  for (int i = 0; i < len; ++i, *index += 1)
+    token[i] = s[*index];
   *index += 1;
   return token;
 }

@@ -1,7 +1,8 @@
 CC=gcc
-CFLAGS= -std=c99 -Wall -Wextra -Werror -pedantic
+CFLAGS= -g3 -std=c99 -Wall -Wextra -Werror -pedantic -D_GNU_SOURCE
 
-SRC=
+SRC= raytracer/input.c raytracer/str_utils.c raytracer/str_tools.c \
+raytracer/rt.c
 
 rt:
 		$(CC) $(CFLAGS) $(SRC) -o rt
