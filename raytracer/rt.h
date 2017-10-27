@@ -101,6 +101,8 @@ int parse_camera(FILE *f);
 
 int parse_light(FILE *f, char *s);
 
+int parse_primitive(FILE *f);
+
 int parse_input(char *path);
 
 #endif /* !RT_H */

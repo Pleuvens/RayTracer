@@ -13,6 +13,8 @@ void parse_selector(FILE *f, char *s)
       || my_strncmp(s, "d_light", 7)
       || my_strncmp(s, "p_light", 7))
     parse_light(f, s);
+  else
+    parse_primitive(f);
 }
 
 int parse_input(char *path)
