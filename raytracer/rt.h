@@ -93,9 +93,13 @@ int my_strncmp(char *s1, char *s2, size_t n);
 
 char *my_strtok(char *s, size_t *index);
 
+int my_strcontains(char *s, char *subs, size_t len, size_t slen);
+
 int my_atoi(char *s);
 
 int parse_camera(FILE *f);
+
+int parse_light(FILE *f, char *s);
 
 int parse_input(char *path);
 
