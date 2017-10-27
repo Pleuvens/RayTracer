@@ -23,7 +23,7 @@ struct cam
   float fov;
 };
 
-enum type x_light
+enum x_light
 {
   AMBIENT,
   DIRECTIONAL,
@@ -32,7 +32,7 @@ enum type x_light
 
 struct light
 {
-  enum type x_light;
+  enum x_light light;
 
   float r;
   float g;
@@ -48,7 +48,7 @@ struct K
   float r;
   float g;
   float b;
-}
+};
 
 struct material
 {
