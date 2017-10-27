@@ -19,6 +19,8 @@ struct cam
   float v_x;
   float v_y;
   float v_z;
+
+  float fov;
 };
 
 enum type x_light
@@ -41,10 +43,43 @@ struct light
   float pos_z;
 };
 
+struct K
+{
+  float r;
+  float g;
+  float b;
+}
+
+struct material
+{
+  struct K *ka;
+  struct K *kd;
+  struct K *ks;
+
+  float ns;
+  float ni;
+  float nr;
+  float d;
+};
+
+struct vertex
+{
+  float x;
+  float y;
+  float z;
+
+  float vec_x;
+  float vec_y;
+  float vec_z;
+};
+
 struct scene
 {
-  int vertex;
   struct cam *cam;
+
+  int vertex_count;
+  struct vertex **vertex;
+
   struct light **a_lights;
   struct light **p_lights;
   struct light **d_lights;
