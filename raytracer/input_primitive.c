@@ -1,6 +1,6 @@
 #include "rt.h"
 
-int parse_primitive(FILE *f)
+int parse_primitive(FILE *f, struct scene *scene)
 {
   char s[1024] = { 0 };
   float r = 0;
@@ -17,13 +17,17 @@ int parse_primitive(FILE *f)
   printf("%s %f %f %f\n", s, r, g, b);
   fscanf(f, "%s %f %f %f", s, &r, &g, &b);
   printf("%s %f %f %f\n", s, r, g, b);
-  //fscanf(f, "%s %f %f %f", s, &r, &g, &b);
-  //printf("%s %f %f %f\n", s, r, g, b);
-  //fscanf(f, "%s %f %f %f", s, &r, &g, &b);
-  //printf("%s %f %f %f\n", s, r, g, b);
-  //fscanf(f, "%s %f %f %f", s, &r, &g, &b);
-  
+
   int er = fscanf(f, "%s", s);
+  while (my_strncmp(s, "Ns", 2) || my_strncmp(s, "Nr", 2)
+         || my_strncmp(s, "Ni", 2) || my_strncmp(s, "d", 2))
+  {
+    float v = 0;
+    fscanf(f, "%f", &v);
+    printf("%s %f", s, v);
+    fscanf(f, "%s", s);
+  }
+  
   while (er != EOF && s[0] != '.')
   {
     float x = 0;
