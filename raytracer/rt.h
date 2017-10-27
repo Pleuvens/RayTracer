@@ -45,7 +45,9 @@ struct scene
 {
   int vertex;
   struct cam *cam;
-  struct light **lights;
+  struct light **a_lights;
+  struct light **p_lights;
+  struct light **d_lights;
 };
 
 int my_strlen(char *s);
