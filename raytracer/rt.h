@@ -81,8 +81,13 @@ struct scene
   struct vertex **vertex;
 
   struct light **a_lights;
+  int a_size;
+
   struct light **p_lights;
+  int p_size;
+
   struct light **d_lights;
+  int d_size;
 };
 
 int my_strlen(char *s);
@@ -97,12 +102,12 @@ int my_strcontains(char *s, char *subs, size_t len, size_t slen);
 
 int my_atoi(char *s);
 
-int parse_camera(FILE *f);
+int parse_camera(FILE *f, struct scene *scene);
 
-int parse_light(FILE *f, char *s);
+int parse_light(FILE *f, char *s, struct scene *scene);
 
-int parse_primitive(FILE *f);
+int parse_primitive(FILE *f, struct scene *scene);
 
-int parse_input(char *path);
+int parse_input(char *path, struct scene *scene);
 
 #endif /* !RT_H */

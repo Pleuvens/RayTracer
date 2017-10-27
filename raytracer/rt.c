@@ -10,7 +10,9 @@ struct scene *init_scene(void)
   scene->d_lights = NULL;
   scene->vertex_count = 0;
   scene->vertex = NULL;
-
+  scene->a_count = 0;
+  scene->d_count = 0;
+  scene->p_count = 0;
   return scene;
 }
 

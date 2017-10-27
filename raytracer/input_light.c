@@ -1,24 +1,42 @@
-#include <stdlib.h>
-
 #include "rt.h"
 
-int parse_light(FILE *f, char *s)
+void parse_light(FILE *f, char *s, struct scene *scene)
 {
-  float r = 0;
-  float g = 0;
-  float b = 0;
-  float x = 0;
-  float y = 0;
-  float z = 0;
   if (*s == 'a')
   {
-    fscanf(f, "%f %f %f", &r, &g, &b); 
-    printf("%s %f %f %f\n", s, r, g, b);
+    scene->a_lights = realloc(scene->a_lights,
+                              sizeof (struct light*) * (scene->a_size + 1));
+    struct light *new = malloc(sizeof (struct light));
+    new->light = AMBIENT;
+    fscanf(f, "%f %f %f", &(new->r), &(new->g), &(new->b));
+    new->pos_x = 0;
+    new->pos_y = 0;
+    new->pos_z = 0;
+    printf("%s %f %f %f\n", s, new->r, new->g, new->b);
+    scene->a_lights[scene->a_size++] = new;
+  }
+  else if (*s == 'd')
+  {
+    scene->d_lights = realloc(scene->d_lights,
+                              sizeof (struct light*) * (scene->d_size + 1));
+    struct light *new = malloc(sizeof (struct light));
+    new->light = DIRECTIONAL;
+    fscanf(f, "%f %f %f %f %f %f", &(new->r), &(new->g), &(new->b),
+           &(new->pos_x), &(new->pos_y), &(new->pos_z));
+    printf("%s %f %f %f %f %f %f\n", s, new->r, new->g, new->b, new->pos_x,
+    new->pos_y, new->pos_z);
+    scene->d_lights[scene->d_size++] = new;
   }
   else
   {
-    fscanf(f, "%f %f %f %f %f %f", &r, &g, &b, &x, &y, &z); 
-    printf("%s %f %f %f %f %f %f\n", s, r, g, b, x, y, z);
+    scene->p_lights = realloc(scene->p_lights,
+                              sizeof (struct light*) * (scene->p_size + 1));
+    struct light *new = malloc(sizeof (struct light));
+    new->light = POINT;
+    fscanf(f, "%f %f %f %f %f %f", &(new->r), &(new->g), &(new->b),
+           &(new->pos_x), &(new->pos_y), &(new->pos_z));
+    printf("%s %f %f %f %f %f %f\n", s, new->r, new->g, new->b, new->pos_x,
+    new->pos_y, new->pos_z);
+    scene->p_lights[scene->p_size++] = new;
   }
-  return 1;
 }
