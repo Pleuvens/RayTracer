@@ -7,15 +7,12 @@ struct vector3 surface_normal(struct triangle t)
   return vector3_normalize(sn);
 }
 
-int is_obj_point(struct scene *scene, struct ray ray)
+int is_obj_point(struct scene *scene, struct ray ray, int i)
 {
-  for (int i = 0; i < scene->obj_count; ++i)
+  for (int j = 0; j < scene->objects[i]->v_size / 3; ++j)
   {
-    for (int j = 0; j < scene->objects[i]->v_size / 3; ++j)
-    {
-      if (ray_triangle_intersection(scene->objects[i]->triangles[j], ray))
-        return 1;
-    }
+    if (ray_triangle_intersection(scene->objects[i]->triangles[j], ray))
+      return 1;
   }
   return 0;
 }
@@ -56,8 +53,9 @@ void set_scene(struct scene *scene)
       scene->rays[m * scene->r_height + n] = r;
       for (int i = 0; i < scene->obj_count; ++i)
       {
-        if (is_obj_point(scene, r))
+        if (is_obj_point(scene, r, i))
         {
+          printf("ok\n");
           scene->pixels[m][n] = color_mult(scene->objects[i]->color,
                                            scene->a_light->color);
           /*for (int i = 0; i < scene->d_lights; ++i)
@@ -68,6 +66,7 @@ void set_scene(struct scene *scene)
         }
         else
         {
+          printf("ko\n");
           struct color col;
           col.r = 0;
           col.g = 0;

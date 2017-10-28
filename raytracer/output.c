@@ -47,7 +47,7 @@ int create_output(char *path, int width, int height, struct color **pixels)
     fprintf(f, "%d%*s ", r, 3 - size, "");
     size = int_width(g);
     fprintf(f, "%d%*s ", g, 3 - size, "");
-    fprintf(f, "%d\n ", b);
+    fprintf(f, "%d\n", b);
   }
 
   fclose(f);
