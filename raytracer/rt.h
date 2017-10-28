@@ -71,20 +71,13 @@ struct vertex
   float z;
 };
 
-struct vertex_normal
-{
-  float x;
-  float y;
-  float z;
-};
-
 struct object
 {
   int v_size;
   int vn_size;
   struct material m;
   struct vertex *v;
-  struct vertex_normal *vn;
+  struct vertex *vn;
 };
 
 struct scene
