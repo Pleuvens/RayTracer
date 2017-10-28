@@ -1,15 +1,18 @@
 CC=gcc
 CFLAGS= -g3 -lm -std=c99 -Wall -Wextra -Werror -pedantic -D_GNU_SOURCE
 
-SRC= raytracer/input_camera.c raytracer/input.c raytracer/str_utils.c \
-raytracer/input_primitive.c raytracer/input_light.c raytracer/str_tools.c \
-raytracer/rt.c raytracer/output.c raytracer/scene.c raytracer/vector3.c \
-raytracer/color.c
+VPATH=raytracer:../
 
-rt:
-		$(CC) $(CFLAGS) $(SRC) -o rt
+OBJ= input_camera.o input.o str_utils.o input_primitive.o input_light.o \
+str_tools.o rt.o output.o scene.o vector3.o color.o light.o
 
-all: rt
+all: rt rmo
+
+rt: $(OBJ)
+		$(CC) $(CFLAGS) $(OBJ) -o rt
+
+rmo:
+		rm *.o
 
 clean:
-			$(RM) rt vgcore.*
+		$(RM) rt vgcore.* *.o
