@@ -89,7 +89,7 @@ int parse_primitive(FILE *f, struct scene *scene, char *s)
       else
       {
         o->vn_size += 1;
-        o->vn = realloc(o->vn, sizeof (struct vertex_normal) * (o->vn_size));
+        o->vn = realloc(o->vn, sizeof (struct vertex) * (o->vn_size));
         if (!o->vn)
           return 0;
         fscanf(f, "%f %f %f", &(o->vn[o->vn_size - 1].x), &(o->vn[o->vn_size - 1].y), 
