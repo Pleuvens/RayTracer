@@ -51,7 +51,11 @@ int parse_primitive(FILE *f, struct scene *scene, char *s)
     scene->obj_count += 1;
     scene->objects = realloc(scene->objects,
                             sizeof (struct object *) * (scene->obj_count));
+    if (!scene->objects)
+      return 0;
     struct object *o = malloc(sizeof (struct object));
+    if (!o)
+      return 0;
     o->v = NULL;
     o->vn = NULL;
     o->v_size = 0; 
@@ -75,6 +79,8 @@ int parse_primitive(FILE *f, struct scene *scene, char *s)
       {
         o->v_size += 1;
         o->v = realloc(o->v, sizeof (struct vertex) * (o->v_size));
+        if (!o->v)
+          return 0;
         fscanf(f, "%f %f %f", &(o->v[o->v_size - 1].x), &(o->v[o->v_size - 1].y),
                               &(o->v[o->v_size - 1].z));
         printf("%s %f %f %f\n", s, o->v[o->v_size - 1].x, o->v[o->v_size - 1].y,
@@ -84,6 +90,8 @@ int parse_primitive(FILE *f, struct scene *scene, char *s)
       {
         o->vn_size += 1;
         o->vn = realloc(o->vn, sizeof (struct vertex_normal) * (o->vn_size));
+        if (!o->vn)
+          return 0;
         fscanf(f, "%f %f %f", &(o->vn[o->vn_size - 1].x), &(o->vn[o->vn_size - 1].y), 
                               &(o->vn[o->vn_size].z));
         printf("%s %f %f %f\n", s, o->vn[o->vn_size - 1].x, o->vn[o->vn_size - 1].y,

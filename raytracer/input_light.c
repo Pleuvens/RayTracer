@@ -8,7 +8,11 @@ int parse_light(FILE *f, char *s, struct scene *scene)
   {
     scene->a_lights = realloc(scene->a_lights,
                               sizeof (struct light*) * (scene->a_size + 1));
+    if (!scene->a_lights)
+      return 0;
     struct light *new = malloc(sizeof (struct light));
+    if (!new)
+      return 0;
     new->light = AMBIENT;
     fscanf(f, "%f %f %f", &(new->r), &(new->g), &(new->b));
     new->pos_x = 0;
@@ -21,7 +25,11 @@ int parse_light(FILE *f, char *s, struct scene *scene)
   {
     scene->d_lights = realloc(scene->d_lights,
                               sizeof (struct light*) * (scene->d_size + 1));
+    if (!scene->d_lights)
+      return 0;
     struct light *new = malloc(sizeof (struct light));
+    if (!new)
+      return 0;
     new->light = DIRECTIONAL;
     fscanf(f, "%f %f %f %f %f %f", &(new->r), &(new->g), &(new->b),
            &(new->pos_x), &(new->pos_y), &(new->pos_z));
@@ -33,7 +41,11 @@ int parse_light(FILE *f, char *s, struct scene *scene)
   {
     scene->p_lights = realloc(scene->p_lights,
                               sizeof (struct light*) * (scene->p_size + 1));
+    if (!scene->p_lights)
+      return 0;
     struct light *new = malloc(sizeof (struct light));
+    if (!new)
+      return 0;
     new->light = POINT;
     fscanf(f, "%f %f %f %f %f %f", &(new->r), &(new->g), &(new->b),
            &(new->pos_x), &(new->pos_y), &(new->pos_z));

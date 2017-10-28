@@ -23,10 +23,12 @@ int parse_input(char *path, struct scene *scene)
   FILE *f = fopen(path, "r");
   if (!f)
     return 0;
-  char *s = calloc(512, sizeof (char));
+  char s[512] = { 0 };
   while (fscanf(f, "%s", s) != EOF)
-    parse_selector(f, s, scene);
-  free(s);
+  {
+    if (!parse_selector(f, s, scene))
+      break;
+  }
   fclose(f);
   return 1;
 }

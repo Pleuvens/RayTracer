@@ -25,25 +25,31 @@ void delete_scene(struct scene *scene)
   
   for (int i = 0; i < scene->obj_count; ++i)
   {
-    free(scene->objects[i]->v);
-    free(scene->objects[i]->vn);
-    free(scene->objects[i]);
+    if (scene->objects[i])
+    {
+      free(scene->objects[i]->v);
+      free(scene->objects[i]->vn);
+      free(scene->objects[i]);
+    }
   }
   if (scene->objects)
     free(scene->objects);
 
   for (int i = 0; i < scene->a_size; ++i)
-    free(scene->a_lights[i]);
+    if (scene->a_lights[i])
+      free(scene->a_lights[i]);
   if (scene->a_lights)
     free(scene->a_lights);
   
   for (int i = 0; i < scene->p_size; ++i)
-    free(scene->p_lights[i]);
+    if (scene->p_lights[i])
+      free(scene->p_lights[i]);
   if (scene->p_lights)
     free(scene->p_lights);
   
   for (int i = 0; i < scene->d_size; ++i)
-    free(scene->d_lights[i]);
+    if (scene->d_lights[i])
+      free(scene->d_lights[i]);
   if (scene->d_lights)
     free(scene->d_lights);
   free(scene);
