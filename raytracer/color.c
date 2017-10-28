@@ -26,3 +26,13 @@ struct color color_lambda(float lambda, struct color c1)
   res.b = c1.b * lambda;
   return res;
 }
+
+int color_scale(float c)
+{
+  c *= 255;
+  if (c > 255)
+    return 255;
+  if (c < 0)
+    return 0;
+  return c;
+}
