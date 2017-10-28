@@ -49,6 +49,14 @@ void set_scene(struct scene *scene)
         }
         */
       }
+      else
+      {
+        struct color col;
+        col.r = 0;
+        col.g = 0;
+        col.b = 0;
+        scene->pixels[x][y] = col;
+      }
     }
   }
 }
