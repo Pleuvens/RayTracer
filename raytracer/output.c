@@ -30,9 +30,9 @@ int create_output(char *path, int width, int height, struct color **pixels)
     int b = 0;
     for (int j = 0; j < width - 1; ++j)
     {
-      r = (int)(pixels[i][j].r * 255)/* % 256*/;
-      g = (int)(pixels[i][j].g * 255)/* % 256*/;
-      b = (int)(pixels[i][j].b * 255)/* % 256*/;
+      r = color_scale(pixels[i][j].r);
+      g = color_scale(pixels[i][j].g);
+      b = color_scale(pixels[i][j].b);
       int size = int_width(r);
     //  printf("size: %f %f %f %d\n", r, g, b, size);
       fprintf(f, "%d%*s ", r, 3 - size, "");
@@ -41,9 +41,9 @@ int create_output(char *path, int width, int height, struct color **pixels)
       size = int_width(b);
       fprintf(f, "%d%*s ", b, 3 - size, "");
     }
-    r = (int)(pixels[i][width - 1].r * 255) /*% 256*/;
-    g = (int)(pixels[i][width - 1].g * 255)/* % 256*/;
-    b = (int)(pixels[i][width - 1].b * 255)/* % 256*/;
+    r = color_scale(pixels[i][width - 1].r);
+    g = color_scale(pixels[i][width - 1].g);
+    b = color_scale(pixels[i][width - 1].b);
     int size = int_width(r);
     fprintf(f, "%d%*s ", r, 3 - size, "");
     size = int_width(g);

@@ -48,20 +48,22 @@ void set_scene(struct scene *scene)
       int n = x + scene->cam->width / 2;
       scene->rays[m * scene->r_width + n] = r;
       int found = 0;
+      struct color col;
+      col.r = 0;
+      col.g = 0;
+      col.b = 0;
+      scene->pixels[m][n] = col;
       for (int i = 0; !found && i < scene->obj_count; ++i)
       {
         for (int j = 0; !found && j < scene->objects[i]->v_size / 3; ++j)
         {
-          struct color col;
-          col.r = 0;
-          col.g = 0;
-          col.b = 0;
+          
           if (ray_triangle_intersection(scene->objects[i]->triangles[j], r))
           {
             scene->pixels[m][n] = color_mult(scene->objects[i]->m.ka,
-                                             scene->a_light->color);
+                                           scene->a_light->color);
             for (int l = 0; l < scene->d_size; ++l)
-              scene->pixels[m][n] = apply_directional(scene, i, l, j);
+              scene->pixels[m][n] = color_add(scene->pixels[m][n], apply_directional(scene, i, l, j));
             found = 1;
           }
           else

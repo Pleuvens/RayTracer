@@ -168,4 +168,8 @@ void set_scene(struct scene *scene);
 
 struct color apply_directional(struct scene *scene, int i, int k, int index); 
 
+struct vector3 surface_normal(struct triangle t);
+
+int color_scale(float c);
+
 #endif /* !RT_H */
