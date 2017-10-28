@@ -6,20 +6,17 @@ int parse_light(FILE *f, char *s, struct scene *scene)
 {
   if (*s == 'a')
   {
-    scene->a_lights = realloc(scene->a_lights,
-                              sizeof (struct light*) * (scene->a_size + 1));
-    if (!scene->a_lights)
+    scene->a_light = malloc(sizeof (struct light*));
+    if (!scene->a_light)
       return 0;
-    struct light *new = malloc(sizeof (struct light));
-    if (!new)
-      return 0;
-    new->light = AMBIENT;
-    fscanf(f, "%f %f %f", &(new->color.r), &(new->color.g), &(new->color.b));
-    new->pos.x = 0;
-    new->pos.y = 0;
-    new->pos.z = 0;
-    printf("%s %f %f %f\n", s, new->color.r, new->color.g, new->color.b);
-    scene->a_lights[scene->a_size++] = new;
+    scene->a_light->light = AMBIENT;
+    fscanf(f, "%f %f %f", &(scene->a_light->color.r), 
+                          &(scene->a_light->color.g), &(scene->a_light->color.b));
+    scene->a_light->pos.x = 0;
+    scene->a_light->pos.y = 0;
+    scene->a_light->pos.z = 0;
+    printf("%s %f %f %f\n", s, scene->a_light->color.r, scene->a_light->color.g,
+                               scene->a_light->color.b);
   }
   else if (*s == 'd')
   {

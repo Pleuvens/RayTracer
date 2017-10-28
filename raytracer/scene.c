@@ -1,5 +1,12 @@
 #include "rt.h"
 
+struct vector3 surface_normal(struct triangle t)
+{
+  struct vector3 sn = vector3_cross_product(vector3_add(t.B, vector3_scale(-1, t.A)),
+                                            vector3_add(t.C, vector3_scale(-1, t.A)));
+  return vector3_normalize(sn);
+}
+
 void set_scene(struct scene *scene)
 {
   scene->cam->u = vector3_normalize(scene->cam->u);
@@ -27,7 +34,29 @@ void set_scene(struct scene *scene)
       struct ray r;
       r.origin = p;
       r.direction = d;
-      scene->cam->rays[i] = r;
+      scene->cam->rays[x * scene->r_height + y] = r;
+      if (is_obj_point(scene, ray))
+      {
+        scene->objects[index]->color = scene->objects[index]->color
+                                       * scene->a_lights->color;
+        for (int i = 0; i < scene->d_lights; ++i)
+        {
+          scene->objects[index]->color = scene->d_lights[];
+        }
+      }
     }
   }
+}
+
+int is_obj_point(struct scene *scene, struct ray ray)
+{
+  for (int i = 0; i < scene->obj_count; ++i)
+  {
+    for (int j = 0; j < scene->objects[i]->v_size / 3; ++j)
+    {
+      if ()
+        return 1;
+    }
+  }
+  return 0;
 }

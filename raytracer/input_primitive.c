@@ -41,6 +41,49 @@ void set_obj_mat(FILE *f, char *s, struct material *m)
   }
 }
 
+int make_triangles(struct scene *scene)
+{
+  for (int i = 0; scene->obj_count; ++i)
+  {
+    scene->objects[i]->triangles = malloc(sizeof (struct triangle)
+                                          * (scene->objects[i]->v_size / 3));
+    if (!scene->objects[i]->triangles)
+      return 0;
+    for (int j = 0, k = 0; j < scene->objects[i]->v_size; j += 3, ++k)
+    {
+      struct triangle t;
+      t.color.r = 1;
+      t.color.g = 0;
+      t.color.b = 0;
+      t.A.x = scene->objects[i]->v[j].x;
+      t.A.y = scene->objects[i]->v[j].y;
+      t.A.z = scene->objects[i]->v[j].z;
+
+      t.B.x = scene->objects[i]->v[j + 1].x;
+      t.B.y = scene->objects[i]->v[j + 1].y;
+      t.B.z = scene->objects[i]->v[j + 1].z;
+
+      t.C.x = scene->objects[i]->v[j + 2].x;
+      t.C.y = scene->objects[i]->v[j + 2].y;
+      t.C.z = scene->objects[i]->v[j + 2].z;
+
+      t.nA.x = scene->objects[i]->vn[j].x;
+      t.nA.y = scene->objects[i]->vn[j].y;
+      t.nA.z = scene->objects[i]->vn[j].z;
+      
+      t.nB.x = scene->objects[i]->vn[j + 1].x;
+      t.nB.y = scene->objects[i]->vn[j + 1].y;
+      t.nB.z = scene->objects[i]->vn[j + 1].z;
+
+      t.nC.x = scene->objects[i]->vn[j + 2].x;
+      t.nC.y = scene->objects[i]->vn[j + 2].y;
+      t.nC.z = scene->objects[i]->vn[j + 2].z;
+      scene->objects[i]->triangles[k] = t;
+    }
+  }
+  return 1;
+}
+
 int parse_primitive(FILE *f, struct scene *scene, char *s)
 {
   int n = 0;
@@ -103,5 +146,5 @@ int parse_primitive(FILE *f, struct scene *scene, char *s)
     o->v_size += 1;
     scene->objects[scene->obj_count - 1] = o;
   }
-  return 1;
+  return make_triangles(scene);
 }
