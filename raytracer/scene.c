@@ -47,9 +47,10 @@ void set_scene(struct scene *scene)
       int m = y + scene->cam->height / 2;  
       int n = x + scene->cam->width / 2;
       scene->rays[m * scene->r_width + n] = r;
-      for (int i = 0; i < scene->obj_count; ++i)
+      int found = 0;
+      for (int i = 0; !found && i < scene->obj_count; ++i)
       {
-        for (int j = 0; j < scene->objects[i]->v_size / 3; ++j)
+        for (int j = 0; !found && j < scene->objects[i]->v_size / 3; ++j)
         {
           struct color col;
           col.r = 0;
@@ -57,15 +58,13 @@ void set_scene(struct scene *scene)
           col.b = 0;
           if (ray_triangle_intersection(scene->objects[i]->triangles[j], r))
           {
-            scene->pixels[m][n] = col;
             scene->pixels[m][n] = color_mult(scene->objects[i]->m.ka,
-                                           scene->a_light->color);
-            break;
+                                             scene->a_light->color);
+            
+            found = 1;
           }
           else
-          { 
             scene->pixels[m][n] = col;
-          }
         } 
      }
     }
