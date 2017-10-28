@@ -73,8 +73,7 @@ struct vector3 vector3_from_points(struct vector3 p1, struct vector3 p2)
   return v;
 }
 
-int ray_triangle_intersection(struct triangle triangle,
-                                         struct ray ray, struct vector3 p)
+int intersect(struct triangle triangle, struct ray ray, struct vector3 p)
 {
   (void) ray;
   struct vector3 AB = vector3_from_points(triangle.A, triangle.B);
@@ -102,4 +101,15 @@ int ray_triangle_intersection(struct triangle triangle,
   second = vector3_cross_product(CP, CA);
 
   return vector3_dot_product(first, second) > 0;
+}
+
+int ray_triangle_intersection(struct triangle triangle, struct ray ray)
+{
+  struct vector3 n = triangle.nA;
+  struct vector3 A = triangle.A;
+  float d = - (n.x * A.x) - (n.y * A.y) - (n.z * A.z);
+  float t0 = - ((vector3_dot_product(n, ray.origin) + d) /
+  (vector3_dot_product(n, ray.direction)));
+  struct vector3 P = vector3_add(ray.origin, vector3_scale(t0, ray.direction));
+  return intersect(triangle, ray, P);
 }

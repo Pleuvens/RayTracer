@@ -7,11 +7,11 @@ struct vector3 surface_normal(struct triangle t)
   return vector3_normalize(sn);
 }
 
-int is_obj_point(struct scene *scene, struct ray ray, int i, struct vector3 p)
+int is_obj_point(struct scene *scene, struct ray ray, int i)
 {
   for (int j = 0; j < scene->objects[i]->v_size / 3; ++j)
   {
-    if (ray_triangle_intersection(scene->objects[i]->triangles[j], ray, p))
+    if (ray_triangle_intersection(scene->objects[i]->triangles[j], ray))
       return 1;
   }
   return 0;
@@ -54,7 +54,7 @@ void set_scene(struct scene *scene)
       scene->rays[m * scene->r_width + n] = r;
       for (int i = 0; i < scene->obj_count; ++i)
       {
-        if (is_obj_point(scene, r, i, p))
+        if (is_obj_point(scene, r, i))
         {
           scene->pixels[m][n] = color_mult(scene->objects[i]->color,
                                            scene->a_light->color);
