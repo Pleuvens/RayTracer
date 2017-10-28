@@ -21,6 +21,10 @@ void set_scene(struct scene *scene)
   scene->r_width = scene->cam->width;
   scene->r_height = scene->cam->height;
 
+  scene->pixels = malloc(sizeof (struct color *) * scene->r_width);
+  for (int i = 0; i < scene->r_width; ++i)
+    scene->pixels = malloc(sizeof (struct color) * scene->r_height);
+
   scene->cam->rays = malloc(sizeof (struct ray) * scene->r_width * scene->r_height);
   
   for (int x = -scene->cam->width / 2; x < scene->cam->width / 2; ++x)
@@ -37,12 +41,13 @@ void set_scene(struct scene *scene)
       scene->cam->rays[x * scene->r_height + y] = r;
       if (is_obj_point(scene, ray))
       {
-        scene->objects[index]->color = scene->objects[index]->color
-                                       * scene->a_lights->color;
-        for (int i = 0; i < scene->d_lights; ++i)
+        scene->pixels[x][y] = color_mult(scene->objects[index]->color,
+                                        ,scene->a_lights->color);
+        /*for (int i = 0; i < scene->d_lights; ++i)
         {
           scene->objects[index]->color = scene->d_lights[];
         }
+        */
       }
     }
   }
@@ -54,7 +59,7 @@ int is_obj_point(struct scene *scene, struct ray ray)
   {
     for (int j = 0; j < scene->objects[i]->v_size / 3; ++j)
     {
-      if ()
+      if (ray_triangle_intersection(scene->objects[i]->triangles[j], ray))
         return 1;
     }
   }

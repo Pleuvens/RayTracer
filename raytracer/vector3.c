@@ -29,7 +29,7 @@ struct vector3 vector3_scale(float lambda, struct vector3 v1)
 
 float vector3_dot_product(struct vector3 v1, struct vector3 v2)
 {
-  return v1.x * v2.x + v1.y * v2.y + v1.z * v2.z;'
+  return v1.x * v2.x + v1.y * v2.y + v1.z * v2.z;
 }
 
 struct vector3 vector3_inverse(struct vector3 v1)

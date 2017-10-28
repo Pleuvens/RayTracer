@@ -108,6 +108,8 @@ struct scene
   struct ray *rays;
   int r_width;
   int r_height;
+
+  struct color **pixels;
 };
 
 int my_strlen(char *s);
@@ -129,5 +131,35 @@ int parse_light(FILE *f, char *s, struct scene *scene);
 int parse_primitive(FILE *f, struct scene *scene, char *s);
 
 int parse_input(char *path, struct scene *scene);
+
+struct vector3 vector3_add(struct vector3 v1, struct vector3 v2);
+
+struct vector3 float_add(struct vector3 vector, float d);
+
+struct vector3 vector3_scale(float lambda, struct vector3 v1);
+
+float vector3_dot_product(struct vector3 v1, struct vector3 v2);
+
+struct vector3 vector3_inverse(struct vector3 v1);
+
+struct vector3 vector3_cross_product(struct vector3 v1, struct vector3 v2);
+
+struct vector3 vector3_normalize(struct vector3 v);
+
+float vector3_distance(struct vector3 v1, struct vector3 v2);
+
+struct vector3 vector3_from_points(struct vector3 p1, struct vector3 p2);
+
+struct vector3 intersec_find(struct vector3 AB, struct vector3 AC,
+                             struct vector3 AP, struct vector3 intersect);
+
+int ray_triangle_intersection(struct triangle triangle,
+                              struct ray ray);
+
+struct color color_add(struct color c1, struct color c2);
+
+struct color color_mult(struct color c1, struct color c2);
+
+struct color color_lambda(float lambda, struct color c1);
 
 #endif /* !RT_H */
