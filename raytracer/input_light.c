@@ -1,6 +1,8 @@
+#include <stdlib.h>
+
 #include "rt.h"
 
-void parse_light(FILE *f, char *s, struct scene *scene)
+int parse_light(FILE *f, char *s, struct scene *scene)
 {
   if (*s == 'a')
   {
@@ -39,4 +41,5 @@ void parse_light(FILE *f, char *s, struct scene *scene)
     new->pos_y, new->pos_z);
     scene->p_lights[scene->p_size++] = new;
   }
+  return 1;
 }

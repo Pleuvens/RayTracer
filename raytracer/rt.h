@@ -52,9 +52,9 @@ struct K
 
 struct material
 {
-  struct K *ka;
-  struct K *kd;
-  struct K *ks;
+  struct K ka;
+  struct K kd;
+  struct K ks;
 
   float ns;
   float ni;
@@ -67,18 +67,30 @@ struct vertex
   float x;
   float y;
   float z;
+};
 
-  float vec_x;
-  float vec_y;
-  float vec_z;
+struct vertex_normal
+{
+  float x;
+  float y;
+  float z;
+};
+
+struct object
+{
+  int v_size;
+  int vn_size;
+  struct material m;
+  struct vertex *v;
+  struct vertex_normal *vn;
 };
 
 struct scene
 {
   struct cam *cam;
 
-  int vertex_count;
-  struct vertex **vertex;
+  int obj_count;
+  struct object **objects;
 
   struct light **a_lights;
   int a_size;
@@ -106,7 +118,7 @@ int parse_camera(FILE *f, struct scene *scene);
 
 int parse_light(FILE *f, char *s, struct scene *scene);
 
-int parse_primitive(FILE *f, struct scene *scene);
+int parse_primitive(FILE *f, struct scene *scene, char *s);
 
 int parse_input(char *path, struct scene *scene);
 
