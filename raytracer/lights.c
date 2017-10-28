@@ -1,6 +1,6 @@
 #include "rt.h"
 
-void apply_directional(struct scene *scene, int i, int k, int index)
+struct color apply_directional(struct scene *scene, int i, int k, int index)
 {
   float ld = vector3_dot_product(scene->d_lights[k]->pos,
              surface_normal(scene->objects[index]->triangles[index]));

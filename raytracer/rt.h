@@ -166,4 +166,6 @@ int create_output(char *path, int width, int height, struct color **pixels);
 
 void set_scene(struct scene *scene);
 
+struct color apply_directional(struct scene *scene, int i, int k, int index); 
+
 #endif /* !RT_H */

@@ -60,7 +60,8 @@ void set_scene(struct scene *scene)
           {
             scene->pixels[m][n] = color_mult(scene->objects[i]->m.ka,
                                              scene->a_light->color);
-            
+            for (int l = 0; l < scene->d_size; ++l)
+              scene->pixels[m][n] = apply_directional(scene, i, l, j);
             found = 1;
           }
           else
