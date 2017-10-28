@@ -70,6 +70,12 @@ struct object
   struct vector3 *vn;
 };
 
+struct ray
+{
+  struct vector3 origin;
+  struct vector3 direction;
+};
+
 struct scene
 {
   struct cam *cam;
@@ -85,6 +91,10 @@ struct scene
 
   struct light **d_lights;
   int d_size;
+
+  struct ray *rays;
+  int r_width;
+  int r_height;
 };
 
 int my_strlen(char *s);

@@ -1,27 +1,30 @@
 #include "rt.h"
 
-struct vertex *normalize(float x, float y, float z)
+void set_scene(struct scene *scene)
 {
-  struct vertex *norm = malloc(sizeof (struct vector3));
-  if (!norm)
-    return NULL;
-  float div = sqrt(x * x + y * y + z * z);
-  norm->x = x / div;
-  norm->y = y / div;
-  norm->z = z / div;
-  return norm;
+  scene->cam->u = vector3_normalize(scene->cam->u);
+  scene->cam->v = vector3_normalize(scene->cam->v);
+  
+  struct vector3 w = vector3_cross_product(scene->cam->u, scene->cam->v);
+  w = vector3_scale(-1, w);
+  float L = tan(scene->cam->fov / 2) * (scene->cam->width / 2);
+
+  struct vector3 c = vector3_add(cam_pos, vector3_scale(L, w));
+  
+  scene->r_width = scene->cam->width;
+  scene->r_height = scene->cam->height;
+
+  scene->cam->rays = malloc(sizeof (struct ray) * scene->r_width * scene->r_height);
+  
+  for (int x = -scene->cam->width / 2; x < scene->cam->width / 2; ++x)
+  {
+    for (int y = -scene->cam->height / 2; y < scene->cam->width / 2; ++y)
+    {
+      struct vector3 p;
+      p.x = x / u.x;
+      p.y = y / u.y;
+      p.z = 0;
+      struct vector3 r = vector3_from_points(p, c);
+    }
+  }
 }
-
-struct vertex *cross_product(struct vector3 u, struct vector3 v)
-{
-  struct vertex *prod = malloc(sizeof (struct vector3));
-  if (!norm)
-    return NULL;
-
-  prod->x = u->y * v->z - u->z * v->y;
-  prod->y = u->z * v->x - u->x * v->z;
-  prod->z = u->x * v->y - y->y * v->x;
-  return prod;
-}
-
-
