@@ -1,7 +1,9 @@
 #ifndef RT_H
 # define RT_H
 
+#include <math.h>
 #include <stdio.h>
+#include <stdlib.h>
 
 struct cam
 {
