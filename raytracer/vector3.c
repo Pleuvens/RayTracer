@@ -70,35 +70,35 @@ struct vector3 vector3_from_points(struct vector3 p1, struct vector3 p2)
   v.x = p2.x - p1.x;
   v.y = p2.y - p1.y;
   v.z = p2.z - p1.z;
-  return v;
+  return vector3_normalize(v);
 }
 
 int ray_triangle_intersection(struct triangle triangle,
                                          struct ray ray)
 {
-  float precision = 0.000001;
-  
   struct vector3 AB = vector3_from_points(triangle.A, triangle.B);
   struct vector3 AC = vector3_from_points(triangle.A, triangle.C);
-  struct vector3 norme = vector3_cross_product(ray.direction, AC);
-  float det = vector3_dot_product(AB, norme);
-  if (det > -precision && det < precision)
-    return 0;
-  float inv_det = 1.0f / det;
+  struct vector3 BA = vector3_from_points(triangle.B, triangle.A);
+  struct vector3 BC = vector3_from_points(triangle.B, triangle.C);
+  struct vector3 CA = vector3_from_points(triangle.C, triangle.A);
+  struct vector3 CB = vector3_from_points(triangle.C, triangle.B);
+  struct vector3 AP = vector3_from_points(triangle.A, ray.origin);
+  struct vector3 BP = vector3_from_points(triangle.B, ray.origin);
+  struct vector3 CP = vector3_from_points(triangle.C, ray.origin);
+  struct vector3 first = vector3_cross_product(AB, AC);
+  struct vector3 second = vector3_cross_product(AB, AP);
 
-  struct vector3 dist = vector3_add(ray.origin, vector3_scale(-1, AB));
-
-  float r = inv_det * vector3_dot_product(dist, norme);
-  if (r < 0.0 || r > 1.0)
-    return 0;
-
-  struct vector3 q = vector3_cross_product(dist, AB);
-  float s = inv_det * vector3_dot_product(ray.direction, q);
-
-  if (s < 0.0 || r + s > 1.0)
+  if (vector3_dot_product(first, second) < 0)
     return 0;
 
-  if (inv_det * vector3_dot_product(AC, q) > precision)
-    return 1;
-  return 0;
+  first = vector3_cross_product(BA, BC);
+  second = vector3_cross_product(BA, BP);
+
+  if (vector3_dot_product(first, second) < 0)
+    return 0;
+
+  first = vector3_cross_product(CA, CB);
+  second = vector3_cross_product(CA, CP);
+
+  return vector3_dot_product(first, second) > 0;
 }

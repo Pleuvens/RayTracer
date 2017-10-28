@@ -21,10 +21,9 @@ void set_scene(struct scene *scene)
 {
   scene->cam->u = vector3_normalize(scene->cam->u);
   scene->cam->v = vector3_normalize(scene->cam->v);
-  
   struct vector3 w = vector3_cross_product(scene->cam->u, scene->cam->v);
   w = vector3_scale(-1, w);
-  float L = tan(scene->cam->fov / 2) * (scene->cam->width / 2);
+  float L =  (scene->cam->width / 2) / tan(scene->cam->fov / 2);
 
   struct vector3 c = vector3_add(scene->cam->pos, vector3_scale(L, w));
   
@@ -44,7 +43,7 @@ void set_scene(struct scene *scene)
       struct vector3 p = vector3_add(c,
                          vector3_add(vector3_scale(x, scene->cam->u), 
                                      vector3_scale(y, scene->cam->v)));
-      struct vector3 d = vector3_from_points(c, p);
+      struct vector3 d = vector3_from_points(p, scene->cam->pos);
       struct ray r;
       r.origin = p;
       r.direction = d;
@@ -55,7 +54,6 @@ void set_scene(struct scene *scene)
       {
         if (is_obj_point(scene, r, i))
         {
-          printf("ok\n");
           scene->pixels[m][n] = color_mult(scene->objects[i]->color,
                                            scene->a_light->color);
           /*for (int i = 0; i < scene->d_lights; ++i)
@@ -66,7 +64,6 @@ void set_scene(struct scene *scene)
         }
         else
         {
-          printf("ko\n");
           struct color col;
           col.r = 0;
           col.g = 0;

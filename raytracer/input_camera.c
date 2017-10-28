@@ -7,6 +7,6 @@ int parse_camera(FILE *f, struct scene *scene)
   &(scene->cam->pos.z), &(scene->cam->u.x), &(scene->cam->u.y),
   &(scene->cam->u.z), &(scene->cam->v.x), &(scene->cam->v.y),
   &(scene->cam->v.z), &(scene->cam->fov));
-  printf("\n");
+  scene->cam->fov = scene->cam->fov * M_PI / 180;
   return 1;
 }
