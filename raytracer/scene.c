@@ -18,13 +18,16 @@ void set_scene(struct scene *scene)
   
   for (int x = -scene->cam->width / 2; x < scene->cam->width / 2; ++x)
   {
-    for (int y = -scene->cam->height / 2; y < scene->cam->width / 2; ++y)
+    for (int y = -scene->cam->height / 2; y < scene->cam->height / 2; ++y)
     {
-      struct vector3 p;
-      p.x = x / u.x;
-      p.y = y / u.y;
-      p.z = 0;
-      struct vector3 r = vector3_from_points(p, c);
+      struct vector3 p = vector3_add(c,
+                         vector3_add(vector3_scale(x, scene->cam->u), 
+                                     vector3_scale(y, scene->cam->v)));
+      struct vector3 d = vector3_from_points(c, p);
+      struct ray r;
+      r.origin = p;
+      r.direction = d;
+      scene->cam->rays[i] = r;
     }
   }
 }
