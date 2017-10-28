@@ -76,6 +76,20 @@ struct ray
   struct vector3 direction;
 };
 
+struct triangle
+{
+  struct vector3 A;
+  struct vector3 B;
+  struct vector3 C;
+
+  struct vector3 nA;
+  struct vector3 nB;
+  struct vector3 nC;
+
+  struct color color;
+  struct material material;
+}
+
 struct scene
 {
   struct cam *cam;
