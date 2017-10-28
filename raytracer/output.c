@@ -17,7 +17,7 @@ int int_width(int i)
 }
 
 
-int create_output(char *path, int width, int height, int **pixels)
+int create_output(char *path, int width, int height, struct color **pixels)
 {
   FILE *f = fopen(path, "w");
   if (!f)
@@ -25,20 +25,29 @@ int create_output(char *path, int width, int height, int **pixels)
   fprintf(f, "P3\n%d %d\n255\n", width, height);
   for (int i = 0; i < height; ++i)
   {
+    int r = 0;
+    int g = 0;
+    int b = 0;
     for (int j = 0; j < width - 1; ++j)
     {
-      int size = int_width(pixels[i][j].r);
-      fprintf(f, "%d%*s ", pixels[i][j].r, 3 - size, "");
-      size = int_width(pixels[i][j].g);
-      fprintf(f, "%d%*s ", pixels[i][j].g, 3 - size, "");
-      size = int_width(pixels[i][j].b);
-      fprintf(f, "%d%*s ", pixels[i][j].b, 3 - size, "");
+      r = (int)(pixels[i][j].r * 255) % 256;
+      g = (int)(pixels[i][j].g * 255) % 256;
+      b = (int)(pixels[i][j].b * 255) % 256;
+      int size = int_width(r);
+      fprintf(f, "%d%*s ", r, 3 - size, "");
+      size = int_width(g);
+      fprintf(f, "%d%*s ", g, 3 - size, "");
+      size = int_width(b);
+      fprintf(f, "%d%*s ", b, 3 - size, "");
     }
-    int size = int_width(pixels[i][width - 1].r);
-    fprintf(f, "%d%*s ", pixels[i][width - 1].r, 3 - size, "");
-    size = int_width(pixels[i][width - 1].g);
-    fprintf(f, "%d%*s ", pixels[i][width - 1].g, 3 - size, "");
-    fprintf(f, "%d\n ", pixels[i][width - 1].b);
+    r = (int)(pixels[i][width - 1].r * 255) % 256;
+    g = (int)(pixels[i][width - 1].g * 255) % 256;
+    b = (int)(pixels[i][width - 1].b * 255) % 256;
+    int size = int_width(r);
+    fprintf(f, "%d%*s ", r, 3 - size, "");
+    size = int_width(g);
+    fprintf(f, "%d%*s ", g, 3 - size, "");
+    fprintf(f, "%d\n ", b);
   }
 
   fclose(f);

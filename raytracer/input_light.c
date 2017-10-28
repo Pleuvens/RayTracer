@@ -6,7 +6,7 @@ int parse_light(FILE *f, char *s, struct scene *scene)
 {
   if (*s == 'a')
   {
-    scene->a_light = malloc(sizeof (struct light*));
+    scene->a_light = malloc(sizeof (struct light));
     if (!scene->a_light)
       return 0;
     scene->a_light->light = AMBIENT;

@@ -35,9 +35,9 @@ float vector3_dot_product(struct vector3 v1, struct vector3 v2)
 struct vector3 vector3_inverse(struct vector3 v1)
 {
   struct vector3 new;
-  new->x = 1 / v1.x
-  new->y = 1 / v1.y;
-  new->z = 1 / v1.z;
+  new.x = 1 / v1.x;
+  new.y = 1 / v1.y;
+  new.z = 1 / v1.z;
   return new;
 }
 
@@ -50,7 +50,7 @@ struct vector3 vector3_cross_product(struct vector3 v1, struct vector3 v2)
   return v3;
 }
 
-struct vector3 vector3_normalize(struct vector3 v)
+struct vector3 vector3_normalize(struct vector3 v1)
 {
   struct vector3 res;
   res.x = v1.x / sqrtf(v1.x * v1.x + v1.y * v1.y + v1.z * v1.z);
@@ -67,19 +67,10 @@ float vector3_distance(struct vector3 v1, struct vector3 v2)
 struct vector3 vector3_from_points(struct vector3 p1, struct vector3 p2)
 {
   struct vector3 v;
-  v1.x = p2.x - p1.x;
-  v1.y = p2.y - p1.y;
-  v1.z = p2.z - p1.z;
+  v.x = p2.x - p1.x;
+  v.y = p2.y - p1.y;
+  v.z = p2.z - p1.z;
   return v;
-}
-
-struct vector3 intersec_find(struct vector3 AB, struct vector3 AC,
-                             struct vector3 AP, struct vector3 intersect)
-{
-  struct vector3 v1 = vector3_scale(s, AC);
-  struct vector3 v2 = vector3_add(AP, vector3_scale(-r, AB));
-  float r = vector3_dot_product(vector3_inverse(AB), vector3_add(AP,
-  vector3_scale(-)
 }
 
 int ray_triangle_intersection(struct triangle triangle,
@@ -89,11 +80,11 @@ int ray_triangle_intersection(struct triangle triangle,
   
   struct vector3 AB = vector3_from_points(triangle.A, triangle.B);
   struct vector3 AC = vector3_from_points(triangle.A, triangle.C);
-  struct norme = vector3_cross_product(ray.direction, AC);
+  struct vector3 norme = vector3_cross_product(ray.direction, AC);
   float det = vector3_dot_product(AB, norme);
   if (det > -precision && det < precision)
     return 0;
-  float inv_det = 1;0f / det;
+  float inv_det = 1.0f / det;
 
   struct vector3 dist = vector3_add(ray.origin, vector3_scale(-1, AB));
 

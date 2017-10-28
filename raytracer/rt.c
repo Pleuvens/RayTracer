@@ -8,7 +8,7 @@ struct scene *init_scene(void)
   if (!scene)
     return NULL;
   scene->cam = malloc(sizeof (struct cam));
-  scene->a_lights = NULL;
+  scene->a_light = NULL;
   scene->p_lights = NULL;
   scene->d_lights = NULL;
   scene->objects = NULL;
@@ -38,11 +38,7 @@ void delete_scene(struct scene *scene)
   if (scene->objects)
     free(scene->objects);
 
-  for (int i = 0; i < scene->a_size; ++i)
-    if (scene->a_lights[i])
-      free(scene->a_lights[i]);
-  if (scene->a_lights)
-    free(scene->a_lights);
+  free(scene->a_light);
   
   for (int i = 0; i < scene->p_size; ++i)
     if (scene->p_lights[i])
@@ -67,6 +63,8 @@ int main(int argc, char *argv[])
   }
   struct scene *scene = init_scene();
   parse_input(argv[1], scene);
+  set_scene(scene);
+  create_output(argv[2], scene->cam->width, scene->cam->height, scene->pixels);
   delete_scene(scene);
   return 0;
 }

@@ -43,41 +43,55 @@ void set_obj_mat(FILE *f, char *s, struct material *m)
 
 int make_triangles(struct scene *scene)
 {
-  for (int i = 0; scene->obj_count; ++i)
+  for (int i = 0; i < scene->obj_count; ++i)
   {
     scene->objects[i]->triangles = malloc(sizeof (struct triangle)
                                           * (scene->objects[i]->v_size / 3));
     if (!scene->objects[i]->triangles)
       return 0;
-    for (int j = 0, k = 0; j < scene->objects[i]->v_size; j += 3, ++k)
+    scene->objects[i]->v_size += 1;
+    scene->objects[i]->vn_size += 1;
+    for (int j = 0, k = 0; j < scene->objects[i]->v_size - 2; j += 3, ++k)
     {
-      struct triangle t;
-      t.color.r = 1;
-      t.color.g = 0;
-      t.color.b = 0;
-      t.A.x = scene->objects[i]->v[j].x;
-      t.A.y = scene->objects[i]->v[j].y;
-      t.A.z = scene->objects[i]->v[j].z;
+      struct triangle t; 
+      struct vector3 A;
+      struct vector3 B;
+      struct vector3 C;
+      struct vector3 nA;
+      struct vector3 nB;
+      struct vector3 nC;
 
-      t.B.x = scene->objects[i]->v[j + 1].x;
-      t.B.y = scene->objects[i]->v[j + 1].y;
-      t.B.z = scene->objects[i]->v[j + 1].z;
-
-      t.C.x = scene->objects[i]->v[j + 2].x;
-      t.C.y = scene->objects[i]->v[j + 2].y;
-      t.C.z = scene->objects[i]->v[j + 2].z;
-
-      t.nA.x = scene->objects[i]->vn[j].x;
-      t.nA.y = scene->objects[i]->vn[j].y;
-      t.nA.z = scene->objects[i]->vn[j].z;
+      A.x = scene->objects[i]->v[j].x;
+      A.y = scene->objects[i]->v[j].y;
+      A.z = scene->objects[i]->v[j].z;
       
-      t.nB.x = scene->objects[i]->vn[j + 1].x;
-      t.nB.y = scene->objects[i]->vn[j + 1].y;
-      t.nB.z = scene->objects[i]->vn[j + 1].z;
+      B.x = scene->objects[i]->v[j + 1].x;
+      B.y = scene->objects[i]->v[j + 1].y;
+      B.z = scene->objects[i]->v[j + 1].z;
 
-      t.nC.x = scene->objects[i]->vn[j + 2].x;
-      t.nC.y = scene->objects[i]->vn[j + 2].y;
-      t.nC.z = scene->objects[i]->vn[j + 2].z;
+      C.x = scene->objects[i]->v[j + 2].x;
+      C.y = scene->objects[i]->v[j + 2].y;
+      C.z = scene->objects[i]->v[j + 2].z;
+
+      nA.x = scene->objects[i]->vn[j].x;
+      nA.y = scene->objects[i]->vn[j].y;
+      nA.z = scene->objects[i]->vn[j].z;
+      
+      nB.x = scene->objects[i]->vn[j + 1].x;
+      nB.y = scene->objects[i]->vn[j + 1].y;
+      nB.z = scene->objects[i]->vn[j + 1].z;
+
+      nC.x = scene->objects[i]->vn[j + 2].x;
+      nC.y = scene->objects[i]->vn[j + 2].y;
+      nC.z = scene->objects[i]->vn[j + 2].z;
+      
+      t.A = A;
+      t.B = B;
+      t.C = C;
+      t.nA = nA;
+      t.nB = nB;
+      t.nC = nC;
+
       scene->objects[i]->triangles[k] = t;
     }
   }
@@ -106,6 +120,10 @@ int parse_primitive(FILE *f, struct scene *scene, char *s)
     struct material m;
     fscanf(f, "%d", &n);
     printf("%s %d\n", s, n);
+    
+    o->color.r = 1;
+    o->color.g = 0;
+    o->color.b = 0;
 
     er = fscanf(f, "%s", s);
     while (!my_strncmp(s, "vn", 2) && !my_strncmp(s, "v", 1))
@@ -118,10 +136,10 @@ int parse_primitive(FILE *f, struct scene *scene, char *s)
     
     while (er != EOF && !my_strncmp(s, "object", 6))
     {
-      if (my_strncmp(s, "v", 1))
+      if (my_strcmp(s, "v"))
       {
         o->v_size += 1;
-        o->v = realloc(o->v, sizeof (struct vector3) * (o->v_size));
+        o->v = realloc(o->v, sizeof (struct vector3) * (o->v_size + 1));
         if (!o->v)
           return 0;
         fscanf(f, "%f %f %f", &(o->v[o->v_size - 1].x), &(o->v[o->v_size - 1].y),
@@ -132,11 +150,11 @@ int parse_primitive(FILE *f, struct scene *scene, char *s)
       else
       {
         o->vn_size += 1;
-        o->vn = realloc(o->vn, sizeof (struct vector3) * (o->vn_size));
+        o->vn = realloc(o->vn, sizeof (struct vector3) * (o->vn_size + 1));
         if (!o->vn)
           return 0;
         fscanf(f, "%f %f %f", &(o->vn[o->vn_size - 1].x), &(o->vn[o->vn_size - 1].y), 
-                              &(o->vn[o->vn_size].z));
+                              &(o->vn[o->vn_size - 1].z));
         printf("%s %f %f %f\n", s, o->vn[o->vn_size - 1].x, o->vn[o->vn_size - 1].y,
                               o->vn[o->vn_size - 1].z);
       }

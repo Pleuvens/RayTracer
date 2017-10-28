@@ -162,4 +162,8 @@ struct color color_mult(struct color c1, struct color c2);
 
 struct color color_lambda(float lambda, struct color c1);
 
+int create_output(char *path, int width, int height, struct color **pixels);
+
+void set_scene(struct scene *scene);
+
 #endif /* !RT_H */
