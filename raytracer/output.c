@@ -27,10 +27,18 @@ int create_output(char *path, int width, int height, int **pixels)
   {
     for (int j = 0; j < width - 1; ++j)
     {
-      int size = int_width(pixels[i][j]);
-      fprintf(f, "%d%*s ", pixels[i][j], 3 - size, "");
+      int size = int_width(pixels[i][j].r);
+      fprintf(f, "%d%*s ", pixels[i][j].r, 3 - size, "");
+      size = int_width(pixels[i][j].g);
+      fprintf(f, "%d%*s ", pixels[i][j].g, 3 - size, "");
+      size = int_width(pixels[i][j].b);
+      fprintf(f, "%d%*s ", pixels[i][j].b, 3 - size, "");
     }
-    fprintf(f, "%d\n", pixels[i][width - 1]);
+    int size = int_width(pixels[i][width - 1].r);
+    fprintf(f, "%d%*s ", pixels[i][width - 1].r, 3 - size, "");
+    size = int_width(pixels[i][width - 1].g);
+    fprintf(f, "%d%*s ", pixels[i][width - 1].g, 3 - size, "");
+    fprintf(f, "%d\n ", pixels[i][width - 1].b);
   }
 
   fclose(f);
