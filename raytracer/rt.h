@@ -5,22 +5,30 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+struct color
+{
+  float r;
+  float g;
+  float b;
+};
+
+struct vector3
+{
+  float x;
+  float y;
+  float z;
+};
+
 struct cam
 {
   int width;
   int height;
 
-  float pos_x;
-  float pos_y;
-  float pos_z;
+  struct vector3 pos;
 
-  float u_x;
-  float u_y;
-  float u_z;
+  struct vector3 u;
 
-  float v_x;
-  float v_y;
-  float v_z;
+  struct vector3 v;
 
   float fov;
 };
@@ -36,27 +44,16 @@ struct light
 {
   enum x_light light;
 
-  float r;
-  float g;
-  float b;
+  struct color color;
 
-  float pos_x;
-  float pos_y;
-  float pos_z;
-};
-
-struct K
-{
-  float r;
-  float g;
-  float b;
+  struct vector3 pos;
 };
 
 struct material
 {
-  struct K ka;
-  struct K kd;
-  struct K ks;
+  struct color ka;
+  struct color kd;
+  struct color ks;
 
   float ns;
   float ni;
@@ -64,20 +61,13 @@ struct material
   float d;
 };
 
-struct vertex
-{
-  float x;
-  float y;
-  float z;
-};
-
 struct object
 {
   int v_size;
   int vn_size;
   struct material m;
-  struct vertex *v;
-  struct vertex *vn;
+  struct vector3 *v;
+  struct vector3 *vn;
 };
 
 struct scene

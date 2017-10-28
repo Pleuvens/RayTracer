@@ -78,7 +78,7 @@ int parse_primitive(FILE *f, struct scene *scene, char *s)
       if (my_strncmp(s, "v", 1))
       {
         o->v_size += 1;
-        o->v = realloc(o->v, sizeof (struct vertex) * (o->v_size));
+        o->v = realloc(o->v, sizeof (struct vector3) * (o->v_size));
         if (!o->v)
           return 0;
         fscanf(f, "%f %f %f", &(o->v[o->v_size - 1].x), &(o->v[o->v_size - 1].y),
@@ -89,7 +89,7 @@ int parse_primitive(FILE *f, struct scene *scene, char *s)
       else
       {
         o->vn_size += 1;
-        o->vn = realloc(o->vn, sizeof (struct vertex) * (o->vn_size));
+        o->vn = realloc(o->vn, sizeof (struct vector3) * (o->vn_size));
         if (!o->vn)
           return 0;
         fscanf(f, "%f %f %f", &(o->vn[o->vn_size - 1].x), &(o->vn[o->vn_size - 1].y), 
