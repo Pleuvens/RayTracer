@@ -6,20 +6,12 @@ struct vector3 surface_normal(struct triangle t)
                                             vector3_add(t.C, vector3_scale(-1, t.A)));
   return vector3_normalize(sn);
 }
-
+/*
 int is_obj_point(struct scene *scene, struct ray ray, int i, int *t)
-{
-  for (int j = 0; j < scene->objects[i]->v_size / 3; ++j)
-  {
-    if (ray_triangle_intersection(scene->objects[i]->triangles[j], ray))
-    {
-      *t = j;
-      return 1;
-    }
-  }
-  return 0;
+{ 
 }
 
+*/
 void set_scene(struct scene *scene)
 {
   scene->cam->u = vector3_normalize(scene->cam->u);
@@ -57,27 +49,24 @@ void set_scene(struct scene *scene)
       scene->rays[m * scene->r_width + n] = r;
       for (int i = 0; i < scene->obj_count; ++i)
       {
-        int index = 0;
-        if (is_obj_point(scene, r, i, &index))
-        {
-          scene->pixels[m][n] = color_mult(scene->objects[i]->color,
-                                           scene->a_light->color);
-          for (int k = 0; k < scene->d_size; ++k)
-          {
-            float ld = vector3_dot_product(scene->d_lights[k]->pos,
-                                surface_normal(scene->objects[index]->triangles[index]));
-            scene->pixels[m][n] = color_mult(scene->d_lights[k]->color,
-                                     color_lambda(ld, scene->objects[i]->m.kd));
-          }
-        }
-        else
+        for (int j = 0; j < scene->objects[i]->v_size / 3; ++j)
         {
           struct color col;
           col.r = 0;
           col.g = 0;
           col.b = 0;
-          scene->pixels[m][n] = col;
-        }
+          if (ray_triangle_intersection(scene->objects[i]->triangles[j], r))
+          {
+            scene->pixels[m][n] = col;
+            scene->pixels[m][n] = color_mult(scene->objects[i]->m.ka,
+                                           scene->a_light->color);
+            break;
+          }
+          else
+          { 
+            scene->pixels[m][n] = col;
+          }
+        } 
      }
     }
   }
