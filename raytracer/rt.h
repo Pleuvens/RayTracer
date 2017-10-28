@@ -154,7 +154,7 @@ struct vector3 intersec_find(struct vector3 AB, struct vector3 AC,
                              struct vector3 AP, struct vector3 intersect);
 
 int ray_triangle_intersection(struct triangle triangle,
-                              struct ray ray);
+                              struct ray ray, struct vector3 p);
 
 struct color color_add(struct color c1, struct color c2);
 

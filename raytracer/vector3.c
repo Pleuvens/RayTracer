@@ -70,35 +70,36 @@ struct vector3 vector3_from_points(struct vector3 p1, struct vector3 p2)
   v.x = p2.x - p1.x;
   v.y = p2.y - p1.y;
   v.z = p2.z - p1.z;
-  return vector3_normalize(v);
+  return v;
 }
 
 int ray_triangle_intersection(struct triangle triangle,
-                                         struct ray ray)
+                                         struct ray ray, struct vector3 p)
 {
+  (void) ray;
   struct vector3 AB = vector3_from_points(triangle.A, triangle.B);
   struct vector3 AC = vector3_from_points(triangle.A, triangle.C);
   struct vector3 BA = vector3_from_points(triangle.B, triangle.A);
   struct vector3 BC = vector3_from_points(triangle.B, triangle.C);
   struct vector3 CA = vector3_from_points(triangle.C, triangle.A);
   struct vector3 CB = vector3_from_points(triangle.C, triangle.B);
-  struct vector3 AP = vector3_from_points(triangle.A, ray.origin);
-  struct vector3 BP = vector3_from_points(triangle.B, ray.origin);
-  struct vector3 CP = vector3_from_points(triangle.C, ray.origin);
-  struct vector3 first = vector3_cross_product(AB, AC);
-  struct vector3 second = vector3_cross_product(AB, AP);
+  struct vector3 AP = vector3_from_points(triangle.A, p);
+  struct vector3 BP = vector3_from_points(triangle.B, p);
+  struct vector3 CP = vector3_from_points(triangle.C, p);
+  struct vector3 first = vector3_cross_product(AC, AB);
+  struct vector3 second = vector3_cross_product(AP, AB);
 
   if (vector3_dot_product(first, second) < 0)
     return 0;
 
   first = vector3_cross_product(BA, BC);
-  second = vector3_cross_product(BA, BP);
+  second = vector3_cross_product(BP, BC);
 
   if (vector3_dot_product(first, second) < 0)
     return 0;
 
-  first = vector3_cross_product(CA, CB);
-  second = vector3_cross_product(CA, CP);
+  first = vector3_cross_product(CB, CA);
+  second = vector3_cross_product(CP, CA);
 
   return vector3_dot_product(first, second) > 0;
 }
