@@ -61,21 +61,6 @@ struct material
   float d;
 };
 
-struct object
-{
-  int v_size;
-  int vn_size;
-  struct material m;
-  struct vector3 *v;
-  struct vector3 *vn;
-};
-
-struct ray
-{
-  struct vector3 origin;
-  struct vector3 direction;
-};
-
 struct triangle
 {
   struct vector3 A;
@@ -85,10 +70,25 @@ struct triangle
   struct vector3 nA;
   struct vector3 nB;
   struct vector3 nC;
+};
 
+struct object
+{
+  int v_size;
+  int vn_size;
+  struct material m;
+  struct vector3 *v;
+  struct vector3 *vn;
+  struct  triangle *triangles;
   struct color color;
   struct material material;
-}
+};
+
+struct ray
+{
+  struct vector3 origin;
+  struct vector3 direction;
+};
 
 struct scene
 {
@@ -97,8 +97,7 @@ struct scene
   int obj_count;
   struct object **objects;
 
-  struct light **a_lights;
-  int a_size;
+  struct light *a_light;
 
   struct light **p_lights;
   int p_size;

@@ -13,7 +13,6 @@ struct scene *init_scene(void)
   scene->d_lights = NULL;
   scene->objects = NULL;
   scene->rays = NULL;
-  scene->a_size = 0;
   scene->d_size = 0;
   scene->p_size = 0;
   scene->obj_count = 0;
