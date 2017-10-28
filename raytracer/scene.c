@@ -60,7 +60,7 @@ void set_scene(struct scene *scene)
           
           if (ray_triangle_intersection(scene->objects[i]->triangles[j], r))
           {
-            scene->pixels[m][n] = color_mult(scene->objects[i]->m.ka,
+            scene->pixels[m][n] = color_add(scene->objects[i]->m.ka,
                                            scene->a_light->color);
             for (int l = 0; l < scene->d_size; ++l)
               scene->pixels[m][n] = color_add(scene->pixels[m][n], apply_directional(scene, i, l, j));
