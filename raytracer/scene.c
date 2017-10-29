@@ -2,8 +2,10 @@
 
 struct vector3 surface_normal(struct triangle t)
 {
-  struct vector3 sn = vector3_cross_product(vector3_add(t.B, vector3_scale(-1, t.A)),
-                                            vector3_add(t.C, vector3_scale(-1, t.A)));
+  struct vector3 sn = vector3_cross_product(vector3_add(t.B, vector3_scale(-1,
+                                                                          t.A)),
+                                            vector3_add(t.C, vector3_scale(-1,
+                                                                         t.A)));
   return vector3_normalize(sn);
 }
 
@@ -54,7 +56,8 @@ void set_scene(struct scene *scene)
       {
         for (int j = 0; j < scene->objects[i]->v_size / 3; ++j)
         {
-          if (ray_triangle_intersection(scene->objects[i]->triangles[j], r, &inters))
+          if (ray_triangle_intersection(scene->objects[i]->triangles[j], r,
+                                        &inters))
           { 
             if (index_obj < 0 || distance > vector3_distance(r.origin, inters))
             {
@@ -77,7 +80,8 @@ void set_scene(struct scene *scene)
         {
             ak = color_add(ak, apply_point(scene, index_obj, l, index_t,
                             vector3_distance(scene->p_lights[l]->pos, inters),
-                            vector3_from_points(scene->p_lights[l]->pos, inters)));
+                            vector3_from_points(scene->p_lights[l]->pos,
+                                                inters)));
         }
         scene->pixels[m][n] = ak;
       }
