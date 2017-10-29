@@ -56,11 +56,11 @@ void set_scene(struct scene *scene)
       int index_t = -1;
       float distance = 0;
       //struct vector3 v = d;
+      struct vector3 inters = d;
       for (int i = 0; i < scene->obj_count; ++i)
       {
         for (int j = 0; j < scene->objects[i]->v_size / 3; ++j)
         {
-          struct vector3 inters = d;
           if (ray_triangle_intersection(scene->objects[i]->triangles[j], r, &inters))
           { 
             if (index_obj < 0 || distance > vector3_distance(r.origin, inters))
@@ -75,11 +75,19 @@ void set_scene(struct scene *scene)
       }
       if (index_obj > -1)
       {
-        scene->pixels[m][n] = color_mult(scene->objects[index_obj]->m.ka,
+        struct color ak = color_mult(scene->objects[index_obj]->m.ka,
                                         scene->a_light->color);
         for (int l = 0; l < scene->d_size; ++l)
-            scene->pixels[m][n] = color_add(scene->pixels[m][n],
-                            apply_directional(scene, index_obj, l, index_t));
+        {
+            ak = color_add(ak, apply_directional(scene, index_obj, l, index_t));
+        }
+        for (int l = 0; l < scene->p_size; ++l)
+        {
+            ak = color_add(ak, apply_point(scene, index_obj, l, index_t,
+                            vector3_distance(scene->p_lights[l]->pos, inters),
+                            vector3_from_points(scene->p_lights[l]->pos, inters)));
+        }
+        scene->pixels[m][n] = ak;
       }
       if (distance)
         printf("\n");
