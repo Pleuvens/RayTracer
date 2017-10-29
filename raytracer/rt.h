@@ -174,4 +174,7 @@ int color_scale(float c);
 
 struct color color_clamp(struct color c);
 
+struct color apply_point(struct scene *scene, int i, int k, int index, int distance,
+                         struct vector3 dir);
+
 #endif /* !RT_H */

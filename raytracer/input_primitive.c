@@ -5,40 +5,19 @@
 void set_obj_mat(FILE *f, char *s, struct material *m)
 {
   if (my_strncmp(s, "Ka", 2))
-  {
     fscanf(f, "%f %f %f", &(m->ka.r), &(m->ka.g), &(m->ka.b));
-    printf("%s %f %f %f\n", s, m->ka.r, m->ka.g, m->ka.b);
-  }
   else if (my_strncmp(s, "Kd", 2))
-  {
     fscanf(f, "%f %f %f", &(m->kd.r), &(m->kd.g), &(m->kd.b));
-    printf("%s %f %f %f\n", s, m->kd.r, m->kd.g, m->kd.b);
-  }
   else if (my_strncmp(s, "Ks", 2))
-  {
     fscanf(f, "%f %f %f", &(m->ks.r), &(m->ks.g), &(m->ks.b));
-    printf("%s %f %f %f\n", s, m->ks.r, m->ks.g, m->ks.b);
-  }
   else if (my_strncmp(s, "Ns", 2))
-  {
     fscanf(f, "%f", &(m->ns));
-    printf("%s %f\n", s, m->ns);
-  }
   else if (my_strncmp(s, "Nr", 2))
-  {
     fscanf(f, "%f", &(m->nr));
-    printf("%s %f\n", s, m->nr);
-  }
   else if (my_strncmp(s, "Ni", 2))
-  {
     fscanf(f, "%f", &(m->ni));
-    printf("%s %f\n", s, m->ni);
-  }
   else if (my_strncmp(s, "d", 1))
-  {
     fscanf(f, "%f", &(m->d));
-    printf("%s %f\n", s, m->d);
-  }
 }
 
 int make_triangles(struct scene *scene)
@@ -119,7 +98,6 @@ int parse_primitive(FILE *f, struct scene *scene, char *s)
     o->vn_size = 0;
     struct material m;
     fscanf(f, "%d", &n);
-    printf("%s %d\n", s, n);
     
     o->color.r = 1;
     o->color.g = 0;
@@ -144,8 +122,6 @@ int parse_primitive(FILE *f, struct scene *scene, char *s)
           return 0;
         fscanf(f, "%f %f %f", &(o->v[o->v_size - 1].x), &(o->v[o->v_size - 1].y),
                               &(o->v[o->v_size - 1].z));
-        printf("%s %f %f %f\n", s, o->v[o->v_size - 1].x, o->v[o->v_size - 1].y,
-                                   o->v[o->v_size - 1].z);
       }
       else
       {
@@ -155,8 +131,6 @@ int parse_primitive(FILE *f, struct scene *scene, char *s)
           return 0;
         fscanf(f, "%f %f %f", &(o->vn[o->vn_size - 1].x), &(o->vn[o->vn_size - 1].y), 
                               &(o->vn[o->vn_size - 1].z));
-        printf("%s %f %f %f\n", s, o->vn[o->vn_size - 1].x, o->vn[o->vn_size - 1].y,
-                              o->vn[o->vn_size - 1].z);
       }
       er = fscanf(f, "%s", s);
     }

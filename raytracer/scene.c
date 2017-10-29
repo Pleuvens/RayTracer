@@ -2,16 +2,13 @@
 
 struct vector3 surface_normal(struct triangle t)
 {
-  struct vector3 sn = vector3_cross_product(vector3_add(t.B, vector3_scale(-1, t.A)),
-                                            vector3_add(t.C, vector3_scale(-1, t.A)));
+  struct vector3 sn = vector3_cross_product(vector3_add(t.B, vector3_scale(-1,
+                                                                          t.A)),
+                                            vector3_add(t.C, vector3_scale(-1,
+                                                                         t.A)));
   return vector3_normalize(sn);
 }
-/*
-int is_obj_point(struct scene *scene, struct ray ray, int i, int *t)
-{ 
-}
 
-*/
 void set_scene(struct scene *scene)
 {
   scene->cam->u = vector3_normalize(scene->cam->u);
@@ -19,7 +16,6 @@ void set_scene(struct scene *scene)
   struct vector3 w = vector3_cross_product(scene->cam->u, scene->cam->v);
   w = vector3_scale(-1, w);
   float L =  (scene->cam->width / 2) / tan(scene->cam->fov / 2);
-  printf("%f\n", L);
 
   struct vector3 c = vector3_add(scene->cam->pos, vector3_scale(L, w));
 
@@ -55,34 +51,40 @@ void set_scene(struct scene *scene)
       int index_obj = -1;
       int index_t = -1;
       float distance = 0;
-      //struct vector3 v = d;
+      struct vector3 inters = d;
       for (int i = 0; i < scene->obj_count; ++i)
       {
         for (int j = 0; j < scene->objects[i]->v_size / 3; ++j)
         {
-          struct vector3 inters = d;
-          if (ray_triangle_intersection(scene->objects[i]->triangles[j], r, &inters))
+          if (ray_triangle_intersection(scene->objects[i]->triangles[j], r,
+                                        &inters))
           { 
             if (index_obj < 0 || distance > vector3_distance(r.origin, inters))
             {
               index_obj = i;
               index_t = j;
               distance = vector3_distance(r.origin, inters);
-              printf("%f\n", distance);
             }
           }
         } 
       }
       if (index_obj > -1)
       {
-        scene->pixels[m][n] = color_mult(scene->objects[index_obj]->m.ka,
+        struct color ak = color_mult(scene->objects[index_obj]->m.ka,
                                         scene->a_light->color);
         for (int l = 0; l < scene->d_size; ++l)
-            scene->pixels[m][n] = color_add(scene->pixels[m][n],
-                            apply_directional(scene, index_obj, l, index_t));
+        {
+            ak = color_add(ak, apply_directional(scene, index_obj, l, index_t));
+        }
+        for (int l = 0; l < scene->p_size; ++l)
+        {
+            ak = color_add(ak, apply_point(scene, index_obj, l, index_t,
+                            vector3_distance(scene->p_lights[l]->pos, inters),
+                            vector3_from_points(scene->p_lights[l]->pos,
+                                                inters)));
+        }
+        scene->pixels[m][n] = ak;
       }
-      if (distance)
-        printf("\n");
     }
   }
 }
