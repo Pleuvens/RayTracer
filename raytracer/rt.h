@@ -154,7 +154,7 @@ struct vector3 intersec_find(struct vector3 AB, struct vector3 AC,
                              struct vector3 AP, struct vector3 intersect);
 
 int ray_triangle_intersection(struct triangle triangle,
-                              struct ray ray);
+                              struct ray ray, struct vector3 *p);
 
 struct color color_add(struct color c1, struct color c2);
 
@@ -171,5 +171,7 @@ struct color apply_directional(struct scene *scene, int i, int k, int index);
 struct vector3 surface_normal(struct triangle t);
 
 int color_scale(float c);
+
+struct color color_clamp(struct color c);
 
 #endif /* !RT_H */

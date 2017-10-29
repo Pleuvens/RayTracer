@@ -115,7 +115,7 @@ int ray_triangle_intersection(struct triangle triangle, struct ray ray)
 }
 */
 
-int ray_triangle_intersection(struct triangle triangle, struct ray ray)
+int ray_triangle_intersection(struct triangle triangle, struct ray ray, struct vector3 *p)
 {
   const float epsilon = 0.0000001;
   struct vector3 v0 = triangle.A;
@@ -140,5 +140,10 @@ int ray_triangle_intersection(struct triangle triangle, struct ray ray)
   if (v < 0.0 || u + v > 1.0)
     return 0;
   float t = f * vector3_dot_product(e2, q);
-  return t > epsilon;
+  if (t > epsilon)
+  {
+    *p = vector3_add(ray.origin, (vector3_scale(2 * t, vector3_normalize(ray.direction))));
+    return 1;
+  }
+  return 0;
 }

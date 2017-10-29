@@ -47,29 +47,41 @@ void set_scene(struct scene *scene)
       int m = y + scene->cam->height / 2;  
       int n = x + scene->cam->width / 2;
       scene->rays[m * scene->r_width + n] = r;
-      int found = 0;
       struct color col;
       col.r = 0;
       col.g = 0;
       col.b = 0;
       scene->pixels[m][n] = col;
-      for (int i = 0; !found && i < scene->obj_count; ++i)
+      int index_obj = -1;
+      int index_t = -1;
+      float distance = 0;
+      //struct vector3 v = d;
+      for (int i = 0; i < scene->obj_count; ++i)
       {
-        for (int j = 0; !found && j < scene->objects[i]->v_size / 3; ++j)
+        for (int j = 0; j < scene->objects[i]->v_size / 3; ++j)
         {
-          
-          if (ray_triangle_intersection(scene->objects[i]->triangles[j], r))
-          {
-            scene->pixels[m][n] = color_add(scene->objects[i]->m.ka,
-                                           scene->a_light->color);
-            for (int l = 0; l < scene->d_size; ++l)
-              scene->pixels[m][n] = color_add(scene->pixels[m][n], apply_directional(scene, i, l, j));
-            found = 1;
+          struct vector3 inters = d;
+          if (ray_triangle_intersection(scene->objects[i]->triangles[j], r, &inters))
+          { 
+            if (index_obj < 0 || distance > vector3_distance(r.origin, inters))
+            {
+              index_obj = i;
+              index_t = j;
+              distance = vector3_distance(r.origin, inters);
+              printf("%f\n", distance);
+            }
           }
-          else
-            scene->pixels[m][n] = col;
         } 
-     }
+      }
+      if (index_obj > -1)
+      {
+        scene->pixels[m][n] = color_mult(scene->objects[index_obj]->m.ka,
+                                        scene->a_light->color);
+        for (int l = 0; l < scene->d_size; ++l)
+            scene->pixels[m][n] = apply_directional(scene, index_obj, l, index_t);
+      }  
+      if (distance)
+        printf("\n");
     }
   }
 }
