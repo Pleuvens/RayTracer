@@ -15,8 +15,6 @@ int parse_light(FILE *f, char *s, struct scene *scene)
     scene->a_light->pos.x = 0;
     scene->a_light->pos.y = 0;
     scene->a_light->pos.z = 0;
-    printf("%s %f %f %f\n", s, scene->a_light->color.r, scene->a_light->color.g,
-                               scene->a_light->color.b);
   }
   else if (*s == 'd')
   {
@@ -30,8 +28,6 @@ int parse_light(FILE *f, char *s, struct scene *scene)
     new->light = DIRECTIONAL;
     fscanf(f, "%f %f %f %f %f %f", &(new->color.r), &(new->color.g),
            &(new->color.b), &(new->pos.x), &(new->pos.y), &(new->pos.z));
-    printf("%s %f %f %f %f %f %f\n", s, new->color.r, new->color.g,
-    new->color.b, new->pos.x, new->pos.y, new->pos.z);
     scene->d_lights[scene->d_size++] = new;
   }
   else
@@ -46,8 +42,6 @@ int parse_light(FILE *f, char *s, struct scene *scene)
     new->light = POINT;
     fscanf(f, "%f %f %f %f %f %f", &(new->color.r), &(new->color.g),
     &(new->color.b), &(new->pos.x), &(new->pos.y), &(new->pos.z));
-    printf("%s %f %f %f %f %f %f\n", s, new->color.r, new->color.g,
-           new->color.b, new->pos.x, new->pos.y, new->pos.z);
     scene->p_lights[scene->p_size++] = new;
   }
   return 1;

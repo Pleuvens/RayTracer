@@ -6,12 +6,7 @@ struct vector3 surface_normal(struct triangle t)
                                             vector3_add(t.C, vector3_scale(-1, t.A)));
   return vector3_normalize(sn);
 }
-/*
-int is_obj_point(struct scene *scene, struct ray ray, int i, int *t)
-{ 
-}
 
-*/
 void set_scene(struct scene *scene)
 {
   scene->cam->u = vector3_normalize(scene->cam->u);
@@ -19,7 +14,6 @@ void set_scene(struct scene *scene)
   struct vector3 w = vector3_cross_product(scene->cam->u, scene->cam->v);
   w = vector3_scale(-1, w);
   float L =  (scene->cam->width / 2) / tan(scene->cam->fov / 2);
-  printf("%f\n", L);
 
   struct vector3 c = vector3_add(scene->cam->pos, vector3_scale(L, w));
 
@@ -55,7 +49,6 @@ void set_scene(struct scene *scene)
       int index_obj = -1;
       int index_t = -1;
       float distance = 0;
-      //struct vector3 v = d;
       struct vector3 inters = d;
       for (int i = 0; i < scene->obj_count; ++i)
       {
@@ -68,7 +61,6 @@ void set_scene(struct scene *scene)
               index_obj = i;
               index_t = j;
               distance = vector3_distance(r.origin, inters);
-              printf("%f\n", distance);
             }
           }
         } 
@@ -89,8 +81,6 @@ void set_scene(struct scene *scene)
         }
         scene->pixels[m][n] = ak;
       }
-      if (distance)
-        printf("\n");
     }
   }
 }

@@ -32,6 +32,7 @@ void delete_scene(struct scene *scene)
     {
       free(scene->objects[i]->v);
       free(scene->objects[i]->vn);
+      free(scene->objects[i]->triangles);
       free(scene->objects[i]);
     }
   }
@@ -51,6 +52,14 @@ void delete_scene(struct scene *scene)
       free(scene->d_lights[i]);
   if (scene->d_lights)
     free(scene->d_lights);
+
+  for (int i = 0; i < scene->r_height; ++i)
+    if (scene->pixels[i])
+      free(scene->pixels[i]);
+  if (scene->pixels)
+    free(scene->pixels);
+  if (scene->rays)
+    free(scene->rays);
   free(scene);
 }
 

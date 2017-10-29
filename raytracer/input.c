@@ -5,10 +5,7 @@
 int parse_selector(FILE *f, char *s, struct scene *scene)
 {
   if (my_strncmp(s, "camera", 6))
-  {
-    printf("%s ", s);
     return parse_camera(f, scene);
-  }
   if (my_strncmp(s, "a_light", 7) 
       || my_strncmp(s, "d_light", 7)
       || my_strncmp(s, "p_light", 7))
