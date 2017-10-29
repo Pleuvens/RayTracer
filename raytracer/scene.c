@@ -78,8 +78,9 @@ void set_scene(struct scene *scene)
         scene->pixels[m][n] = color_mult(scene->objects[index_obj]->m.ka,
                                         scene->a_light->color);
         for (int l = 0; l < scene->d_size; ++l)
-            scene->pixels[m][n] = apply_directional(scene, index_obj, l, index_t);
-      }  
+            scene->pixels[m][n] = color_add(scene->pixels[m][n],
+                            apply_directional(scene, index_obj, l, index_t));
+      }
       if (distance)
         printf("\n");
     }
