@@ -1,0 +1,22 @@
+Projet: RayTracer
+
+The raytracing is a technique for rendering three-dimensional graphics,
+including many effects like lights, shadows, transparent surfaces etc.
+The objective is to determine the color of each light ray that strikes the
+screen.
+
+
+Our project computes basic and advance camera, object tracing to display objects
+on the image, ambient and directional lights.
+
+To test it, you have to put in parameter a file with the format .svati:
+"./rt <filename>.svati".
+It will generate a .ppm file that you can open with "feh <filename>.ppm".
+
+Makefile: 2 rules
+- all (the first one): produce the rt binary in the raytracer directory.
+- clean: delete everything produced by make
+
+Team:
+- Pleuvens Fervil
+- Romain Chevennement
