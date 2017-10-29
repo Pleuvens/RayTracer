@@ -15,5 +15,9 @@ Key: / -> done but need improvements
   [X] - Handle an advanced camera (variable base vectors u and v)
   [X] - Use the material
   [X] - Directional lights
-  [ ] - Point-like lights
-  [ ] - Shadows
+  [X] - Point-like lights
+  [->] - Shadows
+
+[ ] - STAGE 2:
+
+  [->] Smooth normals

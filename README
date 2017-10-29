@@ -7,7 +7,8 @@ screen.
 
 
 Our project computes basic and advance camera, object tracing to display objects
-on the image, ambient and directional lights.
+on the image, ambient and directional lights. Shadowds were not good so we
+decided to remove them.
 
 To test it, you have to put in parameter a file with the format .svati:
 "./rt <filename>.svati".
