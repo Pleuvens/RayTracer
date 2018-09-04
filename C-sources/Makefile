@@ -1,5 +1,5 @@
-CC=gcc
-CFLAGS= -g3 -lm -std=c99 -Wall -Wextra -Werror -pedantic -D_GNU_SOURCE
+CC=clang
+CFLAGS= -g3 -std=c99 -Wall -Wextra -Werror -pedantic -D_GNU_SOURCE
 
 VPATH=raytracer:../
 
