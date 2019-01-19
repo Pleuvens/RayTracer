@@ -5,18 +5,19 @@ class Vector3
     public:
         Vector3(float x_, float y_, float z_);
         
+        static inline Vector3 fromPoints(const Vector3& p1, const Vector3& p2) {return Vector3(p2.x - p1.x, p2.y - p1.y, p2.z - p1.z);}
+
         float getX() const;
         float getY() const;
         float getZ() const;
 
-        void setX(float value);
-        void setY(float value);
-        void setZ(float value);
+        void setX(const float& value);
+        void setY(const float& value);
+        void setZ(const float& value);
 
         void inverse();
         void normalize();
-        float distance(Vector3 const& b);
-        Vector3 fromPoints(Vector3 const& p1, Vector3 const& p2);
+        float distance(const Vector3& b);
 
         Vector3 operator+(const Vector3& b);
         Vector3 operator+=(const Vector3& b);
@@ -24,8 +25,8 @@ class Vector3
         Vector3 operator-=(const Vector3& b);
         Vector3 operator*(const Vector3& b);
         Vector3 operator*=(const Vector3& b);
-        Vector3 operator*(float lambda);
-        Vector3 operator*=(float lambda);
+        Vector3 operator*(const float& lambda);
+        Vector3 operator*=(const float& lambda);
 
     protected:
         float x;

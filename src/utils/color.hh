@@ -5,26 +5,26 @@ class Color
     public:
         Color(float r_, float v_, float b_);
 
-        float getR();
-        float getV();
-        float getB();
+        static float scale(float c);
 
-        void setR(float r_);
-        void setV(float v_);
-        void setB(float b_);
+        float getR() const;
+        float getV() const;
+        float getB() const;
 
-        void clamp();
-        int scale(float c);
+        void setR(const float& r_);
+        void setV(const float& v_);
+        void setB(const float& b_);
 
-        Color operator+(Color const& a, Color const& b);
-        void operator+=(Color const& b);
-        Color operator-(Color const& a, Color const& b);
-        void operator-=(Color const& b);
-        Color operator*(Color const& a, Color const& b);
-        void operator*=(Color const& b);
-        Color operator*(Color const& c, float lambda);
-        Color operator*(float lambda, Color const& c);
-        void operator*=(float lambda);
+        Color& clamp();
+
+        Color operator+(const Color& c);
+        Color operator+=(const Color& c);
+        Color operator-(const Color& c);
+        Color operator-=(const Color& c);
+        Color operator*(const Color& c);
+        Color operator*(const float& lambda);
+        Color operator*=(const Color& c);
+        Color operator*=(const float& lambda);
 
     protected:
         float r;

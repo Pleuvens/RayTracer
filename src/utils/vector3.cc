@@ -24,17 +24,17 @@ float Vector3::getZ() const
     return z;
 }
 
-void Vector3::setX(float value)
+void Vector3::setX(const float& value)
 {
     x = value;
 }
 
-void Vector3::setY(float value)
+void Vector3::setY(const float& value)
 {
     y = value;
 }
 
-void Vector3::setZ(float value)
+void Vector3::setZ(const float& value)
 {
     z = value;
 }
@@ -59,11 +59,6 @@ void Vector3::normalize()
 float Vector3::distance(Vector3 const& b)
 {
     return sqrt(pow(b.x - x, 2) + pow(b.y - y, 2) + pow(b.z - z, 2)); 
-}
-
-Vector3 Vector3::fromPoints(Vector3 const& p1, Vector3 const& p2)
-{
-    return Vector3(p2.x - p1.x, p2.y - p1.y, p2.z - p1.z);
 }
 
 Vector3 Vector3::operator+(const Vector3& b)
@@ -108,12 +103,12 @@ Vector3 Vector3::operator*=(const Vector3& b)
     return *this;
 }
 
-Vector3 Vector3::operator*(float lambda)
+Vector3 Vector3::operator*(const float& lambda)
 {
     return Vector3(lambda * x, lambda * y, lambda * z);
 }
 
-Vector3 Vector3::operator*=(float lambda)
+Vector3 Vector3::operator*=(const float& lambda)
 {
     x *= lambda;
     y *= lambda;
