@@ -13,12 +13,13 @@
 class Scene
 {
     public:
+        Scene();
         Scene(Camera cam_, int objcount,
-        std::vector<Object> objects,
+        std::vector<Object> objects_,
         std::vector<AmbientLight> alight,
         std::vector<PointLight> plights,
         int psize, std::vector<DirectionalLight> dlights,
-        int dsize, std::vector<Ray> rays, int rwidth, int rheight);
+        int dsize, std::vector<Ray> rays_, int rwidth, int rheight);
 
         void setScene();
 
