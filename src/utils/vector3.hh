@@ -5,9 +5,9 @@ class Vector3
     public:
         Vector3(float x_, float y_, float z_);
         
-        float getX();
-        float getY();
-        float getZ();
+        float getX() const;
+        float getY() const;
+        float getZ() const;
 
         void setX(float value);
         void setY(float value);
@@ -18,21 +18,14 @@ class Vector3
         float distance(Vector3 const& b);
         Vector3 fromPoints(Vector3 const& p1, Vector3 const& p2);
 
-        /*
-        Vector3 operator+(float d, Vector3 const& v);
-        Vector3 operator+(Vector3 const& v, float d);
-        Vector3 operator-(Vector3 const& v, float d);
-        Vector3 operator+(float d, Vector3 const& v);
-        */
-
-        Vector3 operator+(Vector3 const& a, Vector3 const& b);
-        Vector3 operator+=(Vector3 const& b);
-        Vector3 operator-(Vector3 const& a, Vector3 const& b);
-        Vector3 operator-=(Vector3 const& b);
-        Vector3 operator*(Vector3 const& a, Vector3 const& b);
-        Vector3 operator*=(Vector3 const& b);
-        Vector3 operator*(float lambda, Vector3 const& v);
-        Vector3 operator*(Vector3 const& v, float lambda);
+        Vector3 operator+(const Vector3& b);
+        Vector3 operator+=(const Vector3& b);
+        Vector3 operator-(const Vector3& b);
+        Vector3 operator-=(const Vector3& b);
+        Vector3 operator*(const Vector3& b);
+        Vector3 operator*=(const Vector3& b);
+        Vector3 operator*(float lambda);
+        Vector3 operator*=(float lambda);
 
     protected:
         float x;
