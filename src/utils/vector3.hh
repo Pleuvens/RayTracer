@@ -3,6 +3,7 @@
 class Vector3 
 {
     public:
+        Vector3();
         Vector3(float x_, float y_, float z_);
         
         static inline Vector3 fromPoints(const Vector3& p1, const Vector3& p2) {return Vector3(p2.x - p1.x, p2.y - p1.y, p2.z - p1.z);}

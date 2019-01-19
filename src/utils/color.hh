@@ -3,6 +3,7 @@
 class Color
 {
     public:
+        Color();
         Color(float r_, float v_, float b_);
 
         static float scale(float c);
