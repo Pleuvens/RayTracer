@@ -5,6 +5,7 @@
 class Camera 
 {
     public:
+        Camera();
         Camera(int width_, int height_,
         Vector3 pos_, Vector3 u_, Vector3 v_, float fov_);
 
