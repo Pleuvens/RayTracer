@@ -9,6 +9,11 @@ Vector3::Vector3(float x_, float y_, float z_)
     z = z_;
 }
 
+float Vector3::dotProduct(const Vector3& u, const Vector3& v)
+{
+    return u.x * v.x + u.y * v.y + u.z * v.z;
+}
+
 float Vector3::getX() const
 {
     return x;
@@ -44,7 +49,7 @@ Vector3 Vector3::inverse()
     return Vector3(1 / x, 1 / y, 1 / z);
 }
 
-void Vector3::normalize()
+Vector3 Vector3::normalize()
 {
     float nx = x / sqrt(pow(x,2) + pow(y,2) + pow(z,2));
     float ny = y / sqrt(pow(x,2) + pow(y,2) + pow(z,2));
@@ -52,6 +57,7 @@ void Vector3::normalize()
     x = nx;
     y = ny;
     z = nz;
+    return *this;
 }
 
 float Vector3::distance(Vector3 const& b)
