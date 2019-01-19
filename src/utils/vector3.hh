@@ -16,7 +16,7 @@ class Vector3
         void setY(const float& value);
         void setZ(const float& value);
 
-        void inverse();
+        Vector3 inverse();
         void normalize();
         float distance(const Vector3& b);
 

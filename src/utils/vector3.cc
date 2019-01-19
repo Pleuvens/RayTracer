@@ -39,11 +39,9 @@ void Vector3::setZ(const float& value)
     z = value;
 }
 
-void Vector3::inverse()
+Vector3 Vector3::inverse()
 {
-    x = 1 / x;
-    y = 1 / y;
-    z = 1 / z;
+    return Vector3(1 / x, 1 / y, 1 / z);
 }
 
 void Vector3::normalize()
