@@ -6,13 +6,14 @@
 class Light
 {
     public:
+        Light();
         Light(Color color_, Vector3 pos_);
 
-        Color getColor();
-        Vector3 getPos();
+        Color getColor() const;
+        Vector3 getPos() const;
 
-        void setColor(Color color_);
-        void setPos(Vector3 pos_);
+        void setColor(const Color& color_);
+        void setPos(const Vector3& pos_);
 
         virtual void apply() = 0;
 
