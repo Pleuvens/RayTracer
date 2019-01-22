@@ -1,83 +1,83 @@
 #include "material.hh"
 
-Material::Material(Color ka_, Color kd_, Color ks_, 
-        float ns_, float ni_, float nr_, float d_)
+Material::Material(Color ambient_reflectivity_, Color diffuse_reflectivity_, Color specular_reflectivity_, 
+        float specular_exponent_, float optical_density_, float reflection_coefficient_, float dissolve_)
 {
-    ka = ka_;
-    kd = kd_;
-    ks = ks_;
-    ns = ns_;
-    ni = ni_;
-    nr = nr_;
-    d = d_;
+    ambient_reflectivity = ambient_reflectivity_;
+    diffuse_reflectivity = diffuse_reflectivity_;
+    specular_reflectivity = specular_reflectivity_;
+    specular_exponent = specular_exponent_;
+    optical_density = optical_density_;
+    reflection_coefficient = reflection_coefficient_;
+    dissolve = dissolve_;
 }
 
-Color Material::getKa() const
+Color Material::getAmbientReflectivity() const
 {
-    return ka;
+    return ambient_reflectivity;
 }
 
-Color Material::getKd() const
+Color Material::getDiffuseReflectivity() const
 {
-    return kd;
+    return diffuse_reflectivity;
 }
 
-Color Material::getKs() const
+Color Material::getSpecularReflectivity() const
 {
-    return ks;
+    return specular_reflectivity;
 }
 
-float Material::getNs() const
+float Material::getSpecularExponent() const
 {
-    return ns;
+    return specular_exponent;
 }
 
-float Material::getNi() const
+float Material::getOpticalDensity() const
 {
-    return ni;
+    return optical_density;
 }
 
-float Material::getNr() const
+float Material::getReflectionCoefficient() const
 {
-    return nr;
+    return reflection_coefficient;
 }
 
-float Material::getD() const
+float Material::getDissolve() const
 {
-    return d;
+    return dissolve;
 }
 
-void Material::setKa(const Color& ka_)
+void Material::setAmbientReflectivity(const Color& ambient_reflectivity_)
 {
-    ka = ka_;
+    ambient_reflectivity = ambient_reflectivity_;
 }
 
-void Material::setKd(const Color& kd_)
+void Material::setDiffuseReflectivity(const Color& diffuse_reflectivity_)
 {
-    kd = kd_;
+    diffuse_reflectivity = diffuse_reflectivity_;
 }
 
-void Material::setKs(const Color& ks_)
+void Material::setSpecularReflectivity(const Color& specular_reflectivity_)
 {
-    ks = ks_;
+    specular_reflectivity = specular_reflectivity_;
 }
 
-void Material::setNs(const float& ns_)
+void Material::setSpecularExponent(const float& specular_exponent_)
 {
-    ns = ns_;
+    specular_exponent = specular_exponent_;
 }
 
-void Material::setNi(const float& ni_)
+void Material::setOpticalDensity(const float& optical_density_)
 {
-    ni = ni_;
+    optical_density = optical_density_;
 }
 
-void Material::setNr(const float& nr_)
+void Material::setReflectionCoefficient(const float& reflection_coefficient_)
 {
-    nr = nr_;
+    reflection_coefficient = reflection_coefficient_;
 }
 
-void Material::setD(const float& d_)
+void Material::setDissolve(const float& dissolve_)
 {
-    d = d_;
+    dissolve = dissolve_;
 }

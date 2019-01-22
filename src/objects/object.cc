@@ -1,13 +1,13 @@
 #include "object.hh"
 
 Object::Object(int vsize, int vnsize, Material m_,
-        std::vector<Vector3> v_, std::vector<Vector3> vn_,
+        std::vector<Vector3> vertex_, std::vector<Vector3> vertex_normal_,
         std::vector<Triangle> triangles_, Color color_, Material material_)
 {
     v_size = vsize;
     vn_size = vnsize;
-    v = v_;
-    vn = vn_;
+    vertex = vertex_;
+    vertex_normal = vertex_normal_;
     triangles = triangles_;
     color = color_;
     material = material_;
@@ -23,14 +23,14 @@ int Object::getVnSize() const
     return vn_size;
 }
 
-std::vector<Vector3> Object::getV() const
+std::vector<Vector3> Object::getVertex() const
 {
-    return v;
+    return vertex;
 }
 
-std::vector<Vector3> Object::getVn() const
+std::vector<Vector3> Object::getVertexNormal() const
 {
-    return vn;
+    return vertex_normal;
 }
 
 std::vector<Triangle> Object::getTriangles() const
@@ -58,14 +58,14 @@ void Object::setVnSize(const int& vnsize)
     vn_size = vnsize;
 }
 
-void Object::setV(const std::vector<Vector3>& v_)
+void Object::setVertex(const std::vector<Vector3>& vertex_)
 {
-    v = v_;
+    vertex = vertex_;
 }
 
-void Object::setVn(const std::vector<Vector3>& vn_)
+void Object::setVertexNormal(const std::vector<Vector3>& vertex_normal_)
 {
-    vn = vn_;
+    vertex_normal = vertex_normal_;
 }
 
 void Object::setTriangles(const std::vector<Triangle>& triangles_)

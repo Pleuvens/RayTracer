@@ -14,6 +14,11 @@ float Vector3::dotProduct(const Vector3& u, const Vector3& v)
     return u.x * v.x + u.y * v.y + u.z * v.z;
 }
 
+float Vector3::distance(const Vector3& u, const Vector3& v)
+{
+    return sqrt(pow(v.x - u.x, 2) + pow(v.y - u.y, 2) + pow(u.z - v.z, 2)); 
+}
+
 float Vector3::getX() const
 {
     return x;
@@ -58,11 +63,6 @@ Vector3 Vector3::normalize()
     y = ny;
     z = nz;
     return *this;
-}
-
-float Vector3::distance(Vector3 const& b)
-{
-    return sqrt(pow(b.x - x, 2) + pow(b.y - y, 2) + pow(b.z - z, 2)); 
 }
 
 Vector3 Vector3::operator+(const Vector3& b)

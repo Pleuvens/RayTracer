@@ -2,11 +2,11 @@
 
 #include "light.hh"
 
-class AmbientLight : Light
+class AmbientLight : public Light
 {
     public:
         AmbientLight();
         AmbientLight(Color color_, Vector3 pos_);
 
-        void apply() override;
+        void apply();
 };

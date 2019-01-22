@@ -1,14 +1,14 @@
 #include "triangle.hh"
 
 Triangle::Triangle(Vector3 A_, Vector3 B_, Vector3 C_,
-        Vector3 nA_, Vector3 nB_, Vector3 nC_)
+        Vector3 normalA_, Vector3 normalB_, Vector3 normalC_)
 {
     A = A_;
     B = B_;
     C = C_;
-    nA = nA_;
-    nB = nB_;
-    nC = nC_;
+    normalA = normalA_;
+    normalB = normalB_;
+    normalC = normalC_;
 }
 
 Vector3 Triangle::getA() const
@@ -26,19 +26,19 @@ Vector3 Triangle::getC() const
     return C;
 }
 
-Vector3 Triangle::getNA() const
+Vector3 Triangle::getNormalA() const
 {
-    return nA;
+    return normalA;
 }
 
-Vector3 Triangle::getNB() const
+Vector3 Triangle::getNormalB() const
 {
-    return nB;
+    return normalB;
 }
 
-Vector3 Triangle::getNC() const
+Vector3 Triangle::getNormalC() const
 {
-    return nC;
+    return normalC;
 }
 
 void Triangle::setA(const Vector3& A_)
@@ -56,19 +56,19 @@ void Triangle::setC(const Vector3& C_)
     C = C_;
 }
 
-void Triangle::setNA(const Vector3& nA_)
+void Triangle::setNormalA(const Vector3& normalA_)
 {
-    nA = nA_;
+    normalA = normalA_;
 }
 
-void Triangle::setNB(const Vector3& nB_)
+void Triangle::setNormalB(const Vector3& normalB_)
 {
-    nB = nB_;
+    normalB = normalB_;
 }
 
-void Triangle::setNC(const Vector3& nC_)
+void Triangle::setNormalC(const Vector3& normalC_)
 {
-    nC = nC_;
+    normalC = normalC_;
 }
 
 Vector3 Triangle::surfaceNormal()

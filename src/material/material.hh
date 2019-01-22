@@ -6,32 +6,32 @@ class Material
 {
     public:
         Material();
-        Material(Color ka_, Color kd_, Color ks_, 
-        float ns_, float ni_, float nr_, float d_);
+        Material(Color ambient_reflectivity_, Color diffuse_reflectivity_, Color specular_reflectivity_, 
+        float specular_exponent_, float optical_density_, float reflection_coefficient_, float dissolve_);
 
-        Color getKa() const;
-        Color getKd() const;
-        Color getKs() const;
-        float getNs() const;
-        float getNi() const;
-        float getNr() const;
-        float getD() const;
+        Color getAmbientReflectivity() const;
+        Color getDiffuseReflectivity() const;
+        Color getSpecularReflectivity() const;
+        float getSpecularExponent() const;
+        float getOpticalDensity() const;
+        float getReflectionCoefficient() const;
+        float getDissolve() const;
 
-        void setKa(const Color& ka_);
-        void setKd(const Color& kd_);
-        void setKs(const Color& ks_);
-        void setNs(const float& ns_);
-        void setNi(const float& ni_);
-        void setNr(const float& nr_);
-        void setD(const float& d_);
+        void setAmbientReflectivity(const Color& ambient_reflectivity_);
+        void setDiffuseReflectivity(const Color& diffuse_reflectivity_);
+        void setSpecularReflectivity(const Color& specular_reflectivity_);
+        void setSpecularExponent(const float& specular_exponent_);
+        void setOpticalDensity(const float& optical_density_);
+        void setReflectionCoefficient(const float& reflection_coefficient_);
+        void setDissolve(const float& dissolve_);
 
     protected:
-        Color ka;
-        Color kd;
-        Color ks;
+        Color ambient_reflectivity; // ka
+        Color diffuse_reflectivity; // kd
+        Color specular_reflectivity; // ks
 
-        float ns;
-        float ni;
-        float nr;
-        float d;
+        float specular_exponent; // ns
+        float optical_density; // ni
+        float reflection_coefficient; // nr
+        float dissolve;  // d
 };

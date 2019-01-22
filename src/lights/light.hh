@@ -15,8 +15,6 @@ class Light
         void setColor(const Color& color_);
         void setPos(const Vector3& pos_);
 
-        virtual void apply() = 0;
-
     protected:
         Color color;
         Vector3 pos;
