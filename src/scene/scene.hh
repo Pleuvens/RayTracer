@@ -14,13 +14,19 @@ class Scene
 {
     public:
         Scene();
-        Scene(Camera cam_, int objcount,
+        Scene(Camera cam_,
         std::vector<Object> objects_,
         AmbientLight alight,
         std::vector<PointLight> plights,
         std::vector<DirectionalLight> dlights);
 
+        inline void setCamera(const Camera& camera_) { camera = camera_; }
+        void setLight(const AmbientLight& ambient, const std::vector<PointLight>& points, const std::vector<DirectionalLight>& directionals);
+        void setPrimitives(const std::vector<Object> objs);
+
         void setScene();
+
+        void setOutput();
 
     protected:
         Camera camera;

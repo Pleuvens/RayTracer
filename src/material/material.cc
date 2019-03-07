@@ -1,5 +1,8 @@
 #include "material.hh"
 
+Material::Material()
+{}
+
 Material::Material(Color ambient_reflectivity_, Color diffuse_reflectivity_, Color specular_reflectivity_, 
         float specular_exponent_, float optical_density_, float reflection_coefficient_, float dissolve_)
 {

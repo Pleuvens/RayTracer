@@ -1,5 +1,8 @@
 #include "light.hh"
 
+Light::Light()
+{}
+
 Light::Light(Color color_, Vector3 pos_)
 {
     color = color_;

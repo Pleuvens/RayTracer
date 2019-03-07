@@ -1,5 +1,8 @@
 #include "ambient_light.hh"
 
+AmbientLight::AmbientLight()
+{}
+
 AmbientLight::AmbientLight(Color color_, Vector3 pos_)
     : Light(color_, pos_)
 {}

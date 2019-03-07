@@ -19,3 +19,13 @@ Color PointLight::apply(Object object, int triangle_index, float distance)
 
     return diffuse * light_direction;
 }
+
+Vector3 PointLight::getDirection()
+{
+    return direction;
+}
+
+void PointLight::setDirection(const Vector3& direction_)
+{
+    direction = direction_;
+}

@@ -1,6 +1,9 @@
 #include "object.hh"
 
-Object::Object(int vsize, int vnsize, Material m_,
+Object::Object()
+{}
+
+Object::Object(int vsize, int vnsize,
         std::vector<Vector3> vertex_, std::vector<Vector3> vertex_normal_,
         std::vector<Triangle> triangles_, Color color_, Material material_)
 {

@@ -1,5 +1,8 @@
 #include "triangle.hh"
 
+Triangle::Triangle()
+{}
+
 Triangle::Triangle(Vector3 A_, Vector3 B_, Vector3 C_,
         Vector3 normalA_, Vector3 normalB_, Vector3 normalC_)
 {
@@ -73,5 +76,5 @@ void Triangle::setNormalC(const Vector3& normalC_)
 
 Vector3 Triangle::surfaceNormal()
 {
-    Vector3 normal = (B + A.inverse()) * (C + A.inverse());
+    return (B + A.inverse()) * (C + A.inverse());
 }

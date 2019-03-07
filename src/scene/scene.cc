@@ -1,8 +1,13 @@
 #include <cmath>
+#include <fstream>
+#include <iomanip>
 
 #include "scene.hh"
 
-Scene::Scene(Camera cam_, int objcount,
+Scene::Scene()
+{}
+
+Scene::Scene(Camera cam_,
         std::vector<Object> objects_,
         AmbientLight alight,
         std::vector<PointLight> plights,
@@ -13,6 +18,38 @@ Scene::Scene(Camera cam_, int objcount,
     a_light = alight;
     p_lights = plights;
     d_lights = dlights;
+}
+
+void Scene::setLight(const AmbientLight& ambient, const std::vector<PointLight>& points, const std::vector<DirectionalLight>& directionals)
+{
+    a_light = ambient;
+    p_lights = points;
+    d_lights = directionals;
+}
+
+void Scene::setPrimitives(const std::vector<Object> objs)
+{
+    objects = objs;
+}
+
+void Scene::setOutput()
+{
+    std::ofstream out("tmp.ppm");
+    out << "P3" << std::endl;
+    out << camera.getWidth() << " " << camera.getHeight() << std::endl;
+    out << "255" << std::endl;
+    for(int y = 0; y < camera.getHeight(); y++)
+    {
+        Color pixel = pixels[y * camera.getWidth()];
+        out << std::setw(3) << pixel.getR() << std::setw(4) << pixel.getV() << std::setw(4) << pixel.getB();
+        for(int x = 1; x < camera.getWidth(); x++)
+        {
+            pixel = pixels[y * camera.getWidth() + x];
+            out << std::setw(4) << pixel.getR() << std::setw(4) << pixel.getV() << std::setw(4) << pixel.getB();
+        }
+        out << std::endl;   
+    }
+    out.close();
 }
 
 void Scene::setScene()
@@ -56,7 +93,7 @@ void Scene::setScene()
             {
                 for (int j = 0; j < objects[i].getVSize() / 3; j++)
                 {
-                    if (r.triangleIntersection(objects[i].getTriangles[j], inters))
+                    if (r.triangleIntersection(objects[i].getTriangles()[j], inters))
                     {
                         if (index_obj < 0 || distance > Vector3::distance(r.getOrigin(), inters))
                         {
@@ -71,12 +108,12 @@ void Scene::setScene()
             if (index_obj > -1)
             {
                 Color ak = objects[index_obj].getMaterial().getAmbientReflectivity() * a_light.getColor();
-                for (int l = 0; l < d_lights.size(); l++)
+                for (unsigned long l = 0; l < d_lights.size(); l++)
                 {
                     ak += d_lights[l].apply(objects[index_obj], index_tt);
                 }
 
-                for (int l = 0; l < p_lights.size(); l++)
+                for (unsigned long l = 0; l < p_lights.size(); l++)
                 {
                     p_lights[l].setDirection(Vector3::fromPoints(p_lights[l].getPos(),inters));
                     ak += p_lights[l].apply(objects[index_obj], index_tt, Vector3::distance(p_lights[l].getPos(), inters));
@@ -85,4 +122,5 @@ void Scene::setScene()
             }
         }
     }
+    setOutput();
 }

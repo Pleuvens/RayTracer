@@ -6,7 +6,7 @@ class Color
         Color();
         Color(float r_, float v_, float b_);
 
-        static float scale(float c);
+        //static float scale(float c);
 
         float getR() const;
         float getV() const;
