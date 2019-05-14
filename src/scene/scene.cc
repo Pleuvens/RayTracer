@@ -1,6 +1,7 @@
 #include <cmath>
 #include <fstream>
 #include <iomanip>
+#include <iostream>
 
 #include "scene.hh"
 
@@ -95,6 +96,7 @@ void Scene::setScene()
                 {
                     if (r.triangleIntersection(objects[i].getTriangles()[j], inters))
                     {
+                        std::cout << "flag 1" << std::endl;
                         if (index_obj < 0 || distance > Vector3::distance(r.getOrigin(), inters))
                         {
                             index_obj = i;
@@ -107,6 +109,7 @@ void Scene::setScene()
 
             if (index_obj > -1)
             {
+                std::cout << "cool" << std::endl;
                 Color ak = objects[index_obj].getMaterial().getAmbientReflectivity() * a_light.getColor();
                 for (unsigned long l = 0; l < d_lights.size(); l++)
                 {

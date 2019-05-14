@@ -9,8 +9,8 @@ input/parser.cc input/svati_parser.cc main.cc
 
 all: rt
 
-rt:
-		$(CC) $(CFLAGS) $(SRC) -o rt
-
 clean:
 		$(RM) -rf rt vgcore.* *.o
+
+rt:
+		$(CC) $(CFLAGS) $(SRC) -o rt

@@ -117,9 +117,11 @@ void SvatiParser::parsePrimitive(Scene& scene)
         o.setMaterial(m);
         o.setVertex(v);
         o.setVertexNormal(vn);
+        o.setTriangles();
         objects.push_back(o);
     }
     scene.setPrimitives(objects);
+    std::cout << objects.size() << std::endl;
 }
 
 Scene SvatiParser::parse()
