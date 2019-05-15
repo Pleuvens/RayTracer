@@ -91,13 +91,12 @@ void Scene::setScene()
             float distance = 0;
             Vector3 inters = d;
 
-            for (int i = 0; i < obj_count; ++i)
+            for (int i = 0; i < obj_count && index_obj < 0; ++i)
             {
-                for (int j = 0; j < objects[i].getVSize() / 3; j++)
+                for (int j = 0; j < objects[i].getVSize() / 3 && index_obj < 0; j++)
                 {
                     if (r.triangleIntersection(objects[i].getTriangles()[j], inters))
                     {
-                        std::cout << "flag 1" << std::endl;
                         if (index_obj < 0 || distance > Vector3::distance(r.getOrigin(), inters))
                         {
                             index_obj = i;
@@ -110,7 +109,6 @@ void Scene::setScene()
 
             if (index_obj > -1)
             {
-                std::cout << "cool" << std::endl;
                 Color ak = objects[index_obj].getMaterial().getAmbientReflectivity() * a_light.getColor();
                 for (unsigned long l = 0; l < d_lights.size(); l++)
                 {

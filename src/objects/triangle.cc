@@ -76,5 +76,5 @@ void Triangle::setNormalC(const Vector3& normalC_)
 
 Vector3 Triangle::surfaceNormal()
 {
-    return (B + A.inverse()) * (C + A.inverse());
+    return ((B + A * -1) * (C + A * -1)).normalize();
 }
