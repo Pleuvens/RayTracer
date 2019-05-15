@@ -4,7 +4,7 @@
 
 int main()
 {
-    SvatiParser parser = SvatiParser("../C-sources/tests/cube.svati");
+    SvatiParser parser = SvatiParser("../C-sources/tests/susan.svati");
     
     std::cout << "Parsing..." << std::endl;  
 

@@ -65,7 +65,7 @@ void SvatiParser::parsePrimitive(Scene& scene)
 
     std::vector<Object> objects;
 
-    for (int i = 0; i < nb_meshes; ++i)
+    while(1)
     {
         Object o = Object();
         if (!(infile >> name))
@@ -119,6 +119,8 @@ void SvatiParser::parsePrimitive(Scene& scene)
         o.setVertexNormal(vn);
         o.setTriangles();
         objects.push_back(o);
+        if (!(infile >> name))
+            break;
     }
     scene.setPrimitives(objects);
     std::cout << objects.size() << std::endl;
