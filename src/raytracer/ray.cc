@@ -39,7 +39,7 @@ bool Ray::triangleIntersection(Triangle triangle, Vector3 &p)
 
     float f = 1 / a;
 
-    Vector3 s = origin + triangle.getA().inverse();
+    Vector3 s = origin + triangle.getA() * -1;
     float u = f * Vector3::dotProduct(s, h);
 
     if (u < 0.0 || u > 1.0)
@@ -55,7 +55,7 @@ bool Ray::triangleIntersection(Triangle triangle, Vector3 &p)
 
     if (t > epsilon)
     {
-        p = origin + (direction.normalize() * (1 / t));
+        p = origin + (direction.normalize() * t);
         return true;
     }
 

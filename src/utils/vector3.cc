@@ -54,7 +54,10 @@ void Vector3::setZ(const float& value)
 
 Vector3 Vector3::inverse()
 {
-    return Vector3(1 / x, 1 / y, 1 / z);
+    float new_x = x == 0 ? 0 : 1 / x;
+    float new_y = y == 0 ? 0 : 1 / y;
+    float new_z = z == 0 ? 0 : 1 / z;
+    return Vector3(new_x, new_y, new_z);
 }
 
 Vector3 Vector3::normalize()

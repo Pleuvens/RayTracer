@@ -10,8 +10,7 @@ Color::Color(float r_, float v_, float b_)
     b = b_;
 }
 
-/*
-static float scale(float c)
+int Color::scale(float c)
 {
   c *= 255;
   if (c > 255)
@@ -20,7 +19,6 @@ static float scale(float c)
     return 0;
   return c;
 }
-*/
 
 float Color::getR() const
 {

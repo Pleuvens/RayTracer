@@ -31,6 +31,7 @@ void Scene::setLight(const AmbientLight& ambient, const std::vector<PointLight>&
 void Scene::setPrimitives(const std::vector<Object> objs)
 {
     objects = objs;
+    obj_count = objects.size();
 }
 
 void Scene::setOutput()
@@ -42,11 +43,11 @@ void Scene::setOutput()
     for(int y = 0; y < camera.getHeight(); y++)
     {
         Color pixel = pixels[y * camera.getWidth()];
-        out << std::setw(3) << pixel.getR() << std::setw(4) << pixel.getV() << std::setw(4) << pixel.getB();
+        out << std::setw(3) << Color::scale(pixel.getR()) << std::setw(4) << Color::scale(pixel.getV()) << std::setw(4) << Color::scale(pixel.getB());
         for(int x = 1; x < camera.getWidth(); x++)
         {
             pixel = pixels[y * camera.getWidth() + x];
-            out << std::setw(4) << pixel.getR() << std::setw(4) << pixel.getV() << std::setw(4) << pixel.getB();
+            out << std::setw(4) << Color::scale(pixel.getR()) << std::setw(4) << Color::scale(pixel.getV()) << std::setw(4) << Color::scale(pixel.getB());
         }
         out << std::endl;   
     }
@@ -60,7 +61,7 @@ void Scene::setScene()
 
     Vector3 w = camera.getU() * camera.getV();
 
-    w = w.inverse();
+    w = w * -1;
 
     float L = (camera.getWidth() / 2) / tan(camera.getFOV() / 2);
 
@@ -88,7 +89,7 @@ void Scene::setScene()
             int index_obj = -1;
             int index_tt = -1;
             float distance = 0;
-            Vector3 inters = Vector3::fromPoints(camera.getPos(), p);
+            Vector3 inters = d;
 
             for (int i = 0; i < obj_count; ++i)
             {
