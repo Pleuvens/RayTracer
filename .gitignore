@@ -6,3 +6,4 @@ rt
 *.dSYM
 *.ppm
 *.o
+build/
