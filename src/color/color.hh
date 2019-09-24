@@ -12,6 +12,14 @@ class Color {
         inline void setGreen(const float green) { _green = green; }
         inline void setBlue(const float blue) { _blue = blue; }
 
+        Color operator+(const Color& c);
+        Color operator+=(const Color& c);
+        Color operator-(const Color& c);
+        Color operator-=(const Color& c);
+        Color operator*(const Color& c);
+        Color operator*=(const Color& c);
+        float operator==(const Color& c) const;
+        float operator!=(const Color& c) const;
     private:
         float _red;
         float _green;

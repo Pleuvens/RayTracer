@@ -1,3 +1,4 @@
+#include <cmath>
 #include "color.hh"
 #include "constants.hh"
 #include "catch.hpp"
@@ -10,4 +11,73 @@ TEST_CASE("COLOR: constructor", "[multi-file:color]") {
     Color c = Color(-0.5, 0.4, 1.7);
     REQUIRE(((c.getRed() - 0.5) < EPSILON && (c.getGreen() - 0.4) < EPSILON
             && (c.getBlue() - 1.7) < EPSILON) == true);
+}
+
+Color Color::operator+(const Color& c)
+{
+    return Color(_red + c._red, _green + c._green, _blue + c._blue);
+}
+
+Color Color::operator+=(const Color& c)
+{
+    _red += c._red;
+    _green += c._green;
+    _blue += c._blue;
+    return *this;
+}
+
+TEST_CASE("COLOR: add colors", "[multi-file:color]") {
+    REQUIRE((Color(0.9, 0.6, 0.75) + Color(0.7, 0.1, 0.25)) == Color(1.6, 0.7, 1.0));
+    Color c = Color(0.9, 0.6, 0.75);
+    REQUIRE((c += Color(0.7, 0.1, 0.25)) == Color(1.6, 0.7, 1.0));
+}
+
+Color Color::operator-(const Color& c)
+{
+    return Color(_red - c._red, _green - c._green, _blue - c._blue);
+}
+
+Color Color::operator-=(const Color& c)
+{
+    _red -= c._red;
+    _green -= c._green;
+    _blue -= c._blue;
+    return *this;
+}
+
+TEST_CASE("COLOR: substract colors", "[multi-file:color]") {
+    REQUIRE((Color(0.9, 0.6, 0.75) - Color(0.7, 0.1, 0.25)) == Color(0.2, 0.5, 0.5));
+    Color c = Color(0.9, 0.6, 0.75);
+    REQUIRE((c -= Color(0.7, 0.1, 0.25)) == Color(0.2, 0.5, 0.5));
+}
+
+Color Color::operator*(const Color& c)
+{
+    return Color(_red * c._red, _green * c._green, _blue * c._blue);
+}
+
+Color Color::operator*=(const Color& c)
+{
+    _red *= c._red;
+    _green *= c._green;
+    _blue *= c._blue;
+    return *this;
+}
+
+TEST_CASE("COLOR: add colors", "[multi-file:color]") {
+    REQUIRE((Color(1, 0.2, 0.4) * Color(0.9, 1, 0.1)) == Color(0.9, 0.2, 0.04));
+    Color c = Color(1, 0.2, 0.4);
+    REQUIRE((c *= Color(0.9, 1, 0.1)) == Color(0.9, 0.2, 0.04));
+}
+
+float Color::operator==(const Color& c) const
+{
+    return std::abs(_red - c._red) < EPSILON && std::abs(_green - c._green) < EPSILON
+        && std::abs(_blue - c._blue) < EPSILON;
+}
+
+float Color::operator!=(const Color& c) const
+{
+    return std::abs(_red - c._red) > EPSILON || std::abs(_green - c._green) > EPSILON
+        || std::abs(_blue - c._blue) > EPSILON;
 }
