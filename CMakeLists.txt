@@ -1,4 +1,4 @@
-cmake_minimum_required (VERSION 3.0)
+cmake_minimum_required (VERSION 3.15.3)
 project (Raytracer)
 
 set(CMAKE_CXX_STANDARD 17)
@@ -9,8 +9,8 @@ if (NOT CMAKE_BUILD_TYPE)
 endif()
 
 set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -Ofast -flto -march=native -pedantic")
-set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -pedantic -fsanitize=address --coverage")
-set(CMAKE_CXX_FLAGS_TEST "${CMAKE_CXX_FLAGS_TEST} -pedantic -fsanitize=address -D_TESTS --coverage")
+set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -g -pedantic -fsanitize=address --coverage")
+set(CMAKE_CXX_FLAGS_TEST "${CMAKE_CXX_FLAGS_TEST} -g -pedantic -fsanitize=address -D_TESTS --coverage")
 
 set(SHARED_INCLUDE_DIR libs)
 
@@ -45,13 +45,12 @@ add_library(test OBJECT)
 target_sources(test
     PRIVATE "tests/test.cc"
 )
-target_compile_options(test PRIVATE -Wall -Wextra -Werror)
+target_compile_options(test PRIVATE -I$(CATCH_SINGLE_INCLUDE) -Wall -Wextra -Werror)
 target_include_directories(test PUBLIC ${SHARED_INCLUDE_DIR})
 
-
-if (CMAKE_BUILD_TYPE EQUAL "Test")
-    add_executable(tests)
-    target_link_libraries(tests PRIVATE tuple vector point test)
+if ("${CMAKE_BUILD_TYPE}" STREQUAL "Test")
+    add_executable(Tests)
+    target_link_libraries(Tests PRIVATE tuple vector point test)
 else()
     add_executable(Raytracer)
     target_link_libraries(Raytracer PRIVATE tuple vector point)
