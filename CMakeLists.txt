@@ -21,7 +21,7 @@ target_sources(tuple
 )
 target_compile_options(tuple PRIVATE -Wall -Wextra -Werror)
 target_link_libraries(tuple PUBLIC "")
-target_include_directories(tuple PUBLIC ${SHARED_INCLUDE_DIR} src/utils)
+target_include_directories(tuple PUBLIC ${SHARED_INCLUDE_DIR})
 
 add_library(vector OBJECT)
 target_sources(vector
@@ -40,6 +40,16 @@ target_sources(point
 target_compile_options(point PRIVATE -Wall -Wextra -Werror)
 target_link_libraries(point PUBLIC "")
 target_include_directories(point PUBLIC ${SHARED_INCLUDE_DIR} src/tuple src/vector)
+
+add_library(color OBJECT)
+target_sources(color
+    PRIVATE "src/color/color.cc"
+    PUBLIC  "${CMAKE_CURRENT_SOURCE_DIR}/src/color/color.hh"
+)
+target_compile_options(color PRIVATE -Wall -Wextra -Werror)
+target_link_libraries(color PUBLIC "")
+target_include_directories(color PUBLIC ${SHARED_INCLUDE_DIR})
+
 
 add_library(test OBJECT)
 target_sources(test
