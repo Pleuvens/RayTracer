@@ -50,22 +50,6 @@ TEST_CASE("TUPLE: negating a tuple", "[multi-file:tuple]") {
     REQUIRE(-Tuple(1, -2, 3, -4) == Tuple(-1, 2, -3, 4));
 }
 
-Tuple Tuple::operator*(const Tuple& b)
-{
-    return Tuple(_y * b._z - _z * b._y, _z * b._x - _x * b._z, _x * b._y - _x * b._x, _w);
-}
-
-Tuple Tuple::operator*=(const Tuple& b)
-{
-    float cx = _y * b._z - _z * b._y;
-    float cy = _z * b._x - _x * b._z;
-    float cz = _x * b._y - _y * b._x;
-    _x = cx;
-    _y = cy;
-    _z = cz;
-    return *this;
-}
-
 Tuple Tuple::operator*(const float lambda)
 {
     return Tuple(lambda * _x, lambda * _y, lambda * _z, lambda * _w);

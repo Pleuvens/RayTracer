@@ -20,8 +20,6 @@ class Tuple {
         Tuple operator-(const Tuple& b);
         Tuple operator-=(const Tuple& b);
         Tuple operator-();
-        Tuple operator*(const Tuple& b);
-        Tuple operator*=(const Tuple& b);
         Tuple operator*(const float lambda);
         Tuple operator*=(const float lambda);
         Tuple operator/(const float lambda);
@@ -29,7 +27,7 @@ class Tuple {
         bool operator==(const Tuple& b) const;
         bool operator!=(const Tuple& b) const;
 
-    private:
+    protected:
         float _x;
         float _y;
         float _z;
