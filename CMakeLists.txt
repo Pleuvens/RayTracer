@@ -39,7 +39,7 @@ target_sources(point
 )
 target_compile_options(point PRIVATE -Wall -Wextra -Werror)
 target_link_libraries(point PUBLIC "")
-target_include_directories(point PUBLIC ${SHARED_INCLUDE_DIR} src/tuple)
+target_include_directories(point PUBLIC ${SHARED_INCLUDE_DIR} src/tuple src/vector)
 
 add_library(test OBJECT)
 target_sources(test
