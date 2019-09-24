@@ -12,7 +12,7 @@ set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -Ofast -flto -march=nati
 set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -g -pedantic -fsanitize=address --coverage")
 set(CMAKE_CXX_FLAGS_TEST "${CMAKE_CXX_FLAGS_TEST} -g -pedantic -fsanitize=address -D_TESTS --coverage")
 
-set(SHARED_INCLUDE_DIR libs)
+set(SHARED_INCLUDE_DIR libs src/utils)
 
 add_library(tuple OBJECT)
 target_sources(tuple

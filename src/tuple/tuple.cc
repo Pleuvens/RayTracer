@@ -87,7 +87,7 @@ TEST_CASE("TUPLE: multiplying a tuple by a scalar", "[multi-file:tuple]") {
 }
 
 TEST_CASE("TUPLE: multiplying a tuple by a fraction", "[multi-file:tuple]") {
-    REQUIRE((Tuple(1, -2, 4, -4) * 0.5) == Tuple(0.5, -1, 1.5, -2));
+    REQUIRE((Tuple(1, -2, 3, -4) * 0.5) == Tuple(0.5, -1, 1.5, -2));
     Tuple t = Tuple(1, -2, 3, -4);
     REQUIRE((t * 0.5) == Tuple(0.5, -1, 1.5, -2));
 }

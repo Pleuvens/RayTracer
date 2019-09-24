@@ -1,4 +1,7 @@
+#include <cmath>
+
 #include "vector.hh"
+#include "constants.hh"
 #include "catch.hpp"
 
 Vector::Vector(const float x, const float y, const float z)
@@ -17,4 +20,18 @@ TEST_CASE("VECTOR: substract two vectors", "[multi-file:vector]") {
 
 TEST_CASE("VECTOR: substract a vector from the zero vector", "[multi-file:vector]") {
     REQUIRE((Vector(0, 0, 0) - Vector(1, -2, 3)) == Vector(-1, 2, -3));
+}
+
+float Vector::magnitude(void) const
+{
+    return std::sqrt(this->getX() * this->getX() + this->getY() * this->getY()
+            + this->getZ() * this->getZ() + this->getW() * this->getW());
+}
+
+TEST_CASE("VECTOR: computing the magnitude", "multi-file:vector") {
+    REQUIRE(Vector(1, 0, 0).magnitude() == 1);
+    REQUIRE(Vector(0, 1, 0).magnitude() == 1);
+    REQUIRE(Vector(0, 0, 1).magnitude() == 1);
+    REQUIRE((Vector(1, 2, 3).magnitude() - std::sqrt(14)) < EPSILON);
+    REQUIRE((Vector(-1, -2, -3).magnitude() - std::sqrt(14)) < EPSILON);
 }
