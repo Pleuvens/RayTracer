@@ -50,6 +50,27 @@ target_compile_options(color PRIVATE -Wall -Wextra -Werror)
 target_link_libraries(color PUBLIC "")
 target_include_directories(color PUBLIC ${SHARED_INCLUDE_DIR})
 
+add_library(canvas OBJECT)
+target_sources(canvas
+    PRIVATE "src/canvas/canvas.cc"
+    PUBLIC  "${CMAKE_CURRENT_SOURCE_DIR}/src/canvas/canvas.hh"
+)
+target_compile_options(canvas PRIVATE -Wall -Wextra -Werror)
+target_link_libraries(canvas PUBLIC "")
+target_include_directories(canvas PUBLIC ${SHARED_INCLUDE_DIR} src/color)
+
+add_library(main OBJECT)
+target_sources(main
+    PRIVATE "src/main/main.cc"
+)
+target_compile_options(main PRIVATE -I$(CATCH_SINGLE_INCLUDE) -Wall -Wextra -Werror)
+target_include_directories(main PUBLIC ${SHARED_INCLUDE_DIR}
+    src/tuple
+    src/point
+    src/vector
+    src/color
+    src/canvas)
+
 
 add_library(test OBJECT)
 target_sources(test
@@ -60,8 +81,8 @@ target_include_directories(test PUBLIC ${SHARED_INCLUDE_DIR})
 
 if ("${CMAKE_BUILD_TYPE}" STREQUAL "Test")
     add_executable(Tests)
-    target_link_libraries(Tests PRIVATE tuple vector point test)
+    target_link_libraries(Tests PRIVATE tuple vector point color canvas test)
 else()
     add_executable(Raytracer)
-    target_link_libraries(Raytracer PRIVATE tuple vector point)
+    target_link_libraries(Raytracer PRIVATE tuple vector point color canvas main)
 endif()

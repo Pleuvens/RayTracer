@@ -1,4 +1,5 @@
 #include <cmath>
+#include <iostream>
 #include "color.hh"
 #include "constants.hh"
 #include "catch.hpp"
@@ -11,6 +12,15 @@ TEST_CASE("COLOR: constructor", "[multi-file:color]") {
     Color c = Color(-0.5, 0.4, 1.7);
     REQUIRE(((c.getRed() - 0.5) < EPSILON && (c.getGreen() - 0.4) < EPSILON
             && (c.getBlue() - 1.7) < EPSILON) == true);
+}
+
+int Color::scale(float value) {
+    int scaledValue = std::round(value * 255);
+    if (value < 0)
+        scaledValue = 0;
+    if (scaledValue > 255)
+        scaledValue = 255;
+    return scaledValue;
 }
 
 Color Color::operator+(const Color& c)
@@ -64,7 +74,7 @@ Color Color::operator*=(const Color& c)
     return *this;
 }
 
-TEST_CASE("COLOR: add colors", "[multi-file:color]") {
+TEST_CASE("COLOR: multiply colors", "[multi-file:color]") {
     REQUIRE((Color(1, 0.2, 0.4) * Color(0.9, 1, 0.1)) == Color(0.9, 0.2, 0.04));
     Color c = Color(1, 0.2, 0.4);
     REQUIRE((c *= Color(0.9, 1, 0.1)) == Color(0.9, 0.2, 0.04));
@@ -80,4 +90,11 @@ float Color::operator!=(const Color& c) const
 {
     return std::abs(_red - c._red) > EPSILON || std::abs(_green - c._green) > EPSILON
         || std::abs(_blue - c._blue) > EPSILON;
+}
+
+std::ostream& operator<<(std::ostream& os, const Color& c)
+{
+    os << Color::scale(c.getRed()) << ' ' << Color::scale(c.getGreen()) << ' '
+        << Color::scale(c.getBlue());
+    return os;
 }

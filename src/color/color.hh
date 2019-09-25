@@ -1,8 +1,16 @@
 #pragma once
 
+#include <iostream>
+
 class Color {
     public:
         Color(float red, float green, float blue);
+
+        static Color red(void) { return Color(1, 0, 0); }
+        static Color green(void) { return Color(0, 1, 0); }
+        static Color blue(void) { return Color(0, 0, 1); }
+
+        static int scale(float value);
 
         inline float getRed(void) const { return _red; }
         inline float getGreen(void) const { return _green; }
@@ -20,6 +28,7 @@ class Color {
         Color operator*=(const Color& c);
         float operator==(const Color& c) const;
         float operator!=(const Color& c) const;
+        friend std::ostream& operator<<(std::ostream& os, const Color& c);
     private:
         float _red;
         float _green;
