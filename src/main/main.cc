@@ -20,16 +20,20 @@ class Environment {
         Vector _wind;
 };
 
-Projectile tick(const Environment& env, const Projectile& proj)
+Projectile tick(Environment env, Projectile proj)
 {
-    return Projectile(proj._position + proj._velocity,
-            proj._velocity + env._gravity + env._wind);
+    Tuple t1 = proj._position + proj._velocity;
+    Tuple t2 = proj._velocity + env._gravity + env._wind;
+    return Projectile(Point(t1.getX(), t1.getY(), t1.getZ()),
+            Vector(t2.getX(), t2.getY(), t2.getZ()));
 }
 
 int main(void) {
     Projectile p = Projectile(Point(0, 1, 0), Vector(1, 1, 0).normalize());
     Environment e = Environment(Vector(0, -0.1, 0), Vector(-0.01, 0, 0));
     while (p._position.getY() > 0)
+    {
         p = tick(e, p);
+    }
     return 0;
 }

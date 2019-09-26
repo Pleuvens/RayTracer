@@ -63,7 +63,7 @@ add_library(main OBJECT)
 target_sources(main
     PRIVATE "src/main/main.cc"
 )
-target_compile_options(main PRIVATE -I$(CATCH_SINGLE_INCLUDE) -Wall -Wextra -Werror)
+target_compile_options(main PRIVATE -Wall -Wextra -Werror)
 target_include_directories(main PUBLIC ${SHARED_INCLUDE_DIR}
     src/tuple
     src/point
