@@ -1,3 +1,7 @@
+## Raytracer
+
+This is a Raytracer in C++ made following The RayTracer Challenge by Jamis Buck
+
 This project is using CMake version 3.15.3-2
 
 ## Compile the project
