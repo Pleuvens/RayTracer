@@ -8,13 +8,13 @@
 Canvas::Canvas(int height, int width)
     :_height(height), _width(width) 
 {
-    _pixels = std::vector(_width * _height, Color(0, 0, 0));
+    _pixels = std::vector<Color>(_width * _height, Color(0, 0, 0));
 }
 
 Canvas::Canvas(int height, int width, const Color& c)
     :_height(height), _width(width) 
 {
-    _pixels = std::vector(_width * _height, c);
+    _pixels = std::vector<Color>(_width * _height, c);
 }
 
 #ifdef _TESTS
