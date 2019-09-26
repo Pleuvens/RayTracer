@@ -8,7 +8,7 @@ install:
     - mkdir ${DEPS_DIR} && cd ${DEPS_DIR}
     - |
       if [[ "${TRAVIS_OS_NAME}" == "linux" ]]; then
-          CMAKE_URL="https://github-production-release-asset-2e65be.s3.amazonaws.com/537699/550ac280-cf07-11e9-89ab-efd5e15c323b?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAIWNJYAX4CSVEH53A%2F20190926%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20190926T035116Z&X-Amz-Expires=300&X-Amz-Signature=6d692676fa53775daa688fb8623501f9cc8d1ba683852bd4f73fe31863310c71&X-Amz-SignedHeaders=host&actor_id=10537725&response-content-disposition=attachment%3B%20filename%3Dcmake-3.15.3.tar.gz&response-content-type=application%2Foctet-stream"
+          CMAKE_URL="http://www.cmake.org/files/v3.15/cmake-3.15.3-Linux-x86_64.tar.gz"
           mkdir cmake && travis_retry wget --no-check-certificate --quiet -O - ${CMAKE_URL} | tar --strip-components=1 -xz -C cmake
           export PATH=${DEPS_DIR}/cmake/bin:${PATH}
       fi
