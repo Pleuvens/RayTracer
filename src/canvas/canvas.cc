@@ -26,6 +26,25 @@ TEST_CASE("CANVAS: Write px to canvas", "[multi-file:canvas]")
 }
 #endif
 
+bool Canvas::isCoordValid(int y, int x) const
+{
+    return y >= 0 && y < _height && x >= 0 && x < _width;
+}
+
+Color Canvas::getPixel(int y, int x) const 
+{
+    if (!isCoordValid(y, x))
+        throw "Invalid coordinates";
+    return _pixels[y * _width + x]; 
+}
+
+void Canvas::setPixel(int y, int x, Color c) 
+{
+    if (!isCoordValid(y, x))
+        return;
+    _pixels[y * _width + x] = c; 
+}
+
 void Canvas::canvasToPPM(std::string filename)
 {
     std::ofstream file(filename);

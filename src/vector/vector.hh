@@ -13,4 +13,6 @@ class Vector : public Tuple {
 
         Vector operator*(const Vector& v);
         Vector operator*=(const Vector& v);
+        Vector operator*(const float lambda);
+        Vector operator*=(const float lambda);
 };

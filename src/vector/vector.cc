@@ -101,3 +101,17 @@ TEST_CASE("cross product of two vectors", "[multi-file:vector]") {
     REQUIRE((Vector(2, 3, 4) * Vector(1, 2, 3)) == Vector(1, -2, 1));
 }
 #endif
+
+Vector Vector::operator*(const float lambda)
+{
+    return Vector(lambda * _x, lambda * _y, lambda * _z);
+}
+
+Vector Vector::operator*=(const float lambda)
+{
+    _x *= lambda;
+    _y *= lambda;
+    _z *= lambda;
+    _w *= lambda;
+    return *this;
+}
