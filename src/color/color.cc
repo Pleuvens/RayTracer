@@ -90,13 +90,13 @@ TEST_CASE("COLOR: multiply colors", "[multi-file:color]") {
 }
 #endif
 
-float Color::operator==(const Color& c) const
+bool Color::operator==(const Color& c) const
 {
     return std::abs(_red - c._red) < EPSILON && std::abs(_green - c._green) < EPSILON
         && std::abs(_blue - c._blue) < EPSILON;
 }
 
-float Color::operator!=(const Color& c) const
+bool Color::operator!=(const Color& c) const
 {
     return std::abs(_red - c._red) > EPSILON || std::abs(_green - c._green) > EPSILON
         || std::abs(_blue - c._blue) > EPSILON;

@@ -9,11 +9,13 @@ class Tuple {
         inline float getY() const { return _y; }
         inline float getZ() const { return _z; }
         inline float getW() const { return _w; }
+        float getValue(const int index) const;
 
         inline void setX(const float x) { _x = x; }
         inline void setY(const float y) { _y = y; }
         inline void setZ(const float z) { _z = z; }
         inline void setW(const float w) { _w = w; }
+        void setValue(const int index, const float value);
 
         Tuple operator+(const Tuple& b);
         Tuple operator+=(const Tuple& b);

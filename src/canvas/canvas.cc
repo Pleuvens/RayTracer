@@ -41,7 +41,7 @@ Color Canvas::getPixel(int y, int x) const
 void Canvas::setPixel(int y, int x, Color c) 
 {
     if (!isCoordValid(y, x))
-        return;
+        throw "Invalid coordinates";
     _pixels[y * _width + x] = c; 
 }
 

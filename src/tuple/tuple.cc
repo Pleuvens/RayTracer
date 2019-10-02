@@ -9,6 +9,40 @@ Tuple::Tuple(const float x, const float y, const float z, const float w)
     : _x(x), _y(y), _z(z), _w(w)
 {}
 
+float Tuple::getValue(const int index) const
+{
+    switch (index)
+    {
+        case 0:
+            return _x;
+        case 1:
+            return _y;
+        case 2:
+            return _z;
+        case 3:
+            return _w;
+        default:
+            throw "TUPLE: Invalid index";
+    }
+}
+
+void Tuple::setValue(const int index, const float value)
+{
+    switch (index)
+    {
+        case 0:
+            _x = value;
+        case 1:
+            _y = value;
+        case 2:
+            _z = value;
+        case 3:
+            _w = value;
+        default:
+            throw "TUPLE: Invalid index";
+    }
+}
+
 Tuple Tuple::operator+(const Tuple& b)
 {
     return Tuple(_x + b._x, _y + b._y, _z + b._z, _w + b._w);

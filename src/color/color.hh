@@ -26,8 +26,8 @@ class Color {
         Color operator-=(const Color& c);
         Color operator*(const Color& c);
         Color operator*=(const Color& c);
-        float operator==(const Color& c) const;
-        float operator!=(const Color& c) const;
+        bool operator==(const Color& c) const;
+        bool operator!=(const Color& c) const;
         friend std::ostream& operator<<(std::ostream& os, const Color& c);
     private:
         float _red;
