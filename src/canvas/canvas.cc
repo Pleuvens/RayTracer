@@ -48,17 +48,17 @@ void Canvas::setPixel(int y, int x, Color c)
 void Canvas::canvasToPPM(std::string filename)
 {
     std::ofstream file(filename);
-    file << "P3" << std::endl << _width << ' ' << _height
-        << std::endl << 255 << std::endl;
+    file << "P3" << '\n' << _width << ' ' << _height
+        << '\n' << 255 << '\n';
     for (int y = 0; y < _height; y++) {
         for (int x = 0; x < _width; x++) {
             file << getPixel(y, x);
             if (x && !(x % PPM_LINE_SIZE))
-                file << std::endl;
+                file << '\n';
             else if (x < _width -1)
                 file << ' ';
         }
-        file << std::endl;
+        file << '\n';
     }
     file.close();
 }
