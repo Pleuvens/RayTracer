@@ -23,14 +23,14 @@ Matrix Matrix::identity(const int size)
 float Matrix::getValue(const int y, const int x) const
 {
     if (!isCoordValid(y, x))
-        throw "Invalid coordinates";
+        throw "MATRIX: Invalid coordinates";
     return _matrix[y * _width + x];
 }
 
 void Matrix::getValue(const int y, const int x, const float value)
 {
     if (!isCoordValid(y, x))
-        throw "Invalid coordinates";
+        throw "MATRIX: Invalid coordinates";
     _matrix[y * _width + x] = value;
 }
 
@@ -42,6 +42,73 @@ Matrix Matrix::transpose(void)
         for (int x = 0; x < _width; x++)
             res.setValue(x, y) = getValue(y, x);
     }
+    return res;
+}
+
+Matrix Matrix::submatrix(const int row, const int column)
+{
+    Matrix res = Matrix(_height - 1, width - 1);
+    int yOffset = 0;
+    for (int y = 0; y < _height - 1; y++)
+    {
+        if (y == row)
+            yOffset++;
+        int xOffset = 0;
+        for (int x = 0; x < _width - 1; x++)
+        {
+            if (x == column)
+                xOffset++;
+            res.setValue(y, x) = getValue(y + yOffset, x + xOffset);
+        }
+    }
+    return res;
+}
+
+float Matrix::determinant(void)
+{
+    if (_width != _height)
+        throw "MATRIX: not square matrix";
+    if (_width < 2)
+        throw "MATRIX: 1x1 matrix";
+    if (_width == 2)
+        return _matrix[0] * _matrix[3] - _matrix[1] * _matrix[2];
+    float det = 0;
+    for (int x = 0; x < _width; x++)
+    {
+        det += getValue(0, x) * cofactor(0, x);
+    }
+    return det;
+}
+
+float Matrix::minor(const int row, const int column)
+{
+    if (_width != _height)
+        throw "MATRIX: not square matrix";
+    if (_width != 3)
+        throw "MATRIX: not 3x3 matrix";
+    return submatrix(row, column).determinant();
+}
+
+float Matrix::cofactor(const int row, const int column)
+{
+    if ((row + column) % 2)
+        return minor(row, column);
+    return -minor(row, column);
+}
+
+Matrix Matrix::invert(void)
+{
+    if (!determinant())
+        throw "MATRIX: matrix not invertible";
+    Matrix res = Matrix(_height, _width);
+    for (int y = 0; y < _height; y++)
+    {
+        for (int x = 0; x < _width; x++)
+        {
+            res.setValue(x, y, cofactor(y, x) / determinant());
+        }
+    }
+    return res;
 }
 
 bool Matrix::operator==(const Matrix& m) const

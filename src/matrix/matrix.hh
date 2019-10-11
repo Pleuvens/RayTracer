@@ -19,6 +19,11 @@ class Matrix {
         void setValue(const int y, const int x, const float value);
 
         Matrix transpose(void);
+        Matrix submatrix(const int row, const int column);
+        float determinant(void);
+        float minor(const int row, const int column);
+        float cofactor(const int row, const int column);
+        Matrix invert(void);
 
         bool operator==(const Matrix& m) const;
         bool operator!=(const Matrix& m) const;
