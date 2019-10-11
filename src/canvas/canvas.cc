@@ -2,9 +2,8 @@
 #include <fstream>
 #include "canvas.hh"
 #include "constants.hh"
-#ifdef _TESTS
-#include "catch.hpp"
-#endif
+#include "test_canvas.hpp"
+
 Canvas::Canvas(int height, int width)
     :_height(height), _width(width) 
 {
@@ -16,15 +15,6 @@ Canvas::Canvas(int height, int width, const Color& c)
 {
     _pixels = std::vector<Color>(_width * _height, c);
 }
-
-#ifdef _TESTS
-TEST_CASE("CANVAS: Write px to canvas", "[multi-file:canvas]")
-{
-    Canvas canvas = Canvas(10, 20);
-    canvas.setPixel(2, 3, Color::red());
-    REQUIRE(canvas.getPixel(2, 3) == Color::red());
-}
-#endif
 
 bool Canvas::isCoordValid(int y, int x) const
 {
@@ -62,14 +52,3 @@ void Canvas::canvasToPPM(std::string filename)
     }
     file.close();
 }
-
-#ifdef _TESTS
-TEST_CASE("CANVAS: construct px to canvas", "[multi-file:canvas]") {
-    Canvas canvas = Canvas(2, 10, Color(1, 0.8, 0.6));
-    canvas.canvasToPPM("/tmp/raytracer_canvas_save_test.ppm");
-    std::ifstream file("/tmp/raytracer_canvas_save_test.ppm");
-    std::string content( (std::istreambuf_iterator<char>(file) ),
-                       (std::istreambuf_iterator<char>()    ) );
-    REQUIRE(content == "P3\n10 2\n255\n255 204 153 255 204 153 255 204 153 255 204 153 255 204 153\n255 204 153 255 204 153 255 204 153 255 204 153\n255 204 153\n255 204 153 255 204 153 255 204 153 255 204 153 255 204 153\n255 204 153 255 204 153 255 204 153 255 204 153\n255 204 153\n");
-}
-#endif
