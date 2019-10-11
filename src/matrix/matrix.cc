@@ -1,11 +1,17 @@
 #include "matrix.hh"
 #include "constants.hh"
 
+#include "test_matrix.hpp"
+
 Matrix::Matrix(const int height, const int width)
     : _height(height), _width(width)
 {
     _matrix = std::vector<float>(_height * _width, 0);
 }
+
+Matrix::Matrix(const int height, const int width, std::initializer_list<float> list)
+    : _height(height), _width(width), _matrix(std::vector<float>(list))
+{}
 
 bool Matrix::isCoordValid(const int y, const int x) const
 {
@@ -16,7 +22,7 @@ Matrix Matrix::identity(const int size)
 {
     Matrix res = Matrix(size, size);
     for (int i = 0; i < size; i++)
-        res.setValue(i, i) = 1;
+        res.setValue(i, i, 1);
     return res;
 }
 
@@ -27,7 +33,7 @@ float Matrix::getValue(const int y, const int x) const
     return _matrix[y * _width + x];
 }
 
-void Matrix::getValue(const int y, const int x, const float value)
+void Matrix::setValue(const int y, const int x, const float value)
 {
     if (!isCoordValid(y, x))
         throw "MATRIX: Invalid coordinates";
@@ -40,14 +46,14 @@ Matrix Matrix::transpose(void)
     for (int y = 0; y < _height; y++)
     {
         for (int x = 0; x < _width; x++)
-            res.setValue(x, y) = getValue(y, x);
+            res.setValue(x, y, getValue(y, x));
     }
     return res;
 }
 
 Matrix Matrix::submatrix(const int row, const int column)
 {
-    Matrix res = Matrix(_height - 1, width - 1);
+    Matrix res = Matrix(_height - 1, _width - 1);
     int yOffset = 0;
     for (int y = 0; y < _height - 1; y++)
     {
@@ -58,7 +64,7 @@ Matrix Matrix::submatrix(const int row, const int column)
         {
             if (x == column)
                 xOffset++;
-            res.setValue(y, x) = getValue(y + yOffset, x + xOffset);
+            res.setValue(y, x, getValue(y + yOffset, x + xOffset));
         }
     }
     return res;
@@ -145,13 +151,13 @@ Matrix Matrix::operator*(const Matrix& m)
         for (int x = 0; x < m._width; x++)
         {
             for (int z = 0; z < _width; z++)
-                res.setValue(y, x) += getValue(y, z) * m.getValue(z, x);
+                res.setValue(y, x, getValue(y, z) * m.getValue(z, x));
         }
     }
     return res;
 }
 
-Matrix Matrix::operator*(const Tuple& t)
+Tuple Matrix::operator*(const Tuple& t)
 {
     if (_width != TUPLE_HEIGHT)
         throw "MATRIX: Invalid matrix size";
@@ -161,7 +167,7 @@ Matrix Matrix::operator*(const Tuple& t)
         for (int x = 0; x < TUPLE_HEIGHT; x++)
         {
             for (int z = 0; z < _width; z++)
-                res.setValue(x) += getValue(y, z) * t.getValue(z);
+                res.setValue(x , getValue(y, z) * t.getValue(z));
         }
     }
     return res;

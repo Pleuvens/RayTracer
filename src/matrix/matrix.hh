@@ -7,12 +7,13 @@
 class Matrix {
     public:
         Matrix(const int height, const int width);
+        Matrix(const int height, const int width, std::initializer_list<float> list);
 
         static Matrix identity(const int size);
 
         inline int getHeight(void) const { return _height; }
         inline int getWidth(void)  const { return _width; }
-        float getValue(const int y, const int x, const float value);
+        float getValue(const int y, const int x) const;
 
         inline void setHeight(const int height) { _height = height; }
         inline void setWidth(const int width) { _width = width; }
@@ -28,7 +29,7 @@ class Matrix {
         bool operator==(const Matrix& m) const;
         bool operator!=(const Matrix& m) const;
         Matrix operator*(const Matrix& m);
-        Matrix operator*(const Tuple& t);
+        Tuple operator*(const Tuple& t);
 
     private:
         bool isCoordValid(const int y, const int x) const;

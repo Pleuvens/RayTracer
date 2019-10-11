@@ -32,12 +32,16 @@ void Tuple::setValue(const int index, const float value)
     {
         case 0:
             _x = value;
+            break;
         case 1:
             _y = value;
+            break;
         case 2:
             _z = value;
+            break;
         case 3:
             _w = value;
+            break;
         default:
             throw "TUPLE: Invalid index";
     }
