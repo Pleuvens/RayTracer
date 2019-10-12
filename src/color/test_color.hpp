@@ -1,11 +1,14 @@
 #ifdef _TESTS
 
 #include "color.hh"
+#include "op_overloading.hh"
 #include "catch.hpp"
 
 TEST_CASE("COLOR: constructor", "[multi-file:color]") {
     Color c = Color(-0.5, 0.4, 1.7);
-    REQUIRE((c.getRed() == 0.5 && c.getGreen() == 0.4 && c.getBlue() == 1.7) == true);
+    REQUIRE((isEqual(c.getRed(), -0.5)
+                && isEqual(c.getGreen(), 0.4)
+                && isEqual(c.getBlue(), 1.7)));
 }
 
 TEST_CASE("COLOR: add colors", "[multi-file:color]") {

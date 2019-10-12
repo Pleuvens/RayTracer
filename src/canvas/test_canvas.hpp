@@ -16,7 +16,7 @@ TEST_CASE("CANVAS: construct px to canvas", "[multi-file:canvas]") {
     std::ifstream file("/tmp/raytracer_canvas_save_test.ppm");
     std::string content( (std::istreambuf_iterator<char>(file) ),
                        (std::istreambuf_iterator<char>()    ) );
-    REQUIRE(content == "P3\n10 2\n255\n255 204 153 255 204 153 255 204 153 255 204 153 255   204 153\n255 204 153 255 204 153 255 204 153 255 204 153\n255 204 153\n255 204 153 255 204   153 255 204 153 255 204 153 255 204 153\n255 204 153 255 204 153 255 204 153 255 204         153\n255 204 153\n");
+    REQUIRE(content == "P3\n10 2\n255\n255 204 153 255 204 153 255 204 153 255 204 153 255 204 153\n255 204 153 255 204 153 255 204 153 255 204 153\n255 204 153\n255 204 153 255 204 153 255 204 153 255 204 153 255 204 153\n255 204 153 255 204 153 255 204 153 255 204 153\n255 204 153\n");
 }
 
 #endif

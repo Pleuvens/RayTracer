@@ -1,6 +1,7 @@
 #include <cmath>
 #include <iostream>
 #include "color.hh"
+#include "op_overloading.hh"
 #include "test_color.hpp"
 
 Color::Color(float red, float green, float blue)
@@ -57,12 +58,13 @@ Color Color::operator*=(const Color& c)
 
 bool Color::operator==(const Color& c) const
 {
-    return _red == c._red && _green == c._green && _blue == c._blue;
+    return isEqual(_red, c._red) && isEqual(_green, c._green) && isEqual(_blue, c._blue);
 }
 
 bool Color::operator!=(const Color& c) const
 {
-    return _red != c._red || _green != c._green || _blue != c._blue;
+    return isNotEqual(_red, c._red) || isNotEqual(_green, c._green)
+        || isNotEqual(_blue, c._blue);
 }
 
 std::ostream& operator<<(std::ostream& os, const Color& c)

@@ -1,5 +1,6 @@
 #include <cmath>
 #include "tuple.hh"
+#include "op_overloading.hh"
 #include "test_tuple.hpp"
 
 Tuple::Tuple(const float x, const float y, const float z, const float w)
@@ -107,10 +108,12 @@ Tuple Tuple::operator/=(const float lambda)
 
 bool Tuple::operator==(const Tuple& b) const
 {
-    return _x == b._x && _y == b._y && _z == b._z && _w == b._w;
+    return isEqual(_x, b._x) && isEqual(_y, b._y) && isEqual(_z, b._z)
+        && isEqual(_w, b._w);
 }
 
 bool Tuple::operator!=(const Tuple& b) const
 {
-    return _x != b._x || _y != b._y || _z != b._z || _w != b._w;
+    return isNotEqual(_x, b._x) || isNotEqual(_y, b._y) || isNotEqual(_z, b._z)
+        || isNotEqual(_w, b._w);
 }
