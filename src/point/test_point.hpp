@@ -2,7 +2,7 @@
 
 #include "point.hh"
 #include "vector.hh"
-#include "catch.hh"
+#include "catch.hpp"
 
 TEST_CASE("POINT: creates tuple with w=1", "[multi-file:point]") {
     REQUIRE(Point(0, 0, 0) == Tuple(0, 0, 0, 1));

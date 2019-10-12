@@ -10,9 +10,18 @@ endif()
 
 set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -Ofast -flto -march=native -pedantic")
 set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -g -pedantic -fsanitize=address --coverage")
-set(CMAKE_CXX_FLAGS_TEST "${CMAKE_CXX_FLAGS_TEST} -g -pedantic -fsanitize=address -D_TESTS --coverage")
+set(CMAKE_CXX_FLAGS_TESTS "${CMAKE_CXX_FLAGS_TEST} -g -pedantic -fsanitize=address -D_TESTS --coverage")
 
 set(SHARED_INCLUDE_DIR libs src/utils)
+
+add_library(op_overloading OBJECT)
+target_sources(op_overloading
+    PRIVATE "src/utils/op_overloading.cc"
+    PUBLIC  "${CMAKE_CURRENT_SOURCE_DIR}/src/utils/op_overloading.hh"
+)
+target_compile_options(op_overloading PRIVATE -Wall -Wextra -Werror)
+target_link_libraries(op_overloading PUBLIC "")
+target_include_directories(op_overloading PUBLIC ${SHARED_INCLUDE_DIR})
 
 add_library(tuple OBJECT)
 target_sources(tuple
@@ -89,10 +98,24 @@ target_sources(test
 target_compile_options(test PRIVATE -I$(CATCH_SINGLE_INCLUDE) -Wall -Wextra -Werror)
 target_include_directories(test PUBLIC ${SHARED_INCLUDE_DIR})
 
-if ("${CMAKE_BUILD_TYPE}" STREQUAL "Test")
+if ("${CMAKE_BUILD_TYPE}" STREQUAL "Tests")
     add_executable(Tests)
-    target_link_libraries(Tests PRIVATE tuple vector point color canvas matrix test)
+    target_link_libraries(Tests PRIVATE op_overloading
+                                        tuple
+                                        vector
+                                        point
+                                        color
+                                        canvas
+                                        matrix
+                                        test)
 else()
     add_executable(Raytracer)
-    target_link_libraries(Raytracer PRIVATE tuple vector point color canvas matrix main)
+    target_link_libraries(Raytracer PRIVATE op_overloading
+                                            tuple
+                                            vector
+                                            point
+                                            color
+                                            canvas
+                                            matrix
+                                            main)
 endif()
