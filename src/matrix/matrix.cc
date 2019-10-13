@@ -1,5 +1,6 @@
 #include "matrix.hh"
 #include "constants.hh"
+#include "op_overloading.hh"
 
 #include "test_matrix.hpp"
 
@@ -90,14 +91,14 @@ float Matrix::minor(const int row, const int column)
 {
     if (_width != _height)
         throw "MATRIX: not square matrix";
-    if (_width != 3)
-        throw "MATRIX: not 3x3 matrix";
+    if (_width > 4)
+        throw "MATRIX: not 3x3 or 4x4 matrix";
     return submatrix(row, column).determinant();
 }
 
 float Matrix::cofactor(const int row, const int column)
 {
-    if ((row + column) % 2)
+    if (!((row + column) % 2))
         return minor(row, column);
     return -minor(row, column);
 }
@@ -123,7 +124,7 @@ bool Matrix::operator==(const Matrix& m) const
         return false;
     for (int i = 0; i < _height * _width; i++)
     {
-        if (_matrix[i] - m._matrix[i] > EPSILON)
+        if (isNotEqual(_matrix[i], m._matrix[i]))
             return false;
     }
     return true;
@@ -135,7 +136,7 @@ bool Matrix::operator!=(const Matrix& m) const
         return true;
     for (int i = 0; i < _height * _width; i++)
     {
-        if (_matrix[i] - m._matrix[i] > EPSILON)
+        if (isNotEqual(_matrix[i], m._matrix[i]))
             return true;
     }
     return false;
@@ -150,8 +151,10 @@ Matrix Matrix::operator*(const Matrix& m)
     {
         for (int x = 0; x < m._width; x++)
         {
+            float value = 0;
             for (int z = 0; z < _width; z++)
-                res.setValue(y, x, getValue(y, z) * m.getValue(z, x));
+                value += getValue(y, z) * m.getValue(z, x);
+            res.setValue(y, x, value);
         }
     }
     return res;
@@ -164,11 +167,12 @@ Tuple Matrix::operator*(const Tuple& t)
     Tuple res = Tuple(0, 0, 0, 0);
     for (int y = 0; y < _height; y++)
     {
+        float value = 0;
         for (int x = 0; x < TUPLE_HEIGHT; x++)
         {
-            for (int z = 0; z < _width; z++)
-                res.setValue(x , getValue(y, z) * t.getValue(z));
+            value += getValue(y, x) * t.getValue(x);
         }
+        res.setValue(y , value);
     }
     return res;
 }
