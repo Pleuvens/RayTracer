@@ -75,7 +75,9 @@ target_sources(matrix
 )
 target_compile_options(matrix PRIVATE -Wall -Wextra -Werror)
 target_link_libraries(matrix PUBLIC "")
-target_include_directories(matrix PUBLIC ${SHARED_INCLUDE_DIR} src/tuple)
+target_include_directories(matrix PUBLIC ${SHARED_INCLUDE_DIR} src/tuple
+                                                               src/point
+                                                               src/vector)
 
 add_library(main OBJECT)
 target_sources(main

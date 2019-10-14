@@ -10,6 +10,7 @@ class Matrix {
         Matrix(const int height, const int width, std::initializer_list<float> list);
 
         static Matrix identity(const int size);
+        static Matrix translation(const float x, const float y, const float z);
 
         inline int getHeight(void) const { return _height; }
         inline int getWidth(void)  const { return _width; }

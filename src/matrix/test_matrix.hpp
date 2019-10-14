@@ -6,6 +6,8 @@
 #include "constants.hh"
 #include "op_overloading.hh"
 #include "matrix.hh"
+#include "point.hh"
+#include "vector.hh"
 
 TEST_CASE("MATRIX: construct matrix", "[multi-file:matrix]") {
     Matrix m(4, 4, {   1,    2,    3,    4,
@@ -246,6 +248,30 @@ TEST_CASE("MATRIX: Mutliplying a product by its inverse", "[multi-file:matrix]")
                     6, -2, 0, 5});
     Matrix c = a * b;
     REQUIRE(c * b.invert() == a);
+}
+
+TEST_CASE("MATRIX: Multiplying by a translation matrix", "[multi-file:matrix]")
+{
+    Matrix transform = Matrix::translation(5, -3, 2);
+    Point p(-3, 4, 5);
+    Point res(2, 1, 7);
+    REQUIRE((transform * p) == res);
+}
+
+TEST_CASE("MATRIX: Multiplying by the inverse of a translation matrix",
+        "[multi-file:matrix]")
+{
+    Matrix inv = Matrix::translation(5, -3, 2).invert();
+    Point p(-3, 4, 5);
+    Point res(-8, 7, 3);
+    REQUIRE((inv * p) == res);
+}
+
+TEST_CASE("MATRIX: Translation does not affect vectors", "[multi-file:matrix]")
+{
+    Matrix transform = Matrix::translation(5, -3, 2);
+    Vector v(-3, 4, 5);
+    REQUIRE((transform * v) == v);
 }
 
 #endif
