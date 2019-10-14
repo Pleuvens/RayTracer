@@ -15,6 +15,9 @@ class Matrix {
         static Matrix rotationX(const float r);
         static Matrix rotationY(const float r);
         static Matrix rotationZ(const float r);
+        static Matrix shearing(const float x_y, const float x_z,
+                               const float y_x, const float y_z,
+                               const float z_x, const float z_y);
 
         inline int getHeight(void) const { return _height; }
         inline int getWidth(void)  const { return _width; }

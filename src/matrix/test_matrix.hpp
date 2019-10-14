@@ -349,4 +349,58 @@ TEST_CASE("MATRIX: Rotating a point around z axis", "[multi-file:matrix]")
     REQUIRE((full_quarter * p) == res2);
 }
 
+TEST_CASE("MATRIX: A shearing transformation movex x in proportion to y",
+        "[multi-file:matrix]")
+{
+    Matrix transform = Matrix::shearing(1, 0, 0, 0, 0, 0);
+    Point p(2, 3, 4);
+    Point res(5, 3, 4);
+    REQUIRE((transform * p) == res);
+}
+
+TEST_CASE("MATRIX: A shearing transformation moves x in proportion to z",
+        "[multi-file:matrix]")
+{
+    Matrix transform = Matrix::shearing(0, 1, 0, 0, 0, 0);
+    Point p(2, 3, 4);
+    Point res(6, 3, 4);
+    REQUIRE((transform * p) == res);
+}
+
+TEST_CASE("MATRIX: A shearing transformation moves y in proportion to x",
+        "[multi-file:matrix]")
+{
+    Matrix transform = Matrix::shearing(0, 0, 1, 0, 0, 0);
+    Point p(2, 3, 4);
+    Point res(2, 5, 4);
+    REQUIRE((transform * p) == res);
+}
+
+TEST_CASE("MATRIX: A shearing transformation moves y in proportion to z",
+        "[multi-file:matrix]")
+{
+    Matrix transform = Matrix::shearing(0, 0, 0, 1, 0, 0);
+    Point p(2, 3, 4);
+    Point res(2, 7, 4);
+    REQUIRE((transform * p) == res);
+}
+
+TEST_CASE("MATRIX: A shearing transformation moves z in proportion to x",
+        "[multi-file:matrix]")
+{
+    Matrix transform = Matrix::shearing(0, 0, 0, 0, 1, 0);
+    Point p(2, 3, 4);
+    Point res(2, 3, 6);
+    REQUIRE((transform * p) == res);
+}
+
+TEST_CASE("MATRIX: A shearing transformation moves z in proportion to y",
+        "[multi-file:matrix]")
+{
+    Matrix transform = Matrix::shearing(0, 0, 0, 0, 0, 1);
+    Point p(2, 3, 4);
+    Point res(2, 3, 7);
+    REQUIRE((transform * p) == res);
+}
+
 #endif

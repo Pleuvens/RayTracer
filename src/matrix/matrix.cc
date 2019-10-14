@@ -67,6 +67,16 @@ Matrix Matrix::rotationZ(const float r)
                                    0,            0, 0, 1}); 
 }
 
+Matrix Matrix::shearing(const float x_y, const float x_z,
+                        const float y_x, const float y_z,
+                        const float z_x, const float z_y)
+{
+    return Matrix(4, 4, {  1, x_y, x_z, 0,
+                         y_x,   1, y_z, 0,
+                         z_x, z_y,   1, 0,
+                           0,   0,   0, 1}); 
+}
+
 float Matrix::getValue(const int y, const int x) const
 {
     if (!isCoordValid(y, x))
