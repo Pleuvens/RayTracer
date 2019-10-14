@@ -274,4 +274,37 @@ TEST_CASE("MATRIX: Translation does not affect vectors", "[multi-file:matrix]")
     REQUIRE((transform * v) == v);
 }
 
+TEST_CASE("MATRIX: Scaling matrix applied to a point", "[multi-file:matrix]")
+{
+    Matrix transform = Matrix::scaling(2, 3, 4);
+    Point p(-4, 6, 8);
+    Point res(-8, 18, 32);
+    REQUIRE((transform * p) == res);
+}
+
+TEST_CASE("MATRIX: Multiplying by the inverse of a scaling matrix",
+        "[multi-file:matrix]")
+{
+    Matrix inv = Matrix::scaling(2, 3, 4).invert();
+    Vector v(-4, 6, 8);
+    Vector res(-2, 2, 2);
+    REQUIRE((inv * v) == res);
+}
+
+TEST_CASE("MATRIX: Scaling matrix applied to a vector", "[multi-file:matrix]")
+{
+    Matrix transform = Matrix::scaling(2, 3, 4);
+    Vector v(-4, 6, 8);
+    Vector res(-8, 18, 32);
+    REQUIRE((transform * v) == res);
+}
+
+TEST_CASE("MATRIX: Reflection is scaling by a negative value", "[multi-file:matrix]")
+{
+    Matrix transform = Matrix::scaling(-1, 1, 1);
+    Point p(2, 3, 4);
+    Point res(-2, 3, 4);
+    REQUIRE((transform * p) == res);
+}
+
 #endif
