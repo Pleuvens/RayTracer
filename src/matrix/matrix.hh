@@ -12,6 +12,9 @@ class Matrix {
         static Matrix identity(const int size);
         static Matrix translation(const float x, const float y, const float z);
         static Matrix scaling(const float x, const float y, const float z);
+        static Matrix rotationX(const float r);
+        static Matrix rotationY(const float r);
+        static Matrix rotationZ(const float r);
 
         inline int getHeight(void) const { return _height; }
         inline int getWidth(void)  const { return _width; }

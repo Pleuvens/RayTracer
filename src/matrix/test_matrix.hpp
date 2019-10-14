@@ -307,4 +307,46 @@ TEST_CASE("MATRIX: Reflection is scaling by a negative value", "[multi-file:matr
     REQUIRE((transform * p) == res);
 }
 
+TEST_CASE("MATRIX: Rotating a point around x axis", "[multi-file:matrix]")
+{
+    Point p(0, 1, 0);
+    Matrix half_quarter = Matrix::rotationX(PI / 4);
+    Matrix full_quarter = Matrix::rotationX(PI / 2);
+    Point res1(0, std::sqrt(2) / 2, std::sqrt(2) / 2);
+    Point res2(0, 0, 1);
+    REQUIRE((half_quarter * p) == res1);
+    REQUIRE((full_quarter * p) == res2);
+}
+
+TEST_CASE("MATRIX: the inverse of an x-ratoation rotates in the opposite direction",
+        "[multi-file:matrix]")
+{
+    Point p(0, 1, 0);
+    Matrix inv = Matrix::rotationX(PI / 4).invert();
+    Point res(0, std::sqrt(2) / 2, -std::sqrt(2) / 2);
+    REQUIRE((inv * p) == res);
+}
+
+TEST_CASE("MATRIX: Rotating a point around y axis", "[multi-file:matrix]")
+{
+    Point p(0, 0, 1);
+    Matrix half_quarter = Matrix::rotationY(PI / 4);
+    Matrix full_quarter = Matrix::rotationY(PI / 2);
+    Point res1(std::sqrt(2) / 2, 0, std::sqrt(2) / 2);
+    Point res2(1, 0, 0);
+    REQUIRE((half_quarter * p) == res1);
+    REQUIRE((full_quarter * p) == res2);
+}
+
+TEST_CASE("MATRIX: Rotating a point around z axis", "[multi-file:matrix]")
+{
+    Point p(0, 1, 0);
+    Matrix half_quarter = Matrix::rotationZ(PI / 4);
+    Matrix full_quarter = Matrix::rotationZ(PI / 2);
+    Point res1(-std::sqrt(2) / 2, std::sqrt(2) / 2, 0);
+    Point res2(-1, 0, 0);
+    REQUIRE((half_quarter * p) == res1);
+    REQUIRE((full_quarter * p) == res2);
+}
+
 #endif

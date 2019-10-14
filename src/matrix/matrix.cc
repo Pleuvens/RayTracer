@@ -43,6 +43,30 @@ Matrix Matrix::scaling(const float x, const float y, const float z)
                          0, 0, 0, 1}); 
 }
 
+Matrix Matrix::rotationX(const float r)
+{
+    return Matrix(4, 4, {1,           0,            0, 0,
+                         0, std::cos(r), -std::sin(r), 0,
+                         0, std::sin(r),  std::cos(r), 0,
+                         0,           0,            0, 1}); 
+}
+
+Matrix Matrix::rotationY(const float r)
+{
+    return Matrix(4, 4, { std::cos(r), 0, std::sin(r), 0,
+                                    0, 1,           0, 0,
+                         -std::sin(r), 0, std::cos(r), 0,
+                                    0, 0,           0, 1}); 
+}
+
+Matrix Matrix::rotationZ(const float r)
+{
+    return Matrix(4, 4, {std::cos(r), -std::sin(r), 0, 0,
+                         std::sin(r),  std::cos(r), 0, 0,
+                                   0,            0, 1, 0,
+                                   0,            0, 0, 1}); 
+}
+
 float Matrix::getValue(const int y, const int x) const
 {
     if (!isCoordValid(y, x))
