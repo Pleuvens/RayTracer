@@ -403,4 +403,31 @@ TEST_CASE("MATRIX: A shearing transformation moves z in proportion to y",
     REQUIRE((transform * p) == res);
 }
 
+TEST_CASE("MATRIX: Individual transformations are applied in sequence",
+        "[multi-file:matrix]")
+{
+    Point p(1, 0, 1);
+    Matrix A = Matrix::rotationX(PI / 2);
+    Matrix B = Matrix::scaling(5, 5, 5);
+    Matrix C = Matrix::translation(10, 5, 7);
+    Point p2(1, -1, 0);
+    Point p3(5, -5, 0);
+    Point p4(15, 0, 7);
+    REQUIRE((A * p) == p2);
+    REQUIRE((B * p2) == p3);
+    REQUIRE((C * p3) == p4);
+}
+
+TEST_CASE("MATRIX: Chained transformations must be applied in reverse order",
+        "[multi-file:matrix]")
+{
+    Point p(1, 0, 1);
+    Matrix A = Matrix::rotationX(PI / 2);
+    Matrix B = Matrix::scaling(5, 5, 5);
+    Matrix C = Matrix::translation(10, 5, 7);
+    Matrix T = C * B * A;
+    Point res(15, 0, 7);
+    REQUIRE((T * p) == res);
+}
+
 #endif
