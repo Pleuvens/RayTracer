@@ -1,10 +1,15 @@
 #pragma once
 
+#include <vector>
+
 #include "sphere.hh"
 
 class Intersection {
     public:
         Intersection(const float t, const Sphere& obj);
+
+        static std::vector<Intersection>
+            intersections(std::initializer_list<Intersection> list);
         
         inline float getT(void) const { return _t; }
         inline Sphere getObject(void) const { return _object; }

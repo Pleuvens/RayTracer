@@ -78,4 +78,14 @@ TEST_CASE("RAY: ray is behind a sphere", "[multi-file:ray]")
     REQUIRE(isEqual(xs[1].getT(), -4.0));
 }
 
+TEST_CASE("RAY: sets the object on the intersection", "[multi-file:ray]")
+{
+    Ray r(Point(0, 0, -5), Vector(0, 0, 1));
+    Sphere s = Sphere();
+    std::vector<Intersection> xs = r.intersect(s);
+    REQUIRE(xs.size() == 2);
+    REQUIRE(xs[0].getObject() == s);
+    REQUIRE(xs[1].getObject() == s);
+}
+
 #endif
