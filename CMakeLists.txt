@@ -153,5 +153,8 @@ else()
                                             color
                                             canvas
                                             matrix
+                                            sphere
+                                            intersection
+                                            ray
                                             main)
 endif()
