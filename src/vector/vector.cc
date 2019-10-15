@@ -7,6 +7,10 @@ Vector::Vector(const float x, const float y, const float z)
     : Tuple(x, y, z, 0.0)
 {}
 
+Vector::Vector(const Tuple& t)
+    : Tuple(t.getX(), t.getY(), t.getZ(), 0.0)
+{}
+
 float Vector::dot(const Vector& v1, const Vector& v2)
 {
     return v1.getX() * v2.getX() + v1.getY() * v2.getY()

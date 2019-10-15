@@ -1,6 +1,7 @@
 #pragma once
 
 #include "tuple.hh"
+#include "vector.hh"
 
 class Point : public Tuple {
     public:

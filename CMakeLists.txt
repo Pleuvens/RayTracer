@@ -79,6 +79,37 @@ target_include_directories(matrix PUBLIC ${SHARED_INCLUDE_DIR} src/tuple
                                                                src/point
                                                                src/vector)
 
+add_library(sphere OBJECT)
+target_sources(sphere
+    PRIVATE "src/sphere/sphere.cc"
+    PUBLIC  "${CMAKE_CURRENT_SOURCE_DIR}/src/sphere/sphere.hh"
+)
+target_compile_options(sphere PRIVATE -Wall -Wextra -Werror)
+target_link_libraries(sphere PUBLIC "")
+target_include_directories(sphere PUBLIC ${SHARED_INCLUDE_DIR})
+
+add_library(intersection OBJECT)
+target_sources(intersection
+    PRIVATE "src/intersection/intersection.cc"
+    PUBLIC  "${CMAKE_CURRENT_SOURCE_DIR}/src/intersection/intersection.hh"
+)
+target_compile_options(intersection PRIVATE -Wall -Wextra -Werror)
+target_link_libraries(intersection PUBLIC "")
+target_include_directories(intersection PUBLIC ${SHARED_INCLUDE_DIR} src/sphere)
+
+add_library(ray OBJECT)
+target_sources(ray
+    PRIVATE "src/ray/ray.cc"
+    PUBLIC  "${CMAKE_CURRENT_SOURCE_DIR}/src/ray/ray.hh"
+)
+target_compile_options(ray PRIVATE -Wall -Wextra -Werror)
+target_link_libraries(ray PUBLIC "")
+target_include_directories(ray PUBLIC ${SHARED_INCLUDE_DIR} src/tuple
+                                                            src/point
+                                                            src/vector
+                                                            src/sphere
+                                                            src/intersection)
+
 add_library(main OBJECT)
 target_sources(main
     PRIVATE "src/main/main.cc"
@@ -109,6 +140,9 @@ if ("${CMAKE_BUILD_TYPE}" STREQUAL "Tests")
                                         color
                                         canvas
                                         matrix
+                                        sphere
+                                        intersection
+                                        ray
                                         test)
 else()
     add_executable(Raytracer)
