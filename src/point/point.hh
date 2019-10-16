@@ -6,4 +6,5 @@
 class Point : public Tuple {
     public:
         Point(const float x, const float y, const float z);
+        Point(const Tuple& t);
 };

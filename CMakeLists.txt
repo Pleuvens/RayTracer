@@ -86,7 +86,13 @@ target_sources(sphere
 )
 target_compile_options(sphere PRIVATE -Wall -Wextra -Werror)
 target_link_libraries(sphere PUBLIC "")
-target_include_directories(sphere PUBLIC ${SHARED_INCLUDE_DIR})
+target_include_directories(sphere PUBLIC ${SHARED_INCLUDE_DIR} src/tuple
+                                                               src/point
+                                                               src/vector
+                                                               src/matrix
+                                                               src/sphere
+                                                               src/intersection
+                                                               src/ray)
 
 add_library(intersection OBJECT)
 target_sources(intersection
@@ -95,7 +101,9 @@ target_sources(intersection
 )
 target_compile_options(intersection PRIVATE -Wall -Wextra -Werror)
 target_link_libraries(intersection PUBLIC "")
-target_include_directories(intersection PUBLIC ${SHARED_INCLUDE_DIR} src/sphere)
+target_include_directories(intersection PUBLIC ${SHARED_INCLUDE_DIR} src/tuple
+                                                                     src/sphere
+                                                                     src/matrix)
 
 add_library(ray OBJECT)
 target_sources(ray
@@ -108,6 +116,7 @@ target_include_directories(ray PUBLIC ${SHARED_INCLUDE_DIR} src/tuple
                                                             src/point
                                                             src/vector
                                                             src/sphere
+                                                            src/matrix
                                                             src/intersection)
 
 add_library(main OBJECT)

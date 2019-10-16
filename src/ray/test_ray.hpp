@@ -88,4 +88,22 @@ TEST_CASE("RAY: sets the object on the intersection", "[multi-file:ray]")
     REQUIRE(xs[1].getObject() == s);
 }
 
+TEST_CASE("RAY: Translating a ray", "[multi-file:ray]")
+{
+    Ray r(Point(1, 2, 3), Vector(0, 1, 0));
+    Matrix m(Matrix::translation(3, 4, 5));
+    Ray r2 = r.transform(m);
+    REQUIRE(r2.getOrigin() == Point(4, 6, 8));
+    REQUIRE(r2.getDirection() == Vector(0, 1, 0));
+}
+
+TEST_CASE("RAY: Scaling a ray", "[multi-file:ray]")
+{
+    Ray r(Point(1, 2, 3), Vector(0, 1, 0));
+    Matrix m(Matrix::scaling(2, 3, 4));
+    Ray r2 = r.transform(m);
+    REQUIRE(r2.getOrigin() == Point(2, 6, 12));
+    REQUIRE(r2.getDirection() == Vector(0, 3, 0));
+}
+
 #endif

@@ -21,6 +21,8 @@ class Ray
 
         std::vector<Intersection> intersect(const Sphere& s);
 
+        Ray transform(Matrix& m);
+
     private:
         Point _origin;
         Vector _direction;
