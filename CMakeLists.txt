@@ -130,7 +130,10 @@ target_include_directories(main PUBLIC ${SHARED_INCLUDE_DIR}
     src/vector
     src/color
     src/canvas
-    src/matrix)
+    src/matrix
+    src/ray
+    src/sphere
+    src/intersection)
 
 
 add_library(test OBJECT)

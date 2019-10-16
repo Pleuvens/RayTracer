@@ -1,4 +1,4 @@
-#pragma once
+#ifdef _TESTS
 
 #include <vector>
 
@@ -70,3 +70,5 @@ TEST_CASE("INTERSECTION: The hit is always the lowest nonnegative intersection",
     auto i = Intersection::hit(xs);
     REQUIRE(i.value() == i4);
 }
+
+#endif
