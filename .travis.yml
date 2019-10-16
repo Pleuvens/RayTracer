@@ -18,8 +18,6 @@ install:
 
 # Build steps
 script:
-    - export CC=gcc-7
-    - export CXX=g++-7
     - mkdir build_test
     - cd build_test
     - ${DEPS_DIR}/cmake/bin/cmake .. -DCMAKE_BUILD_TYPE=Tests && make
