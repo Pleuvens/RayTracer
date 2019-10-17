@@ -102,6 +102,8 @@ target_sources(intersection
 target_compile_options(intersection PRIVATE -Wall -Wextra -Werror)
 target_link_libraries(intersection PUBLIC "")
 target_include_directories(intersection PUBLIC ${SHARED_INCLUDE_DIR} src/tuple
+                                                                     src/point
+                                                                     src/vector
                                                                      src/sphere
                                                                      src/matrix)
 
