@@ -1,5 +1,7 @@
 #pragma once
 
+#undef minor
+
 #include <vector>
 
 #include "tuple.hh"
