@@ -4,15 +4,23 @@ compiler:
     - gcc
 
 dist: trusty
+sudo: require
+
+addons:
+    apt:
+        sources:
+            ubuntu-toolchain-r-test
+        packages:
+            - gcc-6
+            - g++-6
+            - cppcheck
+            - gprof
 
 before_install:
-    - sudo add-apt-repository y ppa:ubuntu-toolchain-r/test
-    - sudo apt-get update -qq
+    - sudo ln -s /usr/bin/gcc-6 /usr/local/bin/gcc
+    - sudo ln -s /usr/bin/g++-6 /usr/local/bin/g++
 
 install:
-    - sudo apt-get update -qq gcc
-    - sudo apt-get install -qq cppcheck
-    - sudo apt-get install -qq gprof
     - DEPS_DIR="${TRAVIS_BUILD_DIR}/deps"
     - mkdir ${DEPS_DIR} && cd ${DEPS_DIR}
     - |
@@ -27,6 +35,7 @@ install:
 
 # Build steps
 script:
+    - gcc -v && g++ -v
     - mkdir build_test
     - cd build_test
     - ${DEPS_DIR}/cmake/bin/cmake .. -DCMAKE_BUILD_TYPE=Tests && make
