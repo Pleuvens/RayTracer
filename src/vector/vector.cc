@@ -33,6 +33,11 @@ Vector Vector::normalize(void)
     return *this;
 }
 
+Vector Vector::reflect(Vector& v)
+{
+    return Vector(*this - v * 2 * Vector::dot(*this, v));
+}
+
 Vector Vector::operator*(const Vector& v)
 {
     return Vector(_y * v._z - _z * v._y, _z * v._x - _x * v._z, _x * v._y - _y * v._x);

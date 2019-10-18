@@ -37,14 +37,31 @@ TEST_CASE("VECTOR: normalize a vector", "[multi-file:vector]") {
             == Vector(1 / std::sqrt(14), 2 / std::sqrt(14), 3 / std::sqrt(14)));
 }
 
-TEST_CASE("magnitude of a normalize vector", "[multi-file:vector]")
+TEST_CASE("VECTOR: magnitude of a normalize vector", "[multi-file:vector]")
 {
     REQUIRE(isEqual(Vector(1, 2, 3).normalize().magnitude(), 1));
 }
 
-TEST_CASE("cross product of two vectors", "[multi-file:vector]") {
+TEST_CASE("VECTOR: cross product of two vectors", "[multi-file:vector]") {
     REQUIRE((Vector(1, 2, 3) * Vector(2, 3, 4)) == Vector(-1, 2, -1));
     REQUIRE((Vector(2, 3, 4) * Vector(1, 2, 3)) == Vector(1, -2, 1));
+}
+
+TEST_CASE("VECTOR: Reflecting a vector approaching at 45deg", "[multi-file:vector]")
+{
+    Vector v(1, -1, 0);
+    Vector n(0, 1, 0);
+    Vector r = v.reflect(n);
+    REQUIRE(r == Vector(1, 1, 0));
+}
+
+TEST_CASE("VECTOR: Reflecting a vector off a slanted surface", "[multi-file:vector]")
+{
+    Vector v(0, -1, 0);
+    const float value = std::sqrt(2) / 2;
+    Vector n(value, value, 0);
+    Vector r = v.reflect(n);
+    REQUIRE(r == Vector(1, 0, 0));
 }
 
 #endif

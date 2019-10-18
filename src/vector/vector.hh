@@ -11,6 +11,7 @@ class Vector : public Tuple {
 
         float magnitude(void) const;
         Vector normalize(void);
+        Vector reflect(Vector& v);
 
         Vector operator*(const Vector& v);
         Vector operator*=(const Vector& v);
