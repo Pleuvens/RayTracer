@@ -2,6 +2,8 @@
 #include "constants.hh"
 #include "op_overloading.hh"
 
+#undef minor
+
 #include "test_matrix.hpp"
 
 Matrix::Matrix(const int height, const int width)
