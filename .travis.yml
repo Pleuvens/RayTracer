@@ -1,10 +1,9 @@
 language: cpp
 
 compiler:
-    - gcc
+    - g++
 
 dist: trusty
-sudo: require
 
 addons:
     apt:
@@ -14,23 +13,34 @@ addons:
             - gcc-7
             - g++-7
             - cppcheck
-            - cmake
 
 before_install:
-    - sudo ln -s /usr/bin/gcc-7 /usr/local/bin/gcc
-    - sudo ln -s /usr/bin/g++-7 /usr/local/bin/g++
+    - export CXX="g++-7"
+
+install:
+-    - DEPS_DIR="${TRAVIS_BUILD_DIR}/deps"
+-    - mkdir ${DEPS_DIR} && cd ${DEPS_DIR}
+-    - |
+-      if [[ "${TRAVIS_OS_NAME}" == "linux" ]]; then
+-          CMAKE_URL="http://www.cmake.org/files/v3.15/cmake-3.15.3-Linux-x86_64.tar.gz"
+-          mkdir cmake && travis_retry wget --no-check-certificate --quiet -O - ${CMAKE_URL}
+-          export PATH=${DEPS_DIR}/cmake/bin:${PATH}
+-      fi
+-
+-    # Go to the Root directory
+-    - cd ..
 
 # Build steps
 script:
     - gcc -v && g++ -v
     - mkdir build_test
     - cd build_test
-    - cmake .. -DCMAKE_BUILD_TYPE=Tests && make
+    - ${DEPS_DIR}/cmake/bin/cmake .. -DCMAKE_BUILD_TYPE=Tests && make
     - ./Tests
     - cd ..
     - mkdir build
     - cd build
-    - cmake .. && make
+    - ${DEPS_DIR}/cmake/bin/cmake .. && make
     - ./Raytracer
     - cppcheck --quiet --error-exitcode=1 .
     - gprof ./Raytracer > gprof.log
