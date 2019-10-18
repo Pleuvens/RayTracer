@@ -3,7 +3,7 @@ language: cpp
 compiler:
     - g++
 
-dist: trusty
+dist: bionic
 
 addons:
     apt:
