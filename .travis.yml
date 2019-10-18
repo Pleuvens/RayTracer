@@ -14,7 +14,6 @@ addons:
             - gcc-6
             - g++-6
             - cppcheck
-            - gprof
 
 before_install:
     - sudo ln -s /usr/bin/gcc-6 /usr/local/bin/gcc
@@ -46,5 +45,3 @@ script:
     - ${DEPS_DIR}/cmake/bin/cmake .. && make
     - ./Raytracer
     - cppcheck --quiet --error-exitcode=1 .
-    - gprof ./Raytracer > gprof.log
-    - head gprof.log -n 100
