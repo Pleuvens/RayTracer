@@ -12,7 +12,6 @@ addons:
         packages:
             - gcc-7
             - g++-7
-            - cppcheck
 
 before_install:
     - export CXX="g++-7"
@@ -41,6 +40,3 @@ script:
     - cd build
     - ${DEPS_DIR}/cmake/bin/cmake .. && make
     - ./Raytracer
-    - cppcheck --quiet --error-exitcode=1 .
-    - gprof ./Raytracer > gprof.log
-    - head gprof.log -n 100
