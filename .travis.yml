@@ -10,9 +10,9 @@ before_install:
     - sudo apt-get update -qq
 
 install:
-    - sudo apt-get install -qq g++-6
-    - sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-6 90
+    - sudo apt-get update -qq gcc
     - sudo apt-get install -qq cppcheck
+    - sudo apt-get install -qq gprof
     - DEPS_DIR="${TRAVIS_BUILD_DIR}/deps"
     - mkdir ${DEPS_DIR} && cd ${DEPS_DIR}
     - |
@@ -30,6 +30,12 @@ script:
     - mkdir build_test
     - cd build_test
     - ${DEPS_DIR}/cmake/bin/cmake .. -DCMAKE_BUILD_TYPE=Tests && make
+    - ./Tests
+    - cd ..
     - mkdir build
     - cd build
     - ${DEPS_DIR}/cmake/bin/cmake .. && make
+    - ./Raytracer
+    - cppcheck --quiet --error-exitcode=1 .
+    - gprof ./Raytracer > gprof.log
+    - head gprof.log -n 100
