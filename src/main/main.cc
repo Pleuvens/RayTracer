@@ -15,6 +15,10 @@ int main(void) {
     Canvas canvas(canvas_pixels, canvas_pixels);
     Color color(1, 0, 0);
     Sphere shape;
+    Material m;
+    m.setColor(Color(1, 0.2, 1));
+    shape.setMaterial(m);
+    PointLight light(Point(-10, 10, -10), Color(1, 1, 1));
 
     for (int y = 0; y < canvas_pixels; y++)
     {
@@ -27,8 +31,17 @@ int main(void) {
             Ray r(ray_origin, ray_direction.normalize());
             auto xs = r.intersect(shape);
             
-            if (Intersection::hit(xs) != std::nullopt)
+            auto hit = Intersection::hit(xs);
+
+            if (hit != std::nullopt)
+            {
+                auto point = r.position(hit->getT());
+                auto normal = hit->getObject().normalAt(point); 
+                auto eye = Vector(r.getDirection() * -1);
+                color = hit->getObject().getMaterial().lighting(light, point, eye,
+                        normal);
                 canvas.setPixel(y, x, color);
+            }
         }
     }
 

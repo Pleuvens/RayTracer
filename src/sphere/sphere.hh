@@ -17,7 +17,7 @@ class Sphere {
         inline void setTransform(const Matrix& m) { _transform = m; }
         inline void setMaterial(const Material& m) { _material = m; }
 
-        Vector normalAt(Point& p);
+        Vector normalAt(Point p);
 
         bool operator==(const Sphere& s) const { (void)s; return true; }
 

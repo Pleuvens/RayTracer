@@ -5,7 +5,7 @@ Sphere::Sphere()
     : _transform(Matrix::identity(4))
 {}
 
-Vector Sphere::normalAt(Point& p)
+Vector Sphere::normalAt(Point p)
 {
     Point origin(0, 0, 0);
     Point object_point(_transform.invert() * p);
