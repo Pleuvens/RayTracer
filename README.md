@@ -1,7 +1,7 @@
 ## Raytracer
 
 [![Build Status](https://travis-ci.com/Pleuvens/RayTracer.svg?branch=master)](https://travis-ci.com/Pleuvens/RayTracer)
-[![codecov](https://codecov.io/gh/TechnionYP5777/project-name/branch/master/graph/badge.svg)](https://codecov.io/gh/Pleuvens/Raytracer)
+[![codecov](https://codecov.io/gh/Pleuvens/Raytracer/branch/master/graph/badge.svg)](https://codecov.io/gh/Pleuvens/Raytracer)
 
 This is a Raytracer in C++ made following The RayTracer Challenge by Jamis Buck
 
