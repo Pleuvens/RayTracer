@@ -12,7 +12,6 @@ addons:
         packages:
             - gcc-7
             - g++-7
-            - gprof
             - lcov
 
 before_install:
