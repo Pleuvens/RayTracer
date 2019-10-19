@@ -9,8 +9,8 @@ if (NOT CMAKE_BUILD_TYPE)
 endif()
 
 set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -std=c++17 -Ofast -flto -march=native -pedantic")
-set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -std=c++17 -g -pedantic -fsanitize=address --coverage")
-set(CMAKE_CXX_FLAGS_TESTS "${CMAKE_CXX_FLAGS_TEST} -std=c++17 -g -pedantic -fsanitize=address -D_TESTS --coverage")
+set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -std=c++17 -g -pedantic -fsanitize=address --coverage -pg")
+set(CMAKE_CXX_FLAGS_TESTS "${CMAKE_CXX_FLAGS_TEST} -std=c++17 -g -pedantic -fsanitize=address -D_TESTS")
 
 set(SHARED_INCLUDE_DIR libs src/utils
                             src/canvas

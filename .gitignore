@@ -6,4 +6,5 @@ rt
 *.dSYM
 *.ppm
 *.o
+*.log
 build/

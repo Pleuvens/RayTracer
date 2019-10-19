@@ -12,6 +12,8 @@ addons:
         packages:
             - gcc-7
             - g++-7
+            - gprof
+            - lcov
 
 before_install:
     - export CXX="g++-7"
@@ -38,5 +40,11 @@ script:
     - cd ..
     - mkdir build
     - cd build
-    - ${DEPS_DIR}/cmake/bin/cmake .. && make
+    - ${DEPS_DIR}/cmake/bin/cmake .. -DCMAKE_BUILD_TYPE=Debug && make
     - ./Raytracer
+
+after_success:
+    - gprof -pb ./Raytracer
+    - lcov --capture --directory . --output-file coverage.info
+    - lcov --list converage.info
+    - bash <(curl -s https://codecov.io/bash) -f coverage.info || echo "Codecov did not collect coverage reports"
