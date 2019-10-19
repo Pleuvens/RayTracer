@@ -56,6 +56,20 @@ Color Color::operator*=(const Color& c)
     return *this;
 }
 
+Color Color::operator*(const float v)
+{
+    return Color(_red * v, _green * v, _blue * v);
+}
+
+Color Color::operator*=(const float v)
+{
+    _red *= v;
+    _green *= v;
+    _blue *= v;
+    return *this;
+}
+
+
 bool Color::operator==(const Color& c) const
 {
     return isEqual(_red, c._red) && isEqual(_green, c._green) && isEqual(_blue, c._blue);

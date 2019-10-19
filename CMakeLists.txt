@@ -12,7 +12,18 @@ set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -std=c++17 -Ofast -flto 
 set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -std=c++17 -g -pedantic -fsanitize=address --coverage")
 set(CMAKE_CXX_FLAGS_TESTS "${CMAKE_CXX_FLAGS_TEST} -std=c++17 -g -pedantic -fsanitize=address -D_TESTS --coverage")
 
-set(SHARED_INCLUDE_DIR libs src/utils)
+set(SHARED_INCLUDE_DIR libs src/utils
+                            src/canvas
+                            src/color
+                            src/intersection
+                            src/matrix
+                            src/point
+                            src/ray
+                            src/sphere
+                            src/tuple
+                            src/vector
+                            src/lights
+                            src/material)
 
 add_library(op_overloading OBJECT)
 target_sources(op_overloading
@@ -39,7 +50,7 @@ target_sources(vector
 )
 target_compile_options(vector PRIVATE -Wall -Wextra -Werror)
 target_link_libraries(vector PUBLIC "")
-target_include_directories(vector PUBLIC ${SHARED_INCLUDE_DIR} src/tuple)
+target_include_directories(vector PUBLIC ${SHARED_INCLUDE_DIR})
 
 add_library(point OBJECT)
 target_sources(point
@@ -48,7 +59,7 @@ target_sources(point
 )
 target_compile_options(point PRIVATE -Wall -Wextra -Werror)
 target_link_libraries(point PUBLIC "")
-target_include_directories(point PUBLIC ${SHARED_INCLUDE_DIR} src/tuple src/vector)
+target_include_directories(point PUBLIC ${SHARED_INCLUDE_DIR})
 
 add_library(color OBJECT)
 target_sources(color
@@ -66,7 +77,7 @@ target_sources(canvas
 )
 target_compile_options(canvas PRIVATE -Wall -Wextra -Werror)
 target_link_libraries(canvas PUBLIC "")
-target_include_directories(canvas PUBLIC ${SHARED_INCLUDE_DIR} src/color)
+target_include_directories(canvas PUBLIC ${SHARED_INCLUDE_DIR})
 
 add_library(matrix OBJECT)
 target_sources(matrix
@@ -75,9 +86,7 @@ target_sources(matrix
 )
 target_compile_options(matrix PRIVATE -Wall -Wextra -Werror)
 target_link_libraries(matrix PUBLIC "")
-target_include_directories(matrix PUBLIC ${SHARED_INCLUDE_DIR} src/tuple
-                                                               src/point
-                                                               src/vector)
+target_include_directories(matrix PUBLIC ${SHARED_INCLUDE_DIR})
 
 add_library(sphere OBJECT)
 target_sources(sphere
@@ -86,13 +95,7 @@ target_sources(sphere
 )
 target_compile_options(sphere PRIVATE -Wall -Wextra -Werror)
 target_link_libraries(sphere PUBLIC "")
-target_include_directories(sphere PUBLIC ${SHARED_INCLUDE_DIR} src/tuple
-                                                               src/point
-                                                               src/vector
-                                                               src/matrix
-                                                               src/sphere
-                                                               src/intersection
-                                                               src/ray)
+target_include_directories(sphere PUBLIC ${SHARED_INCLUDE_DIR})
 
 add_library(intersection OBJECT)
 target_sources(intersection
@@ -101,11 +104,7 @@ target_sources(intersection
 )
 target_compile_options(intersection PRIVATE -Wall -Wextra -Werror)
 target_link_libraries(intersection PUBLIC "")
-target_include_directories(intersection PUBLIC ${SHARED_INCLUDE_DIR} src/tuple
-                                                                     src/point
-                                                                     src/vector
-                                                                     src/sphere
-                                                                     src/matrix)
+target_include_directories(intersection PUBLIC ${SHARED_INCLUDE_DIR})
 
 add_library(ray OBJECT)
 target_sources(ray
@@ -114,28 +113,33 @@ target_sources(ray
 )
 target_compile_options(ray PRIVATE -Wall -Wextra -Werror)
 target_link_libraries(ray PUBLIC "")
-target_include_directories(ray PUBLIC ${SHARED_INCLUDE_DIR} src/tuple
-                                                            src/point
-                                                            src/vector
-                                                            src/sphere
-                                                            src/matrix
-                                                            src/intersection)
+target_include_directories(ray PUBLIC ${SHARED_INCLUDE_DIR})
+
+add_library(material OBJECT)
+target_sources(material
+    PRIVATE "src/material/material.cc"
+    PUBLIC  "${CMAKE_CURRENT_SOURCE_DIR}/src/material/material.hh"
+)
+target_compile_options(material PRIVATE -Wall -Wextra -Werror)
+target_link_libraries(material PUBLIC "")
+target_include_directories(material PUBLIC ${SHARED_INCLUDE_DIR})
+
+add_library(point_light OBJECT)
+target_sources(point_light
+    PRIVATE "src/lights/point_light.cc"
+    PUBLIC  "${CMAKE_CURRENT_SOURCE_DIR}/src/lights/point_light.hh"
+)
+target_compile_options(point_light PRIVATE -Wall -Wextra -Werror)
+target_link_libraries(point_light PUBLIC "")
+target_include_directories(point_light PUBLIC ${SHARED_INCLUDE_DIR})
+
 
 add_library(main OBJECT)
 target_sources(main
     PRIVATE "src/main/main.cc"
 )
 target_compile_options(main PRIVATE -Wall -Wextra -Werror)
-target_include_directories(main PUBLIC ${SHARED_INCLUDE_DIR}
-    src/tuple
-    src/point
-    src/vector
-    src/color
-    src/canvas
-    src/matrix
-    src/ray
-    src/sphere
-    src/intersection)
+target_include_directories(main PUBLIC ${SHARED_INCLUDE_DIR})
 
 
 add_library(test OBJECT)
@@ -157,6 +161,8 @@ if ("${CMAKE_BUILD_TYPE}" STREQUAL "Tests")
                                         sphere
                                         intersection
                                         ray
+                                        material
+                                        point_light
                                         test)
 else()
     add_executable(Raytracer)
@@ -170,5 +176,7 @@ else()
                                             sphere
                                             intersection
                                             ray
+                                            material
+                                            point_light
                                             main)
 endif()

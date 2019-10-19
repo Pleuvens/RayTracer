@@ -9,6 +9,8 @@ class Color {
         static Color red(void) { return Color(1, 0, 0); }
         static Color green(void) { return Color(0, 1, 0); }
         static Color blue(void) { return Color(0, 0, 1); }
+        static Color black(void) { return Color(0, 0, 0); }
+        static Color white(void) { return Color(1, 1, 1); }
 
         static int scale(float value);
 
@@ -26,6 +28,8 @@ class Color {
         Color operator-=(const Color& c);
         Color operator*(const Color& c);
         Color operator*=(const Color& c);
+        Color operator*(const float v);
+        Color operator*=(const float v);
         bool operator==(const Color& c) const;
         bool operator!=(const Color& c) const;
         friend std::ostream& operator<<(std::ostream& os, const Color& c);

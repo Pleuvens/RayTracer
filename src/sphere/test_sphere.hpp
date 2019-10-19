@@ -107,4 +107,35 @@ TEST_CASE("SPHERE: Computing the normal on a transformed sphere", "[multi-file:s
     REQUIRE(n == Vector(0, 0.97014, -0.24254));
 }
 
+TEST_CASE("SPHERE: a sphere has a default material", "[multi-file:sphere]")
+{
+    Sphere s;
+    REQUIRE(s.getMaterial() == Material());
+}
+
+TEST_CASE("SPHERE: a sphere may be assigned a material", "[multi-file:sphere]")
+{
+    Sphere s;
+    Material m;
+    m.setAmbient(1);
+    s.setMaterial(m);
+    REQUIRE(s.getMaterial() == m);
+}
+
+TEST_CASE("SPHERE: A sphere has a default material", "[multi-file:sphere]")
+{
+    Sphere s;
+    Material m = s.getMaterial();
+    REQUIRE(m == Material());
+}
+
+TEST_CASE("SPHERE: A sphere may be assigned a material", "[multi-file:sphere]")
+{
+    Sphere s;
+    Material m;
+    m.setAmbient(1);
+    s.setMaterial(m);
+    REQUIRE(s.getMaterial() == m);
+}
+
 #endif
