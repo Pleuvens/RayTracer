@@ -4,6 +4,7 @@
 
 class Vector : public Tuple {
     public:
+        Vector() = default;
         Vector(const float x, const float y, const float z);
         Vector(const Tuple& t);
 

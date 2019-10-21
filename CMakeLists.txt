@@ -133,6 +133,14 @@ target_compile_options(point_light PRIVATE -Wall -Wextra -Werror)
 target_link_libraries(point_light PUBLIC "")
 target_include_directories(point_light PUBLIC ${SHARED_INCLUDE_DIR})
 
+add_library(world OBJECT)
+target_sources(world
+    PRIVATE "src/world/world.cc"
+    PUBLIC  "${CMAKE_CURRENT_SOURCE_DIR}/src/world/world.hh"
+)
+target_compile_options(world PRIVATE -Wall -Wextra -Werror)
+target_link_libraries(world PUBLIC "")
+target_include_directories(world PUBLIC ${SHARED_INCLUDE_DIR})
 
 add_library(main OBJECT)
 target_sources(main
@@ -163,6 +171,7 @@ if ("${CMAKE_BUILD_TYPE}" STREQUAL "Tests")
                                         ray
                                         material
                                         point_light
+                                        world
                                         test)
 else()
     add_executable(Raytracer)
@@ -178,5 +187,6 @@ else()
                                             ray
                                             material
                                             point_light
+                                            world
                                             main)
 endif()

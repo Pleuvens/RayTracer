@@ -5,6 +5,7 @@
 
 class Point : public Tuple {
     public:
+        Point() = default;
         Point(const float x, const float y, const float z);
         Point(const Tuple& t);
 };

@@ -106,4 +106,41 @@ TEST_CASE("RAY: Scaling a ray", "[multi-file:ray]")
     REQUIRE(r2.getDirection() == Vector(0, 3, 0));
 }
 
+TEST_CASE("RAY: Precomputing the state of an intersection",
+        "[multi-file:ray]")
+{
+    Ray r(Point(0, 0, -5), Vector(0, 0, 1));
+    Sphere shape;
+    Intersection i(4, shape);
+    auto comps = r.prepareComputations(i);
+    REQUIRE(isEqual(comps.getT(), i.getT()));
+    REQUIRE(comps.getObject() == i.getObject());
+    REQUIRE(comps.getPoint() == Point(0, 0, -1));
+    REQUIRE(comps.getEyeVector() == Vector(0, 0, -1));
+    REQUIRE(comps.getNormalVector() == Vector(0, 0, -1));
+}
+
+TEST_CASE("RAY: The hit, when an intersection occurs on the outside",
+        "[multi-file:ray]")
+{
+    Ray r(Point(0, 0, -5), Vector(0, 0, 1));
+    Sphere shape;
+    Intersection i(4, shape);
+    auto comps = r.prepareComputations(i);
+    REQUIRE(!comps.isInside());
+}
+
+TEST_CASE("RAY: The hit, when an intersection occurs on the inside",
+        "[multi-file:ray]")
+{
+    Ray r(Point(0, 0, 0), Vector(0, 0, 1));
+    Sphere shape;
+    Intersection i(1, shape);
+    auto comps = r.prepareComputations(i);
+    REQUIRE(comps.getPoint() == Point(0, 0, 1));
+    REQUIRE(comps.getEyeVector() == Vector(0, 0, -1));
+    REQUIRE(comps.isInside());
+    REQUIRE(comps.getNormalVector() == Vector(0, 0, -1));
+}
+
 #endif

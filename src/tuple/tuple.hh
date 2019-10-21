@@ -3,6 +3,7 @@
 class Tuple {
 
     public:
+        Tuple() = default;
         Tuple(const float x, const float y, const float z, const float w);
 
         inline float getX() const { return _x; }

@@ -2,10 +2,10 @@
 
 #include <vector>
 
-#include "point.hh"
-#include "vector.hh"
-#include "sphere.hh"
 #include "intersection.hh"
+#include "point.hh"
+#include "sphere.hh"
+#include "vector.hh"
 
 class Ray
 {
@@ -20,6 +20,7 @@ class Ray
         inline Tuple position(const float t) { return _origin + _direction * t; }
 
         std::vector<Intersection> intersect(const Sphere& s);
+        Intersection prepareComputations(Intersection& i);
 
         Ray transform(Matrix& m);
 

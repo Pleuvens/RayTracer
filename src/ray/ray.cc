@@ -28,6 +28,20 @@ std::vector<Intersection> Ray::intersect(const Sphere& s)
     return xs;
 }
 
+Intersection Ray::prepareComputations(Intersection& i)
+{
+    i.setPoint(position(i.getT()));
+    i.setEyeVector(getDirection() * -1);
+    i.setNormalVector(i.getObject().normalAt(i.getPoint()));
+    i.setInside(false);
+    if (Vector::dot(i.getNormalVector(), i.getEyeVector()) < 0)
+    {
+        i.setInside(true);
+        i.setNormalVector(i.getNormalVector() * -1);
+    }
+    return i;
+}
+
 Ray Ray::transform(Matrix& m)
 {
     Point origin = m * _origin; 

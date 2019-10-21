@@ -32,3 +32,23 @@ bool Intersection::operator==(const Intersection& i) const
 {
     return isEqual(_t, i._t) && _object == i._object;
 }
+
+bool Intersection::operator<(const Intersection& i) const
+{
+    return _t < i._t;
+}
+
+bool Intersection::operator<=(const Intersection& i) const
+{
+    return _t < i._t || isEqual(_t, i._t);
+}
+
+bool Intersection::operator>(const Intersection& i) const
+{
+    return _t > i._t;
+}
+
+bool Intersection::operator>=(const Intersection& i) const
+{
+    return _t > i._t || isEqual(_t, i._t);
+}
