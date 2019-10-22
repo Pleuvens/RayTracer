@@ -37,7 +37,7 @@ Currently I'm working on the scene and shadows.
 
 Here is what this raytracer can render
 
-![](./test.ppm)
+![rendered image](test.ppm)
 
 ## Incoming
 

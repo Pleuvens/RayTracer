@@ -4,7 +4,6 @@ rt
 *.tar
 *.vscode
 *.dSYM
-*.ppm
 *.o
 *.log
 build/
