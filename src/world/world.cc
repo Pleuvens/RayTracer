@@ -35,3 +35,24 @@ std::vector<Intersection> World::intersect(Ray r)
    std::sort(res.begin(), res.end());
    return res;
 }
+
+Color World::shadeHit(const Intersection& comps)
+{
+    Color c = Color::black();
+    for (size_t i = 0; i < _lights.size(); i++)
+    {
+        c += comps.getObject().getMaterial().lighting(_lights[i],
+            comps.getPoint(), comps.getEyeVector(), comps.getNormalVector());
+    }
+    return c; 
+}
+
+Color World::colorAt(Ray r)
+{
+    auto xs = intersect(r);
+    auto hit = Intersection::hit(xs);
+    if (hit == std::nullopt)
+        return Color::black();
+    auto comps = r.prepareComputations(*hit);
+    return shadeHit(comps);
+}

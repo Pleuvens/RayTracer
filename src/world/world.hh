@@ -20,6 +20,8 @@ class World {
         inline void setLights(std::vector<PointLight> lights) { _lights = lights; }
 
         std::vector<Intersection> intersect(Ray r);
+        Color shadeHit(const Intersection& comps);
+        Color colorAt(Ray r);
 
     private:
         std::vector<Sphere> _objects;

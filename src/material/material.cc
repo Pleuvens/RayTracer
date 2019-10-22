@@ -11,7 +11,7 @@ Material::Material()
 {}
 
 Color Material::lighting(const PointLight& light, const Point& point, const Vector& eye,
-        Vector& normal)
+        Vector normal)
 {
     // combine surface color with light color/intensity
     auto effective_color = _color * light.getIntensity();

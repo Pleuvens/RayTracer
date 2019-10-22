@@ -28,7 +28,7 @@ std::vector<Intersection> Ray::intersect(const Sphere& s)
     return xs;
 }
 
-Intersection Ray::prepareComputations(Intersection& i)
+Intersection Ray::prepareComputations(Intersection i)
 {
     i.setPoint(position(i.getT()));
     i.setEyeVector(getDirection() * -1);
