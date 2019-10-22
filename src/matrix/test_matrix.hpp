@@ -430,4 +430,46 @@ TEST_CASE("MATRIX: Chained transformations must be applied in reverse order",
     REQUIRE((T * p) == res);
 }
 
+TEST_CASE("MATRIX: The transformation matrix for the default orientation",
+        "[multi-file:matrix]")
+{
+    Point from(0, 0, 0);
+    Point to(0, 0, -1);
+    Vector up(0, 1, 0);
+    Matrix t = Matrix::viewTransform(from, to, up);
+    REQUIRE(t == Matrix::identity(4));
+}
+
+TEST_CASE("MATRIX: A view transformation matrix looking in positive z direction",
+        "[multi-file:matrix]")
+{
+    Point from(0, 0, 0);
+    Point to(0, 0, 1);
+    Vector up(0, 1, 0);
+    Matrix t = Matrix::viewTransform(from, to, up);
+    REQUIRE(t == Matrix::scaling(-1, 1, -1));
+}
+
+TEST_CASE("MATRIX: The view transformation moves the world", "[multi-file:matrix]")
+{
+    Point from(0, 0, 0);
+    Point to(0, 0, 0);
+    Vector up(0, 1, 0);
+    Matrix t = Matrix::viewTransform(from, to, up);
+    REQUIRE(t == Matrix::translation(0, 0, -8));
+}
+
+TEST_CASE("MATRIX: An arbitrary view transformation", "[multi-file:matrix]")
+{
+    Point from(1, 3, 2);
+    Point to(4, -2, 8);
+    Vector up(1, 1, 0);
+    Matrix t = Matrix::viewTransform(from, to, up);
+    Matrix res = Matrix(4, 4, { -0.50709, 0.50709,  0.67612, -2.36643,
+                                 0.76772, 0.60609,  0.12122, -2.82843,
+                                -0.35857, 0.59761, -0.71714,        0,
+                                       0,       0,        0,        1});
+    REQUIRE(t == res);
+}
+
 #endif

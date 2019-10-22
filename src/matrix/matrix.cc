@@ -79,6 +79,19 @@ Matrix Matrix::shearing(const float x_y, const float x_z,
                            0,   0,   0, 1}); 
 }
 
+Matrix Matrix::viewTransform(Point from, Point to,
+        Vector up)
+{
+    auto forward = Vector(to - from).normalize();
+    auto left = Vector(forward * up.normalize());
+    auto true_up = Vector(left * forward);
+    Matrix res = Matrix(4, 4, {     left.getX(),     left.getY(),     left.getZ(), 0,
+                                 true_up.getX(),  true_up.getY(),  true_up.getZ(), 0,
+                                -forward.getX(), -forward.getY(), -forward.getZ(), 0,
+                                              0,               0,               0, 1});
+    return res * Matrix::translation(-from.getX(), -from.getY(), -from.getZ());
+}
+
 float Matrix::getValue(const int y, const int x) const
 {
     if (!isCoordValid(y, x))

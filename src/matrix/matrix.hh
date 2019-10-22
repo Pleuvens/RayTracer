@@ -4,7 +4,9 @@
 
 #include <vector>
 
+#include "point.hh"
 #include "tuple.hh"
+#include "vector.hh"
 
 class Matrix {
     public:
@@ -20,6 +22,7 @@ class Matrix {
         static Matrix shearing(const float x_y, const float x_z,
                                const float y_x, const float y_z,
                                const float z_x, const float z_y);
+        static Matrix viewTransform(Point from, Point to, Vector up);
 
         inline int getHeight(void) const { return _height; }
         inline int getWidth(void)  const { return _width; }
