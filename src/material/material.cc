@@ -11,7 +11,7 @@ Material::Material()
 {}
 
 Color Material::lighting(const PointLight& light, const Point& point, const Vector& eye,
-        Vector normal)
+        Vector normal, bool in_shadow)
 {
     // combine surface color with light color/intensity
     auto effective_color = _color * light.getIntensity();
@@ -41,7 +41,8 @@ Color Material::lighting(const PointLight& light, const Point& point, const Vect
             specular = light.getIntensity() * _specular * factor;
         }
     }
-
+    if (in_shadow)
+        return ambient;
     return ambient + diffuse + specular; // add the three for final shading
 }
 

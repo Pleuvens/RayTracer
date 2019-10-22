@@ -76,4 +76,16 @@ TEST_CASE("MATERIAL: Lighting with the light behind the surface",
     REQUIRE(result == Color(0.1, 0.1, 0.1));
 }
 
+TEST_CASE("MATERIAL: Lighting with the surface in shadow", "[multi-file:material]")
+{
+    Material m;
+    Point p(0, 0, 0);
+    Vector eyev(0, 0, -1);
+    Vector normalv(0, 0, -1);
+    PointLight light(Point(0, 0, -10), Color(1, 1, 1));
+    bool in_shadow = true;
+    Color res = m.lighting(light, p, eyev, normalv, in_shadow);
+    REQUIRE(res == Color(0.1, 0.1, 0.1));
+}
+
 #endif

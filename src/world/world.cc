@@ -42,7 +42,8 @@ Color World::shadeHit(const Intersection& comps)
     for (size_t i = 0; i < _lights.size(); i++)
     {
         c += comps.getObject().getMaterial().lighting(_lights[i],
-            comps.getPoint(), comps.getEyeVector(), comps.getNormalVector());
+            comps.getPoint(), comps.getEyeVector(), comps.getNormalVector(),
+            isShadowed(comps.getOverPoint()));
     }
     return c; 
 }
@@ -55,4 +56,18 @@ Color World::colorAt(Ray r)
         return Color::black();
     auto comps = r.prepareComputations(*hit);
     return shadeHit(comps);
+}
+
+bool World::isShadowed(Point point)
+{
+    Vector v = Vector(_lights[0].getPosition() - point);
+    auto distance = v.magnitude();
+    auto direction = v.normalize();
+
+    Ray r(point, direction);
+    auto xs = intersect(r);
+    auto hit = Intersection::hit(xs);
+    if (hit != std::nullopt && hit->getT() < distance)
+        return true;
+    return false;
 }

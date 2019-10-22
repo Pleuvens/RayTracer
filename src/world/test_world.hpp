@@ -90,4 +90,51 @@ TEST_CASE("WORLD: The color with an intersection behind the ray",
     REQUIRE(c == inner.getMaterial().getColor());
 }
 
+TEST_CASE("WORLD: There is no shadow when nothing is collinear with point and light",
+        "[multi-file:world]")
+{
+    World w = World::defaultWorld();
+    Point p(0, 10, 0);
+    REQUIRE(!w.isShadowed(p));
+}
+
+TEST_CASE("WORLD: The shadow when an object is between the point and the light",
+        "[multi-file:world]")
+{
+    World w = World::defaultWorld();
+    Point p(10, -10, 10);
+    REQUIRE(w.isShadowed(p));
+}
+
+TEST_CASE("WORLD: There is no shadow when an object is behind the light", 
+        "[multi-file:world]")
+{
+    World w = World::defaultWorld();
+    Point p(-20, 20, -20);
+    REQUIRE(!w.isShadowed(p));
+}
+
+TEST_CASE("WORLD: There is no shadow when an object is behind the point", 
+        "[multi-file:world]")
+{
+    World w = World::defaultWorld();
+    Point p(-2, 2, -2);
+    REQUIRE(!w.isShadowed(p));
+}
+
+TEST_CASE("WORLD: shadeHit is given an intersection in shadow", "[multi-file:world]")
+{
+    World w;
+    w.setLights(std::vector<PointLight>({PointLight(Point(0, 0, -10), Color(1, 1, 1))}));
+    Sphere s1;
+    Sphere s2;
+    s2.setTransform(Matrix::translation(0, 0, 10));
+    w.setObjects(std::vector<Sphere>({s1, s2}));
+    Ray r(Point(0, 0, 5), Vector(0, 0, 1));
+    Intersection i(4, s2);
+    auto comps = r.prepareComputations(i);
+    Color c = w.shadeHit(comps);
+    REQUIRE(c == Color(0.1, 0.1, 0.1));
+}
+
 #endif

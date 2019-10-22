@@ -62,7 +62,7 @@ int main(void) {
                                       right, left}));
     w.setLights(std::vector<PointLight>({light}));
 
-    Camera c(50, 100, PI / 3);
+    Camera c(500, 1000, PI / 3);
     c.setTransform(Matrix::viewTransform(Point(0, 1.5, -5), Point(0, 1, 0),
                                          Vector(1, 0, 0)));
     Canvas canvas = c.render(w);

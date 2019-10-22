@@ -22,6 +22,7 @@ class World {
         std::vector<Intersection> intersect(Ray r);
         Color shadeHit(const Intersection& comps);
         Color colorAt(Ray r);
+        bool isShadowed(Point point);
 
     private:
         std::vector<Sphere> _objects;

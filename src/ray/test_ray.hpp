@@ -1,12 +1,14 @@
 #ifdef _TESTS
 
-#include "ray.hh"
-#include "point.hh"
-#include "vector.hh"
+#include "constants.hh"
 #include "intersection.hh"
-#include "sphere.hh"
-#include "catch.hpp"
 #include "op_overloading.hh"
+#include "point.hh"
+#include "ray.hh"
+#include "sphere.hh"
+#include "vector.hh"
+
+#include "catch.hpp"
 
 TEST_CASE("RAY: Creating a ray", "[multi-file:ray]")
 {
@@ -141,6 +143,17 @@ TEST_CASE("RAY: The hit, when an intersection occurs on the inside",
     REQUIRE(comps.getEyeVector() == Vector(0, 0, -1));
     REQUIRE(comps.isInside());
     REQUIRE(comps.getNormalVector() == Vector(0, 0, -1));
+}
+
+TEST_CASE("RAY: The hit should offset the point", "[multi-file:ray]")
+{
+    Ray r(Point(0, 0, -5), Vector(0, 0, 1));
+    Sphere shape;
+    shape.setTransform(Matrix::translation(0, 0, 1));
+    Intersection i(5, shape);
+    auto comps = r.prepareComputations(i);
+    REQUIRE(comps.getOverPoint().getZ() < -EPSILON / 2);
+    REQUIRE(comps.getPoint().getZ() > comps.getOverPoint().getZ());
 }
 
 #endif

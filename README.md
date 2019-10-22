@@ -30,3 +30,32 @@ prompt$ cmake .. -DCMAKE_BUILD_TYPE=Test
 prompt$ make
 prompt$ ./Tests
 ```
+
+## Current state
+
+Currently I'm working on the scene and shadows.
+
+Here is what this raytracer can render
+
+![](./test.ppm)
+
+## Incoming
+
+Planes
+Patterns
+Reflection and refraction
+Cubes
+Cylinders
+Groups
+Triangles
+.obj files parsing
+Constructive Solid Geometry
+Area Lights
+Soft Shadows
+Spot Lights
+Focal Blur
+Anti-aliasing
+Texture Maps
+Normal Perturbation
+Torus
+Yaml parser

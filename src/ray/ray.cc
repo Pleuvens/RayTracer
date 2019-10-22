@@ -1,6 +1,8 @@
 #include <cmath>
 
+#include "constants.hh"
 #include "ray.hh"
+
 #include "test_ray.hpp"
 
 Ray::Ray(const Point& origin, const Vector& direction)
@@ -39,6 +41,7 @@ Intersection Ray::prepareComputations(Intersection i)
         i.setInside(true);
         i.setNormalVector(i.getNormalVector() * -1);
     }
+    i.setOverPoint(Point(i.getPoint() + i.getNormalVector() * EPSILON));
     return i;
 }
 

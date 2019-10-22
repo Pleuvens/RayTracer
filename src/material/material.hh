@@ -21,7 +21,7 @@ class Material {
         inline void setShininess(const float v) { _shininess = v; }
 
         Color lighting(const PointLight& light, const Point& point, const Vector& eye,
-                Vector normal);
+                Vector normal, bool in_shadow=false);
 
         bool operator==(const Material& m) const;
     private:
