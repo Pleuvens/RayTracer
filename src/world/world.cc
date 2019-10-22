@@ -47,7 +47,7 @@ Color World::shadeHit(const Intersection& comps)
     return c; 
 }
 
-Color World::colorAt(Ray r)
+Color World::colorAt(Ray r) 
 {
     auto xs = intersect(r);
     auto hit = Intersection::hit(xs);

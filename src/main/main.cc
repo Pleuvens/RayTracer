@@ -2,49 +2,70 @@
 #include <cmath>
 #include <optional>
 
+#include "camera.hh"
 #include "canvas.hh"
+#include "constants.hh"
 #include "ray.hh"
 
 int main(void) {
-    Point ray_origin(0, 0, -5);
-    int wall_z = 10;
-    float wall_size = 7.0;
-    int canvas_pixels = 100;
-    float pixel_size = wall_size / canvas_pixels;
-    float half = wall_size / 2;
-    Canvas canvas(canvas_pixels, canvas_pixels);
-    Color color(1, 0, 0);
-    Sphere shape;
-    Material m;
-    m.setColor(Color(1, 0.2, 1));
-    shape.setMaterial(m);
+    Sphere floor;
+    floor.setTransform(Matrix::scaling(10, 0.01, 10));
+    Material floor_m;
+    floor_m.setColor(Color(1, 0.9, 0.9));
+    floor_m.setSpecular(0);
+    floor.setMaterial(floor_m);
+
+    Sphere left_wall;
+    left_wall.setTransform(Matrix::translation(0, 0, 5)
+                           * (Matrix::rotationY(-PI / 4)
+                           * (Matrix::rotationX(PI / 2)
+                           * Matrix::scaling(10, 0.01, 10))));
+    left_wall.setMaterial(floor_m);
+
+    Sphere right_wall;
+    right_wall.setTransform(Matrix::translation(0, 0, 5)
+                           * (Matrix::rotationY(PI / 4)
+                           * (Matrix::rotationX(PI / 2)
+                           * Matrix::scaling(10, 0.01, 10))));
+    right_wall.setMaterial(floor_m);
+
+    Sphere middle;
+    middle.setTransform(Matrix::translation(-0.5, 1, 0.5));
+    Material middle_m;
+    middle_m.setColor(Color(0.1, 1, 0.5));
+    middle_m.setDiffuse(0.7);
+    middle_m.setSpecular(0.3);
+    middle.setMaterial(middle_m);
+
+    Sphere right;
+    right.setTransform(Matrix::translation(1.5, 0.5, -0.5)
+                       * Matrix::scaling(0.5, 0.5, 0.5));
+    Material right_m;
+    right_m.setColor(Color(0.5, 1, 0.1));
+    right_m.setDiffuse(0.7);
+    right_m.setSpecular(0.3);
+    right.setMaterial(right_m);
+
+    Sphere left;
+    left.setTransform(Matrix::translation(-1.5, 0.33, -0.75)
+                      * Matrix::scaling(0.33, 0.33, 0.33));
+    Material left_m;
+    left_m.setColor(Color(1, 0.8, 0.1));
+    left_m.setDiffuse(0.7);
+    left_m.setSpecular(0.3);
+    left.setMaterial(left_m);
+
     PointLight light(Point(-10, 10, -10), Color(1, 1, 1));
 
-    for (int y = 0; y < canvas_pixels; y++)
-    {
-        auto world_y = half - pixel_size * y;
-        for (int x = 0; x < canvas_pixels; x++)
-        {
-            auto world_x = -half + pixel_size * x;
-            Point position(world_x, world_y, wall_z);
-            Vector ray_direction(position - ray_origin);
-            Ray r(ray_origin, ray_direction.normalize());
-            auto xs = r.intersect(shape);
-            
-            auto hit = Intersection::hit(xs);
+    World w;
+    w.setObjects(std::vector<Sphere>({floor, left_wall, right_wall, middle,
+                                      right, left}));
+    w.setLights(std::vector<PointLight>({light}));
 
-            if (hit != std::nullopt)
-            {
-                auto point = r.position(hit->getT());
-                auto normal = hit->getObject().normalAt(point); 
-                auto eye = Vector(r.getDirection() * -1);
-                color = hit->getObject().getMaterial().lighting(light, point, eye,
-                        normal);
-                canvas.setPixel(y, x, color);
-            }
-        }
-    }
-
+    Camera c(50, 100, PI / 3);
+    c.setTransform(Matrix::viewTransform(Point(0, 1.5, -5), Point(0, 1, 0),
+                                         Vector(1, 0, 0)));
+    Canvas canvas = c.render(w);
     canvas.canvasToPPM("/tmp/test.ppm");
     return 0;
 }

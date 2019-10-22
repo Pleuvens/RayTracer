@@ -23,7 +23,9 @@ set(SHARED_INCLUDE_DIR libs src/utils
                             src/tuple
                             src/vector
                             src/lights
-                            src/material)
+                            src/material
+                            src/world
+                            src/camera)
 
 add_library(op_overloading OBJECT)
 target_sources(op_overloading
@@ -142,6 +144,15 @@ target_compile_options(world PRIVATE -Wall -Wextra -Werror)
 target_link_libraries(world PUBLIC "")
 target_include_directories(world PUBLIC ${SHARED_INCLUDE_DIR})
 
+add_library(camera OBJECT)
+target_sources(camera
+    PRIVATE "src/camera/camera.cc"
+    PUBLIC  "${CMAKE_CURRENT_SOURCE_DIR}/src/camera/camera.hh"
+)
+target_compile_options(camera PRIVATE -Wall -Wextra -Werror)
+target_link_libraries(camera PUBLIC "")
+target_include_directories(camera PUBLIC ${SHARED_INCLUDE_DIR})
+
 add_library(main OBJECT)
 target_sources(main
     PRIVATE "src/main/main.cc"
@@ -172,6 +183,7 @@ if ("${CMAKE_BUILD_TYPE}" STREQUAL "Tests")
                                         material
                                         point_light
                                         world
+                                        camera
                                         test)
 else()
     add_executable(Raytracer)
@@ -188,5 +200,6 @@ else()
                                             material
                                             point_light
                                             world
+                                            camera
                                             main)
 endif()
