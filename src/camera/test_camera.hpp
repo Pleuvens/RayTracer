@@ -8,8 +8,8 @@
 TEST_CASE("CAMERA: Constructing a camera", "[multi-file:camera]")
 {
     Camera c(160, 120, PI / 2);
-    REQUIRE(c.getHSize() == 160);
-    REQUIRE(c.getVSize() == 120);
+    REQUIRE(c.getHSize() == 120);
+    REQUIRE(c.getVSize() == 160);
     REQUIRE(isEqual(c.getFOV(), PI / 2));
     REQUIRE(c.getTransform() == Matrix::identity(4));
 }
@@ -41,7 +41,7 @@ TEST_CASE("CAMERA: Constructing a ray through the corner of the canvas",
     Camera c(101, 201, PI / 2);
     Ray r = c.rayForPixel(0, 0);
     REQUIRE(r.getOrigin() == Point(0, 0, 0));
-    REQUIRE(r.getDirection() == Vector(0.66519, 0.33259, -0.66851));
+    REQUIRE(r.getDirection() == Vector(0.33259, 0.66519, -0.66851));
 }
 
 TEST_CASE("CAMERA: Constructing a ray when the camera is transformed",
@@ -49,7 +49,7 @@ TEST_CASE("CAMERA: Constructing a ray when the camera is transformed",
 {
     Camera c(101, 201, PI / 2);
     c.setTransform(Matrix::rotationY(PI / 4) * Matrix::translation(0, -2, 5));
-    Ray r = c.rayForPixel(100, 50);
+    Ray r = c.rayForPixel(50, 100);
     REQUIRE(r.getOrigin() == Point(0, 2, -5));
     const float value = std::sqrt(2) / 2;
     REQUIRE(r.getDirection() == Vector(value, 0, -value));

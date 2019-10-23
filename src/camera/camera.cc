@@ -1,4 +1,6 @@
 #include <cmath>
+#include <iostream>
+#include <iomanip>
 
 #include "camera.hh"
 #include "constants.hh"
@@ -42,6 +44,7 @@ Ray Camera::rayForPixel(const int py, const int px)
 
 Canvas Camera::render(World w)
 {
+    auto nb_pixels = _vsize * _hsize;
     Canvas image(_vsize, _hsize);
     for (int y = 0; y < _vsize; y++)
     {
@@ -49,6 +52,9 @@ Canvas Camera::render(World w)
         {
             Ray r = rayForPixel(y, x);
             image.setPixel(y, x, w.colorAt(r));
+            std::cout << std::setw(6)
+                << (float)(100 * (y * _hsize + x)) / nb_pixels << '%';
+            std::cout << "\r\r\r\r\r\r\r";
         }
     }
     return image;
