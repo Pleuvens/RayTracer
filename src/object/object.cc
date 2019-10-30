@@ -28,3 +28,21 @@ Object& Object::operator=(const Object& o)
     _material = o._material;
     return *this;
 }
+
+std::vector<Intersection> Object::intersect(Ray ray)
+{
+    auto local_ray = ray.transform(_transform.invert());
+    return localIntersect(local_ray);
+}
+
+std::vector<Intersection> TestShape::localIntersect(Ray ray)
+{
+    std::vector<Intersection> res;
+    _saved_ray = std::make_shared<Ray>(ray);
+    return res;
+}
+
+Vector TestShape::localNormalAt(Point p) const
+{
+    return Vector(p.getX(), p.getY(), p.getZ());
+}

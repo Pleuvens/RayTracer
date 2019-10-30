@@ -15,6 +15,6 @@ class Plane : public Object {
 
         ~Plane() = default;
 
-        std::vector<Intersection> intersect(Ray ray);
+        std::vector<Intersection> localIntersect(Ray ray);
         Vector localNormalAt(Point p) const;
 };

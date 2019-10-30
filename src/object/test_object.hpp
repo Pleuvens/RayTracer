@@ -30,7 +30,7 @@ TEST_CASE("OBJECT: Assigning a material", "[multi-file:object]")
 TEST_CASE("OBJECT: Intersecting a scaled shape with a ray", "[multi-file:object]")
 {
     Ray r(Point(0, 0, -5), Vector(0, 0, 1));
-    Sphere s;
+    TestShape s;
     s.setTransform(Matrix::scaling(2, 2, 2));
     auto xs = s.intersect(r);
     REQUIRE(s.getSavedRay()->getOrigin() == Point(0, 0, -2.5));
@@ -40,7 +40,7 @@ TEST_CASE("OBJECT: Intersecting a scaled shape with a ray", "[multi-file:object]
 TEST_CASE("OBJECT: Intersecting a translated shape with a ray", "[multi-file:object]")
 {
     Ray r(Point(0, 0, -5), Vector(0, 0, 1));
-    Sphere s;
+    TestShape s;
     s.setTransform(Matrix::translation(5, 0, 0));
     auto xs = s.intersect(r);
     REQUIRE(s.getSavedRay()->getOrigin() == Point(-5, 0, -5));
@@ -49,7 +49,7 @@ TEST_CASE("OBJECT: Intersecting a translated shape with a ray", "[multi-file:obj
 
 TEST_CASE("OBJECT: Computing the normal on a translated shape", "[multi-file:object]")
 {
-    Sphere s;
+    TestShape s;
     s.setTransform(Matrix::translation(0, 1, 0));
     auto n = s.normalAt(Point(0, 1.70711, -0.70711));
     REQUIRE(n == Vector(0, 0.70711, -0.70711));
@@ -57,7 +57,7 @@ TEST_CASE("OBJECT: Computing the normal on a translated shape", "[multi-file:obj
 
 TEST_CASE("OBJECT: Computing the normal on a transformed shape", "[multi-file:object]")
 {
-    Sphere s;
+    TestShape s;
     Matrix m = Matrix::scaling(1, 0.5, 1) * Matrix::rotationZ(PI / 5);
     s.setTransform(m);
     auto n = s.normalAt(Point(0, std::sqrt(2) / 2, -std::sqrt(2) / 2));

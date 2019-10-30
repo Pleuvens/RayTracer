@@ -7,7 +7,7 @@ Sphere::Sphere()
     : Object()
 {}
 
-std::vector<Intersection> Sphere::intersect(Ray ray)
+std::vector<Intersection> Sphere::localIntersect(Ray ray)
 {
     _saved_ray = std::make_shared<Ray>(ray);
     Vector sphere_to_ray(ray.getOrigin() - Point(0, 0, 0));

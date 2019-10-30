@@ -7,7 +7,7 @@
 
 #include "test_plane.hpp"
 
-std::vector<Intersection> Plane::intersect(Ray ray)
+std::vector<Intersection> Plane::localIntersect(Ray ray)
 {
     std::vector<Intersection> res;
     _saved_ray = std::make_shared<Ray>(ray);

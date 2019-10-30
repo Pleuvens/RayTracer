@@ -35,7 +35,8 @@ class Object {
         inline void setSavedRay(Ray_p r) noexcept { _saved_ray = r; }
 
         Vector normalAt(Point p) const;
-        virtual std::vector<Intersection> intersect(Ray ray) = 0;
+        std::vector<Intersection> intersect(Ray ray);
+        virtual std::vector<Intersection> localIntersect(Ray ray) = 0;
         virtual Vector localNormalAt(Point p) const = 0;
 
         bool operator==(const Object& s) const noexcept { (void)s; return true; }
@@ -44,4 +45,18 @@ class Object {
         Matrix _transform;
         Material _material;
         Ray_p _saved_ray;
+};
+
+class TestShape : public Object {
+    public:
+        TestShape() = default;
+        TestShape(TestShape&& ts) = default;
+        TestShape(TestShape& ts) = default;
+        TestShape(const TestShape& ts) = default;
+        TestShape& operator=(TestShape& ts) = default;
+        TestShape& operator=(const TestShape& ts) = default;
+        ~TestShape() = default;
+
+        std::vector<Intersection> localIntersect(Ray ray);
+        Vector localNormalAt(Point p) const;
 };

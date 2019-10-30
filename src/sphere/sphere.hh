@@ -16,6 +16,6 @@ class Sphere : public Object {
 
         ~Sphere() = default;
 
-        std::vector<Intersection> intersect(Ray ray);
+        std::vector<Intersection> localIntersect(Ray ray);
         Vector localNormalAt(Point p) const;
 };
