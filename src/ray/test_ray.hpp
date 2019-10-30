@@ -3,6 +3,7 @@
 #include "constants.hh"
 #include "intersection.hh"
 #include "op_overloading.hh"
+#include "plane.hh"
 #include "point.hh"
 #include "ray.hh"
 #include "sphere.hh"
@@ -35,7 +36,7 @@ TEST_CASE("RAY: Computing a point from a distance", "[multi-file:ray]")
 TEST_CASE("RAY: ray intersects a sphere at two points", "[multi-file:ray]")
 {
     Ray r(Point(0, 0, -5), Vector(0, 0, 1));
-    Sphere s = Sphere();
+    Sphere s;
     std::vector<Intersection> xs = r.intersect(s);
     REQUIRE(xs.size() == 2);
     REQUIRE(isEqual(xs[0].getT(), 4.0));
@@ -45,7 +46,7 @@ TEST_CASE("RAY: ray intersects a sphere at two points", "[multi-file:ray]")
 TEST_CASE("RAY: ray intersects a sphere at a tangent", "[multi-file:ray]")
 {
     Ray r(Point(0, 1, -5), Vector(0, 0, 1));
-    Sphere s = Sphere();
+    Sphere s;
     std::vector<Intersection> xs = r.intersect(s);
     REQUIRE(xs.size() == 2);
     REQUIRE(isEqual(xs[0].getT(), 5.0));
@@ -55,7 +56,7 @@ TEST_CASE("RAY: ray intersects a sphere at a tangent", "[multi-file:ray]")
 TEST_CASE("RAY: ray misses a sphere", "[multi-file:ray]")
 {
     Ray r(Point(0, 2, -5), Vector(0, 0, 1));
-    Sphere s = Sphere();
+    Sphere s;
     std::vector<Intersection> xs = r.intersect(s);
     REQUIRE(xs.size() == 0);
 }
@@ -63,7 +64,7 @@ TEST_CASE("RAY: ray misses a sphere", "[multi-file:ray]")
 TEST_CASE("RAY: ray originates inside a sphere", "[multi-file:ray]")
 {
     Ray r(Point(0, 0, 0), Vector(0, 0, 1));
-    Sphere s = Sphere();
+    Sphere s;
     std::vector<Intersection> xs = r.intersect(s);
     REQUIRE(xs.size() == 2);
     REQUIRE(isEqual(xs[0].getT(), -1.0));
@@ -73,7 +74,7 @@ TEST_CASE("RAY: ray originates inside a sphere", "[multi-file:ray]")
 TEST_CASE("RAY: ray is behind a sphere", "[multi-file:ray]")
 {
     Ray r(Point(0, 0, 5), Vector(0, 0, 1));
-    Sphere s = Sphere();
+    Sphere s;
     std::vector<Intersection> xs = r.intersect(s);
     REQUIRE(xs.size() == 2);
     REQUIRE(isEqual(xs[0].getT(), -6.0));
@@ -83,7 +84,7 @@ TEST_CASE("RAY: ray is behind a sphere", "[multi-file:ray]")
 TEST_CASE("RAY: sets the object on the intersection", "[multi-file:ray]")
 {
     Ray r(Point(0, 0, -5), Vector(0, 0, 1));
-    Sphere s = Sphere();
+    Sphere s;
     std::vector<Intersection> xs = r.intersect(s);
     REQUIRE(xs.size() == 2);
     REQUIRE(xs[0].getObject() == s);
@@ -113,7 +114,7 @@ TEST_CASE("RAY: Precomputing the state of an intersection",
 {
     Ray r(Point(0, 0, -5), Vector(0, 0, 1));
     Sphere shape;
-    Intersection i(4, shape);
+    Intersection i(4, std::make_shared<Sphere>(shape));
     auto comps = r.prepareComputations(i);
     REQUIRE(isEqual(comps.getT(), i.getT()));
     REQUIRE(comps.getObject() == i.getObject());
@@ -127,7 +128,7 @@ TEST_CASE("RAY: The hit, when an intersection occurs on the outside",
 {
     Ray r(Point(0, 0, -5), Vector(0, 0, 1));
     Sphere shape;
-    Intersection i(4, shape);
+    Intersection i(4, std::make_shared<Sphere>(shape));
     auto comps = r.prepareComputations(i);
     REQUIRE(!comps.isInside());
 }
@@ -137,7 +138,7 @@ TEST_CASE("RAY: The hit, when an intersection occurs on the inside",
 {
     Ray r(Point(0, 0, 0), Vector(0, 0, 1));
     Sphere shape;
-    Intersection i(1, shape);
+    Intersection i(1, std::make_shared<Sphere>(shape));
     auto comps = r.prepareComputations(i);
     REQUIRE(comps.getPoint() == Point(0, 0, 1));
     REQUIRE(comps.getEyeVector() == Vector(0, 0, -1));
@@ -150,10 +151,19 @@ TEST_CASE("RAY: The hit should offset the point", "[multi-file:ray]")
     Ray r(Point(0, 0, -5), Vector(0, 0, 1));
     Sphere shape;
     shape.setTransform(Matrix::translation(0, 0, 1));
-    Intersection i(5, shape);
+    Intersection i(5, std::make_shared<Sphere>(shape));
     auto comps = r.prepareComputations(i);
     REQUIRE(comps.getOverPoint().getZ() < -EPSILON / 2);
     REQUIRE(comps.getPoint().getZ() > comps.getOverPoint().getZ());
+}
+
+TEST_CASE("RAY: Precomputing the reflection vector", "[multi-file:ray]")
+{
+    Plane shape;
+    Ray r(Point(0, 1, -1), Vector(0, -std::sqrt(2) / 2, std::sqrt(2) / 2));
+    Intersection i(std::sqrt(2), std::make_shared<Plane>(shape));
+    auto comps = r.prepareComputations(i);
+    REQUIRE(comps.getReflectVector() == Vector(0, std::sqrt(2) / 2, std::sqrt(2) / 2));
 }
 
 #endif

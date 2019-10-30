@@ -12,7 +12,7 @@ class Camera {
         inline int getHSize(void) const { return _hsize; }
         inline int getVSize(void) const { return _vsize; }
         inline float getFOV(void) const { return _fov; }
-        inline Matrix getTransform(void) const { return _transform; }
+        inline const Matrix& getTransform(void) const { return _transform; }
         inline float getHalfWidth(void) const { return _half_width; }
         inline float getHalfHeight(void) const { return _half_height; }
         inline float getAspect(void) const { return _aspect; }

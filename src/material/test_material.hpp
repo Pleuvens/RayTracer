@@ -88,4 +88,10 @@ TEST_CASE("MATERIAL: Lighting with the surface in shadow", "[multi-file:material
     REQUIRE(res == Color(0.1, 0.1, 0.1));
 }
 
+TEST_CASE("MATERIAL: Reflectivity for the default material", "[multi-file:material]")
+{
+    Material m;
+    REQUIRE(isEqual(m.getReflective(), 0));
+}
+
 #endif

@@ -59,9 +59,9 @@ Tuple Tuple::operator+=(const Tuple& b)
     return *this;
 }
 
-Tuple Tuple::operator-(const Tuple& b)
+Tuple operator-(const Tuple& lhs, const Tuple& rhs)
 {
-    return Tuple(_x - b._x, _y - b._y, _z - b._z, _w - b._w);
+    return Tuple(lhs._x - rhs._x, lhs._y - rhs._y, lhs._z - rhs._z, lhs._w - rhs._w);
 }
 
 Tuple Tuple::operator-=(const Tuple& b)

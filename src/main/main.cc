@@ -6,6 +6,7 @@
 #include "canvas.hh"
 #include "constants.hh"
 #include "ray.hh"
+#include "sphere.hh"
 
 int main(void) {
     Sphere floor;
@@ -58,9 +59,13 @@ int main(void) {
     PointLight light(Point(-10, 10, -10), Color(1, 1, 1));
 
     World w;
-    w.setObjects(std::vector<Sphere>({floor, left_wall, right_wall, middle,
-                                      right, left}));
-    w.setLights(std::vector<PointLight>({light}));
+    w.addObject(std::make_shared<Sphere> (floor));
+    w.addObject(std::make_shared<Sphere> (left_wall));
+    w.addObject(std::make_shared<Sphere> (right_wall));
+    w.addObject(std::make_shared<Sphere> (middle));
+    w.addObject(std::make_shared<Sphere> (right));
+    w.addObject(std::make_shared<Sphere> (left));
+    w.addLight(std::make_shared<PointLight> (light));
 
     Camera c(50, 100, PI / 3);
     c.setTransform(Matrix::viewTransform(Point(0, 1.5, -5), Point(0, 1, 0),

@@ -1,27 +1,21 @@
 #pragma once
 
-#include <vector>
+#include "object.hh"
+#include "ray.hh"
 
-#include "matrix.hh"
-#include "vector.hh"
-#include "point.hh"
-#include "material.hh"
-
-class Sphere {
+class Sphere : public Object {
     public:
         Sphere();
 
-        inline Matrix getTransform(void) const { return _transform; }
-        inline Material getMaterial(void) const { return _material; }
+        Sphere(Sphere&& s) = default;
 
-        inline void setTransform(const Matrix& m) { _transform = m; }
-        inline void setMaterial(const Material& m) { _material = m; }
+        Sphere(Sphere& s) = default;
+        Sphere(const Sphere& s) = default;
+        Sphere& operator=(Sphere& s) = default;
+        Sphere& operator=(const Sphere& s) = default;
 
-        Vector normalAt(Point p);
+        ~Sphere() = default;
 
-        bool operator==(const Sphere& s) const { (void)s; return true; }
-
-    private:
-        Matrix _transform;
-        Material _material;
+        std::vector<Intersection> intersect(Ray ray);
+        Vector localNormalAt(Point p) const;
 };

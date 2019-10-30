@@ -20,7 +20,7 @@ class Tuple {
 
         Tuple operator+(const Tuple& b);
         Tuple operator+=(const Tuple& b);
-        Tuple operator-(const Tuple& b);
+        friend Tuple operator-(const Tuple& lhs, const Tuple& rhs);
         Tuple operator-=(const Tuple& b);
         Tuple operator-();
         Tuple operator*(const float lambda);

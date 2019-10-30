@@ -19,6 +19,8 @@ set(SHARED_INCLUDE_DIR libs src/utils
                             src/matrix
                             src/point
                             src/ray
+                            src/object
+                            src/plane
                             src/sphere
                             src/tuple
                             src/vector
@@ -89,6 +91,24 @@ target_sources(matrix
 target_compile_options(matrix PRIVATE -Wall -Wextra -Werror)
 target_link_libraries(matrix PUBLIC "")
 target_include_directories(matrix PUBLIC ${SHARED_INCLUDE_DIR})
+
+add_library(object OBJECT)
+target_sources(object
+    PRIVATE "src/object/object.cc"
+    PUBLIC  "${CMAKE_CURRENT_SOURCE_DIR}/src/object/object.hh"
+)
+target_compile_options(object PRIVATE -Wall -Wextra -Werror)
+target_link_libraries(object PUBLIC "")
+target_include_directories(object PUBLIC ${SHARED_INCLUDE_DIR})
+
+add_library(plane OBJECT)
+target_sources(plane
+    PRIVATE "src/plane/plane.cc"
+    PUBLIC  "${CMAKE_CURRENT_SOURCE_DIR}/src/plane/plane.hh"
+)
+target_compile_options(plane PRIVATE -Wall -Wextra -Werror)
+target_link_libraries(plane PUBLIC "")
+target_include_directories(plane PUBLIC ${SHARED_INCLUDE_DIR})
 
 add_library(sphere OBJECT)
 target_sources(sphere
@@ -177,6 +197,8 @@ if ("${CMAKE_BUILD_TYPE}" STREQUAL "Tests")
                                         color
                                         canvas
                                         matrix
+                                        object
+                                        plane
                                         sphere
                                         intersection
                                         ray
@@ -195,6 +217,8 @@ else()
                                             canvas
                                             matrix
                                             sphere
+                                            object
+                                            plane
                                             intersection
                                             ray
                                             material

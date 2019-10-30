@@ -51,7 +51,7 @@ Canvas Camera::render(World w)
         for(int x = 0; x < _hsize; x++)
         {
             Ray r = rayForPixel(y, x);
-            image.setPixel(y, x, w.colorAt(r));
+            image.setPixel(y, x, w.colorAt(r, 1));
             std::cout << std::setw(6)
                 << (float)(100 * (y * _hsize + x)) / nb_pixels << '%';
             std::cout << "\r\r\r\r\r\r\r";

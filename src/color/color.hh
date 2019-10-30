@@ -4,7 +4,17 @@
 
 class Color {
     public:
+        Color() = default;
         Color(float red, float green, float blue);
+
+        Color(Color&& c) = default;
+
+        Color(Color& c) = default;
+        Color(const Color& c) = default;
+        Color& operator=(Color& c) = default;
+        Color& operator=(const Color& c) = default;
+
+        ~Color() = default;
 
         static Color red(void) { return Color(1, 0, 0); }
         static Color green(void) { return Color(0, 1, 0); }
@@ -24,11 +34,11 @@ class Color {
 
         Color operator+(const Color& c);
         Color operator+=(const Color& c);
-        Color operator-(const Color& c);
+        friend Color operator-(const Color& lhs, const Color& rhs);
         Color operator-=(const Color& c);
-        Color operator*(const Color& c);
+        friend Color operator*(const Color& lhs, const Color& rhs);
         Color operator*=(const Color& c);
-        Color operator*(const float v);
+        friend Color operator*(const Color& lhs, const float rhs);
         Color operator*=(const float v);
         bool operator==(const Color& c) const;
         bool operator!=(const Color& c) const;

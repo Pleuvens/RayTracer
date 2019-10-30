@@ -8,4 +8,12 @@ class Point : public Tuple {
         Point() = default;
         Point(const float x, const float y, const float z);
         Point(const Tuple& t);
+
+        Point(Point&& p) = default;
+
+        Point(Point& p) = default;
+        Point& operator=(Point& p) = default;
+        Point& operator=(const Point& p) = default;
+
+        ~Point() = default;
 };

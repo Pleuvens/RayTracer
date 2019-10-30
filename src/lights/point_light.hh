@@ -5,10 +5,19 @@
 
 class PointLight {
     public:
+        PointLight() = default;
         PointLight(const Point& position, const Color& intensity);
 
-        inline Point getPosition(void) const { return _position; }
-        inline Color getIntensity(void) const { return _intensity; }
+        PointLight(PointLight&& p) = default;
+
+        PointLight(PointLight& p) = default;
+        PointLight& operator=(PointLight& p) = default;
+        PointLight& operator=(const PointLight& p) = default;
+
+        ~PointLight() = default;
+
+        inline const Point& getPosition(void) const { return _position; }
+        inline const Color& getIntensity(void) const { return _intensity; }
 
         inline void setPosition(const Point& p) { _position = p; }
         inline void setIntensity(const Color& i) { _intensity = i; }

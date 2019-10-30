@@ -10,8 +10,18 @@
 
 class Matrix {
     public:
+        Matrix() = default;
         Matrix(const int height, const int width);
         Matrix(const int height, const int width, std::initializer_list<float> list);
+
+        Matrix(Matrix&& m) = default;
+
+        Matrix(Matrix& m) = default;
+        Matrix(const Matrix& m) = default;
+        Matrix& operator=(Matrix& m) = default;
+        Matrix& operator=(const Matrix& m) = default;
+
+        ~Matrix() = default;
 
         static Matrix identity(const int size);
         static Matrix translation(const float x, const float y, const float z);
@@ -32,17 +42,17 @@ class Matrix {
         inline void setWidth(const int width) { _width = width; }
         void setValue(const int y, const int x, const float value);
 
-        Matrix transpose(void);
-        Matrix submatrix(const int row, const int column);
-        float determinant(void);
-        float minor(const int row, const int column);
-        float cofactor(const int row, const int column);
-        Matrix invert(void);
+        Matrix transpose(void) const;
+        Matrix submatrix(const int row, const int column) const;
+        float determinant(void) const;
+        float minor(const int row, const int column) const;
+        float cofactor(const int row, const int column) const;
+        Matrix invert(void) const;
 
         bool operator==(const Matrix& m) const;
         bool operator!=(const Matrix& m) const;
         Matrix operator*(const Matrix& m);
-        Tuple operator*(const Tuple& t);
+        friend Tuple operator*(const Matrix& m, const Tuple& t);
 
     private:
         bool isCoordValid(const int y, const int x) const;

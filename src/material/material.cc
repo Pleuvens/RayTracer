@@ -2,16 +2,17 @@
 
 #include "material.hh"
 #include "op_overloading.hh"
+#include "point_light.hh"
 
 #include "test_material.hpp"
 
 Material::Material()
     : _color(Color(1, 1, 1)), _ambient(0.1), _diffuse(0.9), _specular(0.9),
-            _shininess(200.0)
+            _shininess(200.0), _reflective(0)
 {}
 
 Color Material::lighting(const PointLight& light, const Point& point, const Vector& eye,
-        Vector normal, bool in_shadow)
+        Vector normal, bool in_shadow) const
 {
     // combine surface color with light color/intensity
     auto effective_color = _color * light.getIntensity();

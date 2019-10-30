@@ -30,9 +30,9 @@ Color Color::operator+=(const Color& c)
     return *this;
 }
 
-Color Color::operator-(const Color& c)
+Color operator-(const Color& lhs, const Color& rhs)
 {
-    return Color(_red - c._red, _green - c._green, _blue - c._blue);
+    return Color(lhs._red - rhs._red, lhs._green - rhs._green, lhs._blue - rhs._blue);
 }
 
 Color Color::operator-=(const Color& c)
@@ -43,9 +43,9 @@ Color Color::operator-=(const Color& c)
     return *this;
 }
 
-Color Color::operator*(const Color& c)
+Color operator*(const Color& lhs, const Color& rhs)
 {
-    return Color(_red * c._red, _green * c._green, _blue * c._blue);
+    return Color(lhs._red * rhs._red, lhs._green * rhs._green, lhs._blue * rhs._blue);
 }
 
 Color Color::operator*=(const Color& c)
@@ -56,9 +56,9 @@ Color Color::operator*=(const Color& c)
     return *this;
 }
 
-Color Color::operator*(const float v)
+Color operator*(const Color& lhs, const float rhs)
 {
-    return Color(_red * v, _green * v, _blue * v);
+    return Color(lhs._red * rhs, lhs._green * rhs, lhs._blue * rhs);
 }
 
 Color Color::operator*=(const float v)

@@ -33,7 +33,7 @@ Vector Vector::normalize(void)
     return *this;
 }
 
-Vector Vector::reflect(Vector& v)
+Vector Vector::reflect(Vector v)
 {
     return Vector(*this - v * 2 * Vector::dot(*this, v));
 }

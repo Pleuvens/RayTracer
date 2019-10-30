@@ -4,7 +4,7 @@
 
 #include "intersection.hh"
 #include "point.hh"
-#include "sphere.hh"
+#include "object.hh"
 #include "vector.hh"
 
 class Ray
@@ -19,10 +19,10 @@ class Ray
         
         inline Tuple position(const float t) { return _origin + _direction * t; }
 
-        std::vector<Intersection> intersect(const Sphere& s);
+        std::vector<Intersection> intersect(Object& s);
         Intersection prepareComputations(Intersection i);
 
-        Ray transform(Matrix& m);
+        Ray transform(const Matrix& m);
 
     private:
         Point _origin;

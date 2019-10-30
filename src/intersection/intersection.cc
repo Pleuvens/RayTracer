@@ -3,8 +3,20 @@
 #include "op_overloading.hh"
 #include "test_intersection.hpp"
 
-Intersection::Intersection(const float t, const Sphere& obj)
+Intersection::Intersection(const float t, Object_p obj)
     : _t(t), _object(obj)
+{}
+
+Intersection::Intersection(Intersection& i)
+    : _t(i._t), _object(i._object), _point(i._point), _eye_v(i._eye_v),
+    _normal_v(i._normal_v), _inside(i._inside), _over_point(i._over_point),
+    _reflect_v(i._reflect_v)
+{}
+
+Intersection::Intersection(const Intersection& i)
+    : _t(i._t), _object(i._object), _point(i._point), _eye_v(i._eye_v),
+    _normal_v(i._normal_v), _inside(i._inside), _over_point(i._over_point),
+    _reflect_v(i._reflect_v)
 {}
 
 std::vector<Intersection>
@@ -51,4 +63,30 @@ bool Intersection::operator>(const Intersection& i) const
 bool Intersection::operator>=(const Intersection& i) const
 {
     return _t > i._t || isEqual(_t, i._t);
+}
+
+Intersection& Intersection::operator=(Intersection& i)
+{
+    _t = i._t;
+    _object = i._object;
+    _point = i._point;
+    _eye_v = i._eye_v;
+    _normal_v = i._normal_v;
+    _inside = i._inside;
+    _over_point = i._over_point;
+    _reflect_v = i._reflect_v;
+    return *this;
+}
+
+Intersection& Intersection::operator=(const Intersection& i)
+{
+    _t = i._t;
+    _object = i._object;
+    _point = i._point;
+    _eye_v = i._eye_v;
+    _normal_v = i._normal_v;
+    _inside = i._inside;
+    _over_point = i._over_point;
+    _reflect_v = i._reflect_v;
+    return *this;
 }

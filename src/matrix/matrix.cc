@@ -106,7 +106,7 @@ void Matrix::setValue(const int y, const int x, const float value)
     _matrix[y * _width + x] = value;
 }
 
-Matrix Matrix::transpose(void)
+Matrix Matrix::transpose(void) const
 {
     Matrix res = Matrix(_width, _height);
     for (int y = 0; y < _height; y++)
@@ -117,7 +117,7 @@ Matrix Matrix::transpose(void)
     return res;
 }
 
-Matrix Matrix::submatrix(const int row, const int column)
+Matrix Matrix::submatrix(const int row, const int column) const
 {
     Matrix res = Matrix(_height - 1, _width - 1);
     int yOffset = 0;
@@ -136,7 +136,7 @@ Matrix Matrix::submatrix(const int row, const int column)
     return res;
 }
 
-float Matrix::determinant(void)
+float Matrix::determinant(void) const
 {
     if (_width != _height)
         throw "MATRIX: not square matrix";
@@ -152,7 +152,7 @@ float Matrix::determinant(void)
     return det;
 }
 
-float Matrix::minor(const int row, const int column)
+float Matrix::minor(const int row, const int column) const
 {
     if (_width != _height)
         throw "MATRIX: not square matrix";
@@ -161,14 +161,14 @@ float Matrix::minor(const int row, const int column)
     return submatrix(row, column).determinant();
 }
 
-float Matrix::cofactor(const int row, const int column)
+float Matrix::cofactor(const int row, const int column) const
 {
     if (!((row + column) % 2))
         return minor(row, column);
     return -minor(row, column);
 }
 
-Matrix Matrix::invert(void)
+Matrix Matrix::invert(void) const
 {
     if (!determinant())
         throw "MATRIX: matrix not invertible";
@@ -225,17 +225,17 @@ Matrix Matrix::operator*(const Matrix& m)
     return res;
 }
 
-Tuple Matrix::operator*(const Tuple& t)
+Tuple operator*(const Matrix& m, const Tuple& t)
 {
-    if (_width != TUPLE_HEIGHT)
+    if (m._width != TUPLE_HEIGHT)
         throw "MATRIX: Invalid matrix size";
     Tuple res = Tuple(0, 0, 0, 0);
-    for (int y = 0; y < _height; y++)
+    for (int y = 0; y < m._height; y++)
     {
         float value = 0;
         for (int x = 0; x < TUPLE_HEIGHT; x++)
         {
-            value += getValue(y, x) * t.getValue(x);
+            value += m.getValue(y, x) * t.getValue(x);
         }
         res.setValue(y , value);
     }
