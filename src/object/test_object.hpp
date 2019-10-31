@@ -7,21 +7,52 @@
 
 TEST_CASE("OBJECT: The default transformation", "[multi-file:object]")
 {
-    Sphere o;
+    TestShape o;
     REQUIRE(o.getTransform() == Matrix::identity(4));
     REQUIRE(o.getMaterial() == Material());
 }
 
 TEST_CASE("OBJECT: Assigning a transformation", "[multi-file:object]")
 {
-    Sphere o;
+    TestShape o;
     o.setTransform(Matrix::translation(2, 3, 4));
     REQUIRE(o.getTransform() == Matrix::translation(2, 3, 4));
 }
 
+TEST_CASE("OBJECT: a sphere has a default material", "[multi-file:object]")
+{
+    TestShape s;
+    REQUIRE(s.getMaterial() == Material());
+}
+
+TEST_CASE("OBJECT: a sphere may be assigned a material", "[multi-file:object]")
+{
+    TestShape s;
+    Material m;
+    m.setAmbient(1);
+    s.setMaterial(m);
+    REQUIRE(s.getMaterial() == m);
+}
+
+TEST_CASE("OBJECT: A sphere has a default material", "[multi-file:object]")
+{
+    TestShape s;
+    Material m = s.getMaterial();
+    REQUIRE(m == Material());
+}
+
+TEST_CASE("OBJECT: A sphere may be assigned a material", "[multi-file:object]")
+{
+    TestShape s;
+    Material m;
+    m.setAmbient(1);
+    s.setMaterial(m);
+    REQUIRE(s.getMaterial() == m);
+}
+
 TEST_CASE("OBJECT: Assigning a material", "[multi-file:object]")
 {
-    Sphere o;
+    TestShape o;
     Material m;
     o.setMaterial(m);
     REQUIRE(o.getMaterial() == m);

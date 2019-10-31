@@ -1,4 +1,5 @@
 #include "object.hh"
+#include "ray.hh"
 
 #include "test_object.hpp"
 

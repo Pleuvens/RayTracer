@@ -11,7 +11,7 @@ std::vector<Intersection> Plane::localIntersect(Ray ray)
 {
     std::vector<Intersection> res;
     _saved_ray = std::make_shared<Ray>(ray);
-    if (std::abs(ray.getDirection().getY() < EPSILON))
+    if (std::abs(ray.getDirection().getY()) < EPSILON)
         return res;
     auto t = -ray.getOrigin().getY() / ray.getDirection().getY();
     res.push_back(Intersection(t,

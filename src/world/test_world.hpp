@@ -38,8 +38,8 @@ TEST_CASE("WORLD: Intersect a world with a ray", "[multi-file:world]")
     auto xs = w.intersect(r);
     REQUIRE(xs.size() == 4);
     REQUIRE(isEqual(xs[0].getT(), 4));
-    REQUIRE(isEqual(xs[1].getT(), 4.5));
-    REQUIRE(isEqual(xs[2].getT(), 5.5));
+    REQUIRE(isEqual(xs[1].getT(), 4.75));
+    REQUIRE(isEqual(xs[2].getT(), 5.25));
     REQUIRE(isEqual(xs[3].getT(), 6));
 }
 
