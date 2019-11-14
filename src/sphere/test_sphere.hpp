@@ -70,4 +70,13 @@ TEST_CASE("SPHERE: Computing the normal on a transformed sphere", "[multi-file:s
     REQUIRE(n == Vector(0, 0.97014, -0.24254));
 }
 
+TEST_CASE("SPHERE: A helper for producing a sphere with a glassy material",
+        "[multi-file:sphere]")
+{
+    Sphere s = Sphere::glassSphere();
+    REQUIRE(s.getTransform() == Matrix::identity(4));
+    REQUIRE(isEqual(s.getMaterial().getTransparency(), 1));
+    REQUIRE(isEqual(s.getMaterial().getRefractiveIndex(), 1.5));
+}
+
 #endif

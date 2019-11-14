@@ -8,7 +8,7 @@
 
 Material::Material()
     : _color(Color(1, 1, 1)), _ambient(0.1), _diffuse(0.9), _specular(0.9),
-            _shininess(200.0), _reflective(0)
+            _shininess(200.0), _reflective(0), _transparency(0), _refractive_index(1)
 {}
 
 Color Material::lighting(const PointLight& light, const Point& point, const Vector& eye,

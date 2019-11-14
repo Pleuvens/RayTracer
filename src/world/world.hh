@@ -34,6 +34,7 @@ class World {
         Color colorAt(Ray r, int remaining);
         bool isShadowed(Point point);
         Color reflectedColor(Intersection i, int remaining);
+        Color refractedColor(Intersection i, int remaining);
 
     private:
         std::vector<Object_p> _objects;

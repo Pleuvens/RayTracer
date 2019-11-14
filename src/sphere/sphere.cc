@@ -7,6 +7,16 @@ Sphere::Sphere()
     : Object()
 {}
 
+const Sphere& Sphere::glassSphere()
+{
+    Material m;
+    m.setTransparency(1);
+    m.setRefractiveIndex(1.5);
+    Sphere s;
+    s.setMaterial(m);
+    return s;
+}
+
 std::vector<Intersection> Sphere::localIntersect(Ray ray)
 {
     _saved_ray = std::make_shared<Ray>(ray);

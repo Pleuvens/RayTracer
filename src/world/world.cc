@@ -83,7 +83,7 @@ Color World::shadeHit(Intersection comps, int remaining)
     Color c = Color::black();
     for (size_t i = 0; i < _lights.size(); i++)
     {
-        c += comps.getObject().getMaterial().lighting(*getLight(i),
+        c += comps.getObject()->getMaterial().lighting(*getLight(i),
             comps.getPoint(), comps.getEyeVector(), comps.getNormalVector(),
             isShadowed(comps.getOverPoint()));
     }
@@ -116,9 +116,38 @@ bool World::isShadowed(Point point)
 
 Color World::reflectedColor(Intersection i, int remaining)
 {
-    if (!remaining || isEqual(i.getObject().getMaterial().getReflective(), 0))
+    if (!remaining || isEqual(i.getObject()->getMaterial().getReflective(), 0))
         return Color::black();
     Ray reflect_ray(i.getOverPoint(), i.getReflectVector());
     Color color = colorAt(reflect_ray, remaining - 1);
-    return color * i.getObject().getMaterial().getReflective();
+    return color * i.getObject()->getMaterial().getReflective();
+}
+
+Color World::refractedColor(Intersection i, int remaining)
+{
+    // Find the ratio of first index of refraction to the second
+    float n_ratio = i.getN1() / i.getN2();
+
+    // cos(theta_i) is the same as the dot product of the two vectors
+    float cos_i = Vector::dot(i.getEyeVector(), i.getNormalVector());
+
+    // Find sin(theta_t)^2 via trigo identity
+    float sin2_t = n_ratio * n_ratio * (1 - cos_i * cos_i);
+
+    if (!remaining || sin2_t > 1
+            || isEqual(i.getObject()->getMaterial().getTransparency(), 0))
+        return Color::black();
+
+    // Find cos(theta_t) via trigo identity
+    float cos_t = std::sqrt(1 - sin2_t);
+
+    // Compute the direction of the refracted ray
+    Vector direction = i.getNormalVector() * (n_ratio * cos_i - cos_t)
+        - i.getEyeVector() * n_ratio;
+
+    // Creat the refracted ray
+    Ray refract_ray = Ray(i.getUnderPoint(), direction);
+
+    return colorAt(refract_ray, remaining - 1) *
+        i.getObject()->getMaterial().getTransparency();
 }

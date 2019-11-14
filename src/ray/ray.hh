@@ -20,7 +20,8 @@ class Ray
         inline Tuple position(const float t) { return _origin + _direction * t; }
 
         std::vector<Intersection> intersect(Object& s);
-        Intersection prepareComputations(Intersection i);
+        Intersection prepareComputations(Intersection i,
+                std::vector<Intersection> xs = std::vector<Intersection>());
 
         Ray transform(const Matrix& m);
 

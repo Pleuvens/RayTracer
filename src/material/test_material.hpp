@@ -94,4 +94,12 @@ TEST_CASE("MATERIAL: Reflectivity for the default material", "[multi-file:materi
     REQUIRE(isEqual(m.getReflective(), 0));
 }
 
+TEST_CASE("MATERIAL: Transparency and Refractive Index for the default material",
+        "[multi-file:material]")
+{
+    Material m;
+    REQUIRE(isEqual(m.getTransparency(), 0));
+    REQUIRE(isEqual(m.getRefractiveIndex(), 1));
+}
+
 #endif
