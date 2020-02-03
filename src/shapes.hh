@@ -4,11 +4,11 @@
 
 class Material {
 public:
-    Material() : albedo_(Vec2f(1.0, 1.0)), diffuse_(), specular_() {}
-    Material(const Vec2f& albedo, const Vec3f& diffuse, float specular) 
+    Material() : albedo_(Vec3f(1.0, 0, 0)), diffuse_(), specular_() {}
+    Material(const Vec3f& albedo, const Vec3f& diffuse, float specular) 
         : albedo_(albedo), diffuse_(diffuse), specular_(specular) {}
 
-    Vec2f albedo_;
+    Vec3f albedo_;
     Vec3f diffuse_;
     float specular_;
 };

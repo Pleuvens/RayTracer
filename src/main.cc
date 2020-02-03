@@ -12,6 +12,8 @@ Vec3f reflect(const Vec3f& I, const Vec3f &N) {
     return I - N * 2.f * (I * N);
 }
 
+constexpr size_t recursive_depth = 4;
+
 bool scene_intersect(const Vec3f &origin, const Vec3f &dir, std::vector<Sphere> spheres,
         Vec3f &hit, Vec3f& N, Material& material) {
     float dist = std::numeric_limits<float>::max();
@@ -28,23 +30,44 @@ bool scene_intersect(const Vec3f &origin, const Vec3f &dir, std::vector<Sphere> 
 }
 
 Vec3f cast_ray(const Vec3f &origin, const Vec3f &dir, std::vector<Sphere> spheres,
-        std::vector<Light> lights) {
+        std::vector<Light> lights, size_t depth = 0) {
     Vec3f hit, N;
     Material material;
 
-    if (!scene_intersect(origin, dir, spheres, hit, N, material))
+    if (depth > recursive_depth ||
+            !scene_intersect(origin, dir, spheres, hit, N, material))
         return Vec3f(0.2, 0.7, 0.8);
+
+    Vec3f reflect_dir = reflect(dir, N).normalize();
+    Vec3f reflect_origin = Vec3f::sum(reflect_dir, N) < 0
+        ? hit - N * 1e-3 : hit + N * 1e+3;
+    Vec3f reflect_color = cast_ray(reflect_origin, reflect_dir, spheres, lights,
+            depth + 1);
+
     float diffuse_light_intensity = 0;
     float specular_light_intensity = 0;
     for (size_t i = 0; i < lights.size(); i++) {
         Vec3f light_dir = (lights[i].position_ - hit).normalize();
+        
+        float light_distance = (lights[i].position_ - hit).norm();
+        Vec3f shadow_origin = Vec3f::sum(light_dir, N) < 0 ?
+            hit - N * 1e-3 : hit + N * 1e-3;
+        Vec3f shadow_hit, shadow_N;
+        Material tmp_material;
+
+        if (scene_intersect(shadow_origin, light_dir, spheres, shadow_hit, shadow_N,
+                    tmp_material)
+                && (shadow_hit - shadow_origin).norm() < light_distance)
+            continue;
+
         diffuse_light_intensity += lights[i].intensity_ *
             std::max(0.f, Vec3f::sum(light_dir,N));
         specular_light_intensity += powf(std::max(0.f, Vec3f::sum(reflect(light_dir, N),
                         dir)), material.specular_) * lights[i].intensity_;
     }
     return material.diffuse_ * diffuse_light_intensity * material.albedo_[0] +
-        Vec3f(1., 1., 1.) * specular_light_intensity * material.albedo_[1];
+        Vec3f(1., 1., 1.) * specular_light_intensity * material.albedo_[1] +
+        reflect_color * material.albedo_[2];
 }
 
 void render(std::vector<Sphere> spheres, std::vector<Light> lights) {
@@ -79,12 +102,13 @@ void render(std::vector<Sphere> spheres, std::vector<Light> lights) {
 }
 
 int main() {
-    Material ivory(Vec2f(0.6, 0.3), Vec3f(0.4, 0.4, 0.3), 50.);
-    Material red_rubber(Vec2f(0.9, 0.1), Vec3f(0.3, 0.1, 0.1), 10.);
+    Material ivory(Vec3f(0.6, 0.3, 0.1), Vec3f(0.4, 0.4, 0.3), 50.);
+    Material red_rubber(Vec3f(0.9, 0.1, 0.0), Vec3f(0.3, 0.1, 0.1), 10.);
+    Material mirror(Vec3f(0.0, 10.0, 0.8), Vec3f(1.0, 1.0, 1.0), 1425.);
     Sphere s(Vec3f(3, 0, -16), 2, ivory);
-    Sphere s1(Vec3f(1.0, 1.5, -12), 2, red_rubber);
+    Sphere s1(Vec3f(1.0, 1.5, -12), 2, mirror);
     Sphere s2(Vec3f( -1.5, 0.5, -18), 3, red_rubber);
-    Sphere s3(Vec3f( -7, -5, -18), 4, ivory);
+    Sphere s3(Vec3f( -7, -5, -18), 4, mirror);
     std::vector<Sphere> spheres = { s, s1, s2, s3 };
     Light l(Light(Vec3f(20, -20, 20), 1.5));
     Light l1(Light(Vec3f( -30, -50, -25), 1.8));

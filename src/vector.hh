@@ -85,6 +85,10 @@ public:
         return out;
     }
 
+    float norm() const {
+        return std::sqrt(x_ * x_ + y_ * y_ + z_ * z_);
+    }
+
     vec3<T> normalize() const {
         float norm = std::sqrt(x_ * x_ + y_ * y_ + z_ * z_);
         return vec3<T> (x_ / norm, y_ / norm, z_ / norm);
