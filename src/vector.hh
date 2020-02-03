@@ -20,22 +20,22 @@ public:
         return !index ? x_ : y_;
     }
 
-    vec2<T> operator+(const vec2<T>& v)
+    vec2<T> operator+(const vec2<T>& v) const
     {
         return vec2<T>(x_ + v.x_, y_ + v.y_);
     }
 
-    vec2<T> operator-(const vec2<T>& v)
+    vec2<T> operator-(const vec2<T>& v) const
     {
         return vec2<T>(x_ - v.x_, y_ - v.y_);
     }
 
-    vec2<T> operator*(const vec2<T>& v)
+    vec2<T> operator*(const vec2<T>& v) const
     {
         return vec2<T>(x_ * v.x_, y_ * v.y_);
     }
 
-    std::ostream& operator<<(std::ostream& out) {
+    std::ostream& operator<<(std::ostream& out) const {
         out << x_ << " " << y_ ;
         return out;
     }
@@ -80,12 +80,12 @@ public:
         return vec3<T>(x_ * v, y_ * v, z_ * v);
     }
 
-    std::ostream& operator<<(std::ostream& out) {
+    std::ostream& operator<<(std::ostream& out) const {
         out << x_ << " " << y_ << " " << z_;
         return out;
     }
 
-    vec3<T> normalize() {
+    vec3<T> normalize() const {
         float norm = std::sqrt(x_ * x_ + y_ * y_ + z_ * z_);
         return vec3<T> (x_ / norm, y_ / norm, z_ / norm);
     }
@@ -122,22 +122,22 @@ public:
         return !index ? x_ : index == 1 ? y_ : index == 2 ? z_ : w_;
     }
 
-    vec4<T> operator+(const vec4<T>& v)
+    vec4<T> operator+(const vec4<T>& v) const
     {
         return vec4<T>(x_ + v.x_, y_ + v.y_, z_ + v.z_, w_ + v.w_);
     }
 
-    vec4<T> operator-(const vec4<T>& v)
+    vec4<T> operator-(const vec4<T>& v) const
     {
         return vec4<T>(x_ - v.x_, y_ - v.y_, z_ - v.z_, w_ - v.w_);
     }
 
-    vec4<T> operator*(const vec4<T>& v)
+    vec4<T> operator*(const vec4<T>& v) const
     {
         return vec4<T>(x_ * v.x_, y_ * v.y_, z_ * v.z_, w_ * v.w_);
     }
 
-    std::ostream& operator<<(std::ostream& out) {
+    std::ostream& operator<<(std::ostream& out) const {
         out << x_ << " " << y_ << " " << z_ << " " << w_;
         return out;
     }
