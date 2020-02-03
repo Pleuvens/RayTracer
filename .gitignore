@@ -1,5 +1,7 @@
 .DS_Store
 *.ppm
+*.png
+Raytracer
 rt
 *.tar
 *.vscode
