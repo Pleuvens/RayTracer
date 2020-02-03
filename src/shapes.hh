@@ -2,11 +2,20 @@
 
 #include "vector.hh"
 
+class Material {
+public:
+    Material() = default;
+    Material(const Vec3f diffuse) : diffuse_(diffuse) {}
+
+    Vec3f diffuse_;
+};
+
 class Sphere {
 public:
-    Sphere(const Vec3f &center, const float radius) : center_(center), radius_(radius) {}
+    Sphere(const Vec3f &center, const float radius, const Material& material)
+        : center_(center), radius_(radius), material_(material) {}
 
-    bool ray_intersect(const Vec3f &origin, const Vec3f &dir, float t0) const {
+    bool ray_intersect(const Vec3f &origin, const Vec3f &dir, float& t0) const {
         Vec3f L = center_ - origin;
         float tca = Vec3f::sum(L, dir);
         float d2 = Vec3f::sum(L, L) - tca * tca;
@@ -24,4 +33,5 @@ public:
 
     Vec3f center_;
     float radius_;
+    Material material_;
 };

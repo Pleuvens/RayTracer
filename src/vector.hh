@@ -60,7 +60,7 @@ public:
         return !index ? x_ : index == 1 ? y_ : z_;
     }
 
-    vec3<T> operator+(const vec3<T>& v)
+    vec3<T> operator+(const vec3<T>& v) const
     {
         return vec3<T>(x_ + v.x_, y_ + v.y_, z_ + v.z_);
     }
@@ -70,9 +70,14 @@ public:
         return vec3<T>(x_ - v.x_, y_ - v.y_, z_ - v.z_);
     }
 
-    vec3<T> operator*(const vec3<T>& v)
+    vec3<T> operator*(const vec3<T>& v) const
     {
         return vec3<T>(x_ * v.x_, y_ * v.y_, z_ * v.z_);
+    }
+
+    vec3<T> operator*(T v) const
+    {
+        return vec3<T>(x_ * v, y_ * v, z_ * v);
     }
 
     std::ostream& operator<<(std::ostream& out) {
