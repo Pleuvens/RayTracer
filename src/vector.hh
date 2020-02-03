@@ -2,6 +2,46 @@
 
 #include <stdexcept>
 
+template <typename T> class vec2 {
+public:
+    vec2() : x_(T()), y_(T()) {}
+    vec2(T x, T y) : x_(x), y_(y) {}
+
+    T &operator[] (int index) {
+        if (index < 0 || index >= 2)
+            throw std::out_of_range("Vector 2 access");
+        return !index ? x_ : y_;
+    }
+    const T &operator[] (int index) const {
+        if (index < 0 || index >= 2)
+            throw std::out_of_range("Vector 2 access");
+        return !index ? x_ : y_;
+    }
+
+    vec2<T> operator+(const vec2<T>& v)
+    {
+        return vec2<T>(x_ + v.x_, y_ + v.y_);
+    }
+
+    vec2<T> operator-(const vec2<T>& v)
+    {
+        return vec2<T>(x_ - v.x_, y_ - v.y_);
+    }
+
+    vec2<T> operator*(const vec2<T>& v)
+    {
+        return vec2<T>(x_ * v.x_, y_ * v.y_);
+    }
+
+    std::ostream& operator<<(std::ostream& out) {
+        out << x_ << " " << y_ ;
+        return out;
+    }
+private:
+    T x_;
+    T y_;
+};
+
 template <typename T> class vec3 {
 public:
     vec3() : x_(T()), y_(T()), z_(T()) {}
@@ -9,13 +49,45 @@ public:
 
     T &operator[] (int index) {
         if (index < 0 || index >= 3)
-            throw std::out_of_range("Vector access");
+            throw std::out_of_range("Vector 3 access");
         return !index ? x_ : index == 1 ? y_ : z_;
     }
     const T &operator[] (int index) const {
         if (index < 0 || index >= 3)
-            throw std::out_of_range("Vector access");
+            throw std::out_of_range("Vector 3 access");
         return !index ? x_ : index == 1 ? y_ : z_;
+    }
+
+    vec3<T> operator+(const vec3<T>& v)
+    {
+        return vec3<T>(x_ + v.x_, y_ + v.y_, z_ + v.z_);
+    }
+
+    vec3<T> operator-(const vec3<T>& v)
+    {
+        return vec3<T>(x_ - v.x_, y_ - v.y_, z_ - v.z_);
+    }
+
+    vec3<T> operator*(const vec3<T>& v)
+    {
+        return vec3<T>(x_ * v.x_, y_ * v.y_, z_ * v.z_);
+    }
+
+    std::ostream& operator<<(std::ostream& out) {
+        out << x_ << " " << y_ << " " << z_;
+        return out;
+    }
+
+    vec3<T> normalize() {
+        float norm = std::sqrt(x_ * x_ + y_ * y_ + z_ * z_);
+        return vec3<T> (x_ / norm, y_ / norm, z_ / norm);
+    }
+    
+    static vec3<T> cross(const vec3<T> lhs, const vec3<T> rhs)
+    {
+        return vec3<T>(lhs.y_ * rhs.z_ - lhs.z_ * rhs.y_,
+                lhs.z_ * rhs.x_ - lhs.x_ * rhs.z_,
+                lhs.x_ * rhs.y_ - lhs.y_ * rhs.x_);
     }
 private:
     T x_;
@@ -23,4 +95,49 @@ private:
     T z_;
 };
 
+template <typename T> class vec4 {
+public:
+    vec4() : x_(T()), y_(T()), z_(T()), w_(T()) {}
+    vec4(T x, T y, T z, T w) : x_(x), y_(y), z_(z), w_(w) {}
+
+    T &operator[] (int index) {
+        if (index < 0 || index >= 4)
+            throw std::out_of_range("Vector 4 access");
+        return !index ? x_ : index == 1 ? y_ : index == 2 ? z_ : w_;
+    }
+    const T &operator[] (int index) const {
+        if (index < 0 || index >= 4)
+            throw std::out_of_range("Vector 4 access");
+        return !index ? x_ : index == 1 ? y_ : index == 2 ? z_ : w_;
+    }
+
+    vec4<T> operator+(const vec4<T>& v)
+    {
+        return vec4<T>(x_ + v.x_, y_ + v.y_, z_ + v.z_, w_ + v.w_);
+    }
+
+    vec4<T> operator-(const vec4<T>& v)
+    {
+        return vec4<T>(x_ - v.x_, y_ - v.y_, z_ - v.z_, w_ - v.w_);
+    }
+
+    vec4<T> operator*(const vec4<T>& v)
+    {
+        return vec4<T>(x_ * v.x_, y_ * v.y_, z_ * v.z_, w_ * v.w_);
+    }
+
+    std::ostream& operator<<(std::ostream& out) {
+        out << x_ << " " << y_ << " " << z_ << " " << w_;
+        return out;
+    }
+private:
+    T x_;
+    T y_;
+    T z_;
+    T w_;
+};
+
+using Vec2f = vec2<float>;
 using Vec3f = vec3<float>;
+using Vec3i = vec3<int>;
+using Vec4f = vec4<float>;
