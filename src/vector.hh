@@ -1,5 +1,7 @@
 #pragma once
 
+#include <cmath>
+#include <iostream>
 #include <stdexcept>
 
 template <typename T> class vec2 {
@@ -63,7 +65,7 @@ public:
         return vec3<T>(x_ + v.x_, y_ + v.y_, z_ + v.z_);
     }
 
-    vec3<T> operator-(const vec3<T>& v)
+    vec3<T> operator-(const vec3<T>& v) const
     {
         return vec3<T>(x_ - v.x_, y_ - v.y_, z_ - v.z_);
     }
@@ -88,6 +90,10 @@ public:
         return vec3<T>(lhs.y_ * rhs.z_ - lhs.z_ * rhs.y_,
                 lhs.z_ * rhs.x_ - lhs.x_ * rhs.z_,
                 lhs.x_ * rhs.y_ - lhs.y_ * rhs.x_);
+    }
+
+    static T sum(const vec3<T> lhs, const vec3<T> rhs) {
+        return lhs.x_ * rhs.x_ + lhs.y_ * rhs.y_ + lhs.z_ * rhs.z_;
     }
 private:
     T x_;

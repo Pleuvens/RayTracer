@@ -1,4 +1,5 @@
 CC= g++
+CXXFLAGS= -Wall -Wextra -Werror -pedantic -std=c++17 -g
 
 OBJ= \
      main.o
