@@ -8,8 +8,23 @@
 #include "shapes.hh"
 #include "light.hh"
 
-Vec3f reflect(const Vec3f& I, const Vec3f &N) {
+Vec3f reflect(const Vec3f& I, const Vec3f& N) {
     return I - N * 2.f * (I * N);
+}
+
+Vec3f refract(const Vec3f& I, const Vec3f& N, float refractive_index) {
+    float cosi = - std::max(1.f, std::min(1.f, Vec3f::sum(I, N)));
+    float etai = 1;
+    float etat = refractive_index;
+    Vec3f n = N;
+    if (cosi < 0) {
+        cosi = -cosi;
+        std::swap(etai, etat);
+        n = N * -1;
+    }
+    float eta = etai / etat;
+    float k  = 1 - eta * eta * (1 - cosi * cosi);
+    return k < 0 ? Vec3f(1, 0, 0) : I * eta + n * (eta * cosi - sqrtf(k));
 }
 
 constexpr size_t recursive_depth = 4;
@@ -26,7 +41,7 @@ bool scene_intersect(const Vec3f &origin, const Vec3f &dir, std::vector<Sphere> 
             material = spheres[i].material_;
         }
     }
-    return dist < std::numeric_limits<float>::max();
+    return dist < 1000; //std::numeric_limits<float>::max();
 }
 
 Vec3f cast_ray(const Vec3f &origin, const Vec3f &dir, std::vector<Sphere> spheres,
@@ -42,6 +57,12 @@ Vec3f cast_ray(const Vec3f &origin, const Vec3f &dir, std::vector<Sphere> sphere
     Vec3f reflect_origin = Vec3f::sum(reflect_dir, N) < 0
         ? hit - N * 1e-3 : hit + N * 1e+3;
     Vec3f reflect_color = cast_ray(reflect_origin, reflect_dir, spheres, lights,
+            depth + 1);
+
+    Vec3f refract_dir = refract(dir, N, material.refractive_index_).normalize();
+    Vec3f refract_origin = Vec3f::sum(refract_dir, N) < 0
+        ? hit - N * 1e-3 : hit + N * 1e+3;
+    Vec3f refract_color = cast_ray(refract_origin, refract_dir, spheres, lights,
             depth + 1);
 
     float diffuse_light_intensity = 0;
@@ -67,20 +88,21 @@ Vec3f cast_ray(const Vec3f &origin, const Vec3f &dir, std::vector<Sphere> sphere
     }
     return material.diffuse_ * diffuse_light_intensity * material.albedo_[0] +
         Vec3f(1., 1., 1.) * specular_light_intensity * material.albedo_[1] +
-        reflect_color * material.albedo_[2];
+        reflect_color * material.albedo_[2] +
+        refract_color * material.albedo_[3];
 }
 
 void render(std::vector<Sphere> spheres, std::vector<Light> lights) {
     const int width = 1024;
     const int height = 768;
-    const float fov = 30.f;
+    const float fov = M_PI/2.;
     std::vector<Vec3f> framebuffer(width * height);
 
     for (size_t j = 0; j < height; j++) {
         for (size_t i = 0; i < width; i++) {
-            float x = (2 * (i + 0.5) / (float) width - 1) * std::tan(fov / 2.) *
+            float x = (2 * (i + 0.5) / (float) width - 1) * tan(fov / 2.) *
                 width / (float) height;
-            float y = -(2 * (j + 0.5) / (float)height - 1) * std::tan(fov / 2.);
+            float y = -(2 * (j + 0.5) / (float)height - 1) * tan(fov / 2.);
             Vec3f dir = Vec3f(x, y, -1).normalize(); 
             framebuffer[j * width + i] = cast_ray(Vec3f(0, 0, 0), dir, spheres, lights);
         }
@@ -102,18 +124,22 @@ void render(std::vector<Sphere> spheres, std::vector<Light> lights) {
 }
 
 int main() {
-    Material ivory(Vec3f(0.6, 0.3, 0.1), Vec3f(0.4, 0.4, 0.3), 50.);
-    Material red_rubber(Vec3f(0.9, 0.1, 0.0), Vec3f(0.3, 0.1, 0.1), 10.);
-    Material mirror(Vec3f(0.0, 10.0, 0.8), Vec3f(1.0, 1.0, 1.0), 1425.);
-    Sphere s(Vec3f(3, 0, -16), 2, ivory);
-    Sphere s1(Vec3f(1.0, 1.5, -12), 2, mirror);
-    Sphere s2(Vec3f( -1.5, 0.5, -18), 3, red_rubber);
-    Sphere s3(Vec3f( -7, -5, -18), 4, mirror);
+    Material      ivory(1.0, Vec4f(0.6,  0.3, 0.1, 0.0), Vec3f(0.4, 0.4, 0.3),   50.);
+    Material      glass(1.5, Vec4f(0.0,  0.5, 0.1, 0.8), Vec3f(0.4, 0.4, 0.3),   50.);
+    Material red_rubber(1.0, Vec4f(0.9,  0.1, 0.0, 0.0), Vec3f(0.3, 0.1, 0.1),   10.);
+    Material     mirror(1.0, Vec4f(0.0, 10.0, 0.8, 0.0), Vec3f(1.0, 1.0, 1.0), 1425.);
+    
+    Sphere  s(Vec3f(  -3,    0, -16), 2,      ivory);
+    Sphere s1(Vec3f(-1.0, -1.5, -12), 2,      glass);
+    Sphere s2(Vec3f( 1.5, -0.5, -18), 3, red_rubber);
+    Sphere s3(Vec3f(   7,    5, -18), 4,     mirror);
     std::vector<Sphere> spheres = { s, s1, s2, s3 };
-    Light l(Light(Vec3f(20, -20, 20), 1.5));
-    Light l1(Light(Vec3f( -30, -50, -25), 1.8));
-    Light l2(Light(Vec3f( -30, -20,  30), 1.7));
+    
+    Light  l(Light(Vec3f(-20, 20,  20), 1.5));
+    Light l1(Light(Vec3f( 30, 50, -25), 1.8));
+    Light l2(Light(Vec3f( 30, 20,  30), 1.7));
     std::vector<Light> lights = { l, l1, l2 };
+    
     render(spheres, lights);
     return 0;
 }
