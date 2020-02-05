@@ -104,6 +104,26 @@ public:
     static T sum(const vec3<T> lhs, const vec3<T> rhs) {
         return lhs.x_ * rhs.x_ + lhs.y_ * rhs.y_ + lhs.z_ * rhs.z_;
     }
+
+    static vec3<T> reflect(const vec3<T>& I, const vec3<T>& N) {
+        return I - N * 2.f * (I * N);
+    }
+
+    static vec3<T> refract(const vec3<T>& I, const vec3<T>& N, float refractive_index) {
+        float cosi = - std::max(1.f, std::min(1.f, vec3<T>::sum(I, N)));
+        float etai = 1;
+        float etat = refractive_index;
+        vec3<T> n = N;
+        if (cosi < 0) {
+            cosi = -cosi;
+            std::swap(etai, etat);
+            n = N * -1;
+        }
+        float eta = etai / etat;
+        float k  = 1 - eta * eta * (1 - cosi * cosi);
+        return k < 0 ? vec3<T>(1, 0, 0) : I * eta + n * (eta * cosi - sqrtf(k));
+    }
+
 private:
     T x_;
     T y_;
