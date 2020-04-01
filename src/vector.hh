@@ -106,7 +106,7 @@ public:
     }
 
     static vec3<T> reflect(const vec3<T>& I, const vec3<T>& N) {
-        return I - N * 2.f * (I * N);
+        return (I - N * 2.f * (I * N)).normalize();
     }
 
     static vec3<T> refract(const vec3<T>& I, const vec3<T>& N, float refractive_index) {
@@ -121,7 +121,8 @@ public:
         }
         float eta = etai / etat;
         float k  = 1 - eta * eta * (1 - cosi * cosi);
-        return k < 0 ? vec3<T>(1, 0, 0) : I * eta + n * (eta * cosi - sqrtf(k));
+        return k < 0 ? vec3<T>(1, 0, 0)
+            : (I * eta + n * (eta * cosi - sqrtf(k))).normalize();
     }
 
 private:

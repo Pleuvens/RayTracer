@@ -26,11 +26,14 @@ public:
         Vec3f L = center_ - origin;
         float tca = Vec3f::sum(L, dir);
         float d2 = Vec3f::sum(L, L) - tca * tca;
-        if (d2 > radius_ * radius_)
+        if (d2 < 0 || d2 > radius_ * radius_)
             return false;
         float thc = sqrtf(radius_ * radius_ - d2);
         t0 = tca - thc;
         float t1 = tca + thc;
+
+        if (t0 > t1)
+            std::swap(t0, t1);
         if (t0 < 0)
             t0 = t1;
         if (t0 < 0)

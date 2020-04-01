@@ -13,7 +13,7 @@ public:
     : lights_(lights), spheres_(spheres) {}
     
     bool scene_intersect(const Vec3f &origin, const Vec3f &dir,
-        Vec3f &hit, Vec3f& N, Material& material) const;
+        Vec3f &hit, Vec3f& normal, Material& material) const;
     Vec3f cast_ray(const Vec3f &origin, const Vec3f &dir, size_t depth) const;
     void render() const;
 
