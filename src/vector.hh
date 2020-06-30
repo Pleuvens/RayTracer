@@ -105,8 +105,18 @@ public:
         return lhs.x_ * rhs.x_ + lhs.y_ * rhs.y_ + lhs.z_ * rhs.z_;
     }
 
-    static vec3<T> reflect(const vec3<T>& I, const vec3<T>& N) {
-        return (I - N * 2.f * (I * N)).normalize();
+    static vec3<T> reflect(const vec3<T>& L, const vec3<T>& N) {
+        return (N * 2.f * (L * N) - L);
+    }
+
+    static T dot_product(const vec3<T>& u, const vec3<T>& v) {
+        return v.x_ * u.x_ + u.y_ * v.y_ + u.z_ * v.z_;
+    }
+
+    static T distance(const vec3<T>&u, const vec3<T>& v) {
+        return std::sqrt(v.x_ * v.x_ - u.x_ * u.x_,
+                            v.y_ * v.y_ - u.y_ * u.y_,
+                            v.z_ * v.z_ - u.z_ * u.z_);
     }
 
     static vec3<T> refract(const vec3<T>& I, const vec3<T>& N, float refractive_index) {
