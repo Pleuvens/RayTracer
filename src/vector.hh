@@ -113,12 +113,6 @@ public:
         return v.x_ * u.x_ + u.y_ * v.y_ + u.z_ * v.z_;
     }
 
-    static T distance(const vec3<T>&u, const vec3<T>& v) {
-        return std::sqrt(v.x_ * v.x_ - u.x_ * u.x_,
-                            v.y_ * v.y_ - u.y_ * u.y_,
-                            v.z_ * v.z_ - u.z_ * u.z_);
-    }
-
     static vec3<T> refract(const vec3<T>& I, const vec3<T>& N, float refractive_index) {
         float cosi = - std::max(1.f, std::min(1.f, vec3<T>::sum(I, N)));
         float etai = 1;
